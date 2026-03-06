@@ -9,39 +9,23 @@ repos:
       - id: mixed-line-ending
         args: [ '--fix=lf' ]
 
-  # PY
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.4
     hooks:
       - id: ruff-check
-        args: [ --fix, .]
+        args: [ '--fix' ]
+        files: ^ipp26-project-templates/python/int/src/interpreter/
       - id: ruff-format
-        args: [ . ]
+        files: ^ipp26-project-templates/python/int/src/interpreter/
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.19.1
     hooks:
       - id: mypy
-        args: [ '--strict', . ]
+        pass_filenames: false
+        args: [ '--strict', '--explicit-package-bases', 'ipp26-project-templates/python/int/src/']
         additional_dependencies: [
           "pydantic[mypy]~=2.12.5",
           "pydantic-xml[lxml]~=2.19.0",
           "types-lxml>=2026.2.16",
         ]
-
-  # TS
-  - repo: local
-    hooks:
-      - id: ts-lint
-        name: TS Lint
-        entry: npm --prefix ../../typescript/tester run lint
-        language: system
-        files: \.ts$
-        pass_filenames: false
-
-      - id: ts-format
-        name: TS Prettier
-        entry: npm --prefix ../../typescript/tester run format
-        language: system
-        files: \.ts$
-        pass_filenames: false
