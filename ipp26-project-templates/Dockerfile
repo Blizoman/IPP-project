@@ -30,6 +30,7 @@ WORKDIR /app
 # TEST
 FROM runtime AS test
 WORKDIR /app
-COPY --from=build-test /app/dist ./dist
-COPY --from=build-test /app/node_modules ./node_modules
-ENTRYPOINT ["node", "dist/tester.js"]
+COPY --from=build-test /app/dist ./typescript/tester/dist
+COPY --from=build-test /app/node_modules ./typescript/tester/node_modules
+RUN mkdir -p /app/tests
+ENTRYPOINT ["node", "/app/typescript/tester/dist/tester.js"]

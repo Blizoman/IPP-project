@@ -9,9 +9,9 @@ Při implementaci nástroje pro integrační testování máte v zásadě volnou
 
 ## Spouštění v kontejneru a interakce s dalšími nástroji
 
-Není specifikován konkrétní způsob, jakým váš testovací nástroj spustí překladač SOL2XML a váš 
-interpret. Cesty k překladači a interpretu tedy v podstatě mohou být i napevno definované ve vašem 
-kódu, ačkoliv to není považováno za vhodné řešení. Doporučujeme raději použít proměnné prostředí, 
+Není specifikován konkrétní způsob, jakým váš testovací nástroj spustí překladač SOL2XML a váš
+interpret. Cesty k překladači a interpretu tedy v podstatě mohou být i napevno definované ve vašem
+kódu, ačkoliv to není považováno za vhodné řešení. Doporučujeme raději použít proměnné prostředí,
 konfigurační soubor nebo vlastní parametry příkazové řádky.
 
 Povinně podporované parametry příkazové řádky jsou popsány v zadání.
