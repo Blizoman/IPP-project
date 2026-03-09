@@ -5,6 +5,7 @@ description = "An interpreter for SOL26, a simple object language."
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "lxml>=6.0.2",
     "pydantic~=2.12.5",
     "pydantic-xml[lxml]~=2.19.0",
     "types-lxml>=2026.2.16",
