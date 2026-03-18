@@ -7,6 +7,12 @@ Author: Ondřej Ondryáš <iondryas@fit.vut.cz>
 Author: Andrej Bližnák <xblizna00@fit.vut.cz>
 """
 
+# ===========================================================
+# Mine imports
+# ===========================================================
+# ===========================================================
+# Default imports
+# ===========================================================
 import logging
 from pathlib import Path
 from typing import TextIO
@@ -18,6 +24,7 @@ from pydantic import ValidationError
 from interpreter.error_codes import ErrorCode
 from interpreter.exceptions import InterpreterError
 from interpreter.input_model import Program
+from interpreter.static_analyzer import StaticAnalyzer
 
 logger = logging.getLogger(__name__)
 
@@ -52,43 +59,9 @@ class Interpreter:
                 error_code=ErrorCode.INT_STRUCTURE, message="Invalid SOL-XML structure"
             ) from e
 
-    def static_analyse(self):
-        found_main = False
-        found_run = False
-
-        ## Opakujuce sa meno triedy
-        if len(self.current_program.classes.name) != len(set(self.current_program.classes.name)):
-            return 35
-        for cls in self.current_program.classes:
-            ## Dedenie samej zo seba
-            if cls.parent == cls.name:
-                return 35
-            ## Najdenie "Mainu"
-            if cls.name == "Main":
-                found_main = True
-                ## Hladanie "run"
-                for main_mds in cls.methods:
-                    if main_mds.selector == "run":
-                        found_run = True
-                        #### TODO: popnut teraz tu metodu zo zoznamu metod aby nebola dupli
-                        ####       alebo iba pridat else pri for pre metody?
-            for mds in cls.methods:
-                self.check_block(self, mds.block)
-
-        if not found_main or not found_run:
-            return 31
-
-    def check_block(self, block):
-        if block.arity == len(block.parameters):
-            if len(block.parameters) == len(set(block.parameters)):
-                for assign in block.assigns:
-                    self.check_expression(self, assign.expr)
-
-    def check_expression(self, expression):
-        if expression.block:
-            self.check_block(self, expression.block)
-        elif expression.send:
-            ...
+        #
+        analyzer = StaticAnalyzer(self.current_program)
+        analyzer.run()
 
     def execute(self, input_io: TextIO) -> None:
         """

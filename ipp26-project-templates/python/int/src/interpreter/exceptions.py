@@ -23,3 +23,11 @@ class InterpreterError(Exception):
     def __init__(self, error_code: ErrorCode, message: str | None = None) -> None:
         super().__init__(message)
         self.error_code = error_code
+
+
+# ===========================================================
+# Semantic Error CLass
+# ===========================================================
+class SemanticError(InterpreterError):
+    def __init__(self, code: ErrorCode) -> None:
+        super().__init__(error_code=code, message=f"Static semantic error: {code.name}")
