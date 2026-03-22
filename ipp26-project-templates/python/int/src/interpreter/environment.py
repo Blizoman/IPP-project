@@ -5,7 +5,7 @@ from interpreter.sol_objects import SolObject, SOL_TRUE, SOL_FALSE, SOL_NIL
 
 # TODO: double kontorly pre semanticke chyby ? ci treba or ne 
 class Environment:
-    def __init__(self, parent: 'Environment | None' = None):
+    def __init__(self, parent: 'Environment | None' = None) -> None:
         self.variables: dict[str, SolObject] = {}
         self.parent = parent
         self.parameters: set[str] = set()

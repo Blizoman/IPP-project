@@ -3,7 +3,7 @@ This module defines the internal memory representation of SOL26 objects.
 """
 from interpreter.error_codes import ErrorCode
 from interpreter.input_model import Block
-
+from interpreter.environment import Environment
 from interpreter.exceptions import InterpreterError
 
 
@@ -218,7 +218,7 @@ class SolString(SolObject):
 
 
 class SolBlock(SolObject):
-    def __init__(self, ast_node: Block, environment: list[dict[str, SolObject]]) -> None:
+    def __init__(self, ast_node: 'Block', environment: 'Environment') -> None:
         super().__init__("Block")
         self.ast_node = ast_node
         self.environment = environment

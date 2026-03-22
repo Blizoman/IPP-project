@@ -1,14 +1,15 @@
-from interpreter.input_model import Expr, Literal, Send
+from interpreter.input_model import Expr, Literal, Send, Block
 from interpreter.sol_objects import SolObject, SolInteger, SolString, SolBlock, SOL_TRUE, SOL_FALSE, SOL_NIL
 from interpreter.environment import Environment
 from interpreter.exceptions import SemanticError
 from interpreter.error_codes import ErrorCode
 
 class Evaluator:
-    def __init__(self):
-        ...
+    def __init__(self, dispatcher: Dispatcher) -> None:
+        self.dispatcher = dispatcher          
+        
 
-    def literal(self, type: str, value: str) -> SolObject:
+    def eval_literal(self, type: str, value: str) -> SolObject:
         if type == "Integer":
             return SolInteger(int(value))
         elif type == "String":
@@ -24,7 +25,35 @@ class Evaluator:
         else:
             raise ErrorCode(0x00F) # TODO: err fix
     
-    def variable(self, name: str) -> SolObject:
-        return Environment.get(name)
+    def eval_variable(self, name: str, environment: Environment) -> SolObject:
+        return environment.get(name)
+    
+    def eval_block(self, ast_node: Block, environment: Environment) -> SolBlock:
+        return SolBlock(ast_node, environment)
+    
+    def eval_send(self, ast_node: Send, environment: Environment):
+        receiver = self.evaluate(ast_node.receiver, environment)
+
+        arguments = []
+        for arg in ast_node.args:
+            arguments.append(self.evaluate(arg.expr, environment))
+        
+        return self.dispatcher.send_message(receiver, ast_node.selector, arguments, environment)
+    
+    def evaluate(self, expr: Expr, environment: Environment) -> SolObject:
+        if expr.literal:
+            return self.eval_literal(expr.literal.class_id, expr.literal.value)
+        elif expr.var:
+            return self.eval_variable(expr.var.name, environment)
+        elif expr.block:
+            return self.eval_block(expr.block, environment)
+        elif expr.send:
+            return self.eval_send(expr.send, environment)
+        else:
+            return ... #TODO: ERR
+
+
+
+        
         
         
