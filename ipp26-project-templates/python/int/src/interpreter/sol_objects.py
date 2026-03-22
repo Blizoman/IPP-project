@@ -4,6 +4,8 @@ This module defines the internal memory representation of SOL26 objects.
 from interpreter.error_codes import ErrorCode
 from interpreter.input_model import Block
 
+from interpreter.exceptions import InterpreterError
+
 
 
 class SolObject:
@@ -160,9 +162,11 @@ class SolInteger(SolObject):
 
     #### Raise lepsie spracovat ERR TODO:
     def divBy(self, other: 'SolInteger') -> 'SolInteger':
-        if other.value == 0:
-            return ErrorCode.INT_INVALID_ARG  
-        return SolInteger(int(self.value / other.value))
+        try:
+            return SolInteger(int(self.value / other.value))
+        except ZeroDivisionError:
+            raise InterpreterError(error_code=ErrorCode.INT_INVALID_ARG)
+
 
 class SolString(SolObject):
     def __init__(self, value: str) -> None:
