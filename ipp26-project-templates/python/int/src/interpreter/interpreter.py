@@ -10,6 +10,10 @@ Author: Andrej Bližnák <xblizna00@fit.vut.cz>
 # ===========================================================
 # Mine imports
 # ===========================================================
+from interpreter.dispatcher import Dispatcher
+from interpreter.sol_objects import SolObject        
+from interpreter.environment import Environment
+
 # ===========================================================
 # Default imports
 # ===========================================================
@@ -69,3 +73,18 @@ class Interpreter:
 
         """
         logger.info("Executing program")
+
+        if self.current_program is None:
+            return
+        
+        try:
+            dispatcher = Dispatcher(self.current_program)
+
+            main_instance = SolObject("Main")
+
+            dispatcher.send_message(main_instance, "run", [], Environment())
+        
+        except InterpreterError as e:
+            print(f"Runtime Error: {e}")
+        except Exception as e:
+            print(f"Internal Error: {e}")

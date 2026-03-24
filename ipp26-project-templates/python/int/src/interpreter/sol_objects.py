@@ -3,14 +3,13 @@ This module defines the internal memory representation of SOL26 objects.
 """
 from interpreter.error_codes import ErrorCode
 from interpreter.input_model import Block
-from interpreter.environment import Environment
 from interpreter.exceptions import InterpreterError
 
 
 
 class SolObject:
-    def __init__(self, class_name: str) -> None:
-        self.sol_class_name = class_name
+    def __init__(self, sol_class_name: str) -> None:
+        self.sol_class_name = sol_class_name
         self.attributes: dict[str, 'SolObject'] = {}
 
     def set_attribute(self, name: str, value: 'SolObject') -> 'SolObject':
@@ -51,6 +50,7 @@ class SolNil(SolObject):
     def __init__(self) -> None:
         super().__init__("Nil")
 
+    # TODO: new a from? 
     """
     def __new__(cls) -> 'SolNil':
         if cls.instance == None:
@@ -91,38 +91,12 @@ class SolTrue(SolBoolean):
     def not_(self) -> 'SolFalse':
         return SOL_FALSE
 
-    """ *** DISPECER ?
-    def and_(self) -> 'SolTrue':
-        return SOL_TRUE
-    
-    def or_(self) -> 'SolTrue':
-        return SOL_TRUE
-    
-    def ifTrue(self): ...
-
-    def ifFalse(self): ...
-    """
-
 class SolFalse(SolBoolean):
     def __init__(self) -> None:
         super().__init__("False", False)
 
     def not_(self) -> 'SolTrue':
         return SOL_TRUE
-
-    """ *** DISPECER ?
-    def and_(self) -> 'SolFalse':
-        return SOL_FALSE
-    
-    def or_(self, argument: 'SolObject') -> 'SolObject':
-        if self.value:
-            return SOL_TRUE
-        return SOL_FALSE
-    
-    def ifTrue(self): ...
-
-    def ifFalse(self): ...
-    """
 
 class SolInteger(SolObject):
 
@@ -234,3 +208,5 @@ class SolBlock(SolObject):
 SOL_NIL = SolNil()
 SOL_TRUE = SolTrue()
 SOL_FALSE = SolFalse()
+
+from interpreter.environment import Environment
