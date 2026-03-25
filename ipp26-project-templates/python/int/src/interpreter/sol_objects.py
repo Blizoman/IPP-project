@@ -4,7 +4,7 @@ This module defines the internal memory representation of SOL26 objects.
 from interpreter.error_codes import ErrorCode
 from interpreter.input_model import Block
 from interpreter.exceptions import InterpreterError
-
+from typing import TextIO
 
 
 class SolObject:
@@ -45,6 +45,11 @@ class SolObject:
     def isBoolean(self) -> 'SolBoolean':
         return SOL_FALSE
 
+class SolWrapper(SolObject):
+    def __init__(self, actual_receiver: 'SolObject', start_class_name: str) -> None:
+        super().__init__("SuperReference")
+        self.actual_receiver = actual_receiver
+        self.start_class_name = start_class_name
 
 class SolNil(SolObject):
     def __init__(self) -> None:
@@ -125,17 +130,26 @@ class SolInteger(SolObject):
         return SOL_FALSE
     
     def plus(self, other: 'SolInteger') -> 'SolInteger':
+        if not isinstance(other, SolInteger):
+            raise InterpreterError(ErrorCode.INT_OTHER)
         return SolInteger(self.value + other.value)
     
     def minus(self, other: 'SolInteger') -> 'SolInteger':
+        if not isinstance(other, SolInteger):
+            raise InterpreterError(ErrorCode.INT_OTHER)
         return SolInteger(self.value - other.value)
     
     def multiplyBy(self, other: 'SolInteger') -> 'SolInteger':
+        if not isinstance(other, SolInteger):
+            raise InterpreterError(ErrorCode.INT_OTHER) # TODO: mby x*'ahoj' = ahojahojahoj ? 
         return SolInteger(self.value * other.value)
     
 
     #### Raise lepsie spracovat ERR TODO:
     def divBy(self, other: 'SolInteger') -> 'SolInteger':
+        if not isinstance(other, SolInteger):
+            raise InterpreterError(ErrorCode.INT_OTHER)
+        
         try:
             return SolInteger(int(self.value / other.value))
         except ZeroDivisionError:
@@ -171,8 +185,8 @@ class SolString(SolObject):
         return SOL_NIL
     
     @classmethod
-    def read(cls) -> 'SolString':
-        return cls(input())
+    def read(cls, input_stream: TextIO ) -> 'SolString':
+        return cls(input_stream.readline().rstrip('\n'))
 
     def print(self) -> 'SolString':
         print(self.value, end="")
@@ -189,6 +203,19 @@ class SolString(SolObject):
 
     def length(self) -> 'SolInteger':
         return SolInteger(len(self.value))
+    
+class SolClass(SolObject):
+    def __init__(self, class_name: str) -> None:
+        super().__init__("Class")
+        self.value = class_name
+
+    def asString(self) -> 'SolString':
+        return SolString(self.value)
+    
+    def equalTo(self, other: 'SolObject') -> 'SolBoolean':
+        if isinstance(other, SolClass) and self.value == other.value:
+            return SOL_TRUE
+        return SOL_FALSE
 
 
 class SolBlock(SolObject):

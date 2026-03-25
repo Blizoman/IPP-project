@@ -78,7 +78,7 @@ class Interpreter:
             return
         
         try:
-            dispatcher = Dispatcher(self.current_program)
+            dispatcher = Dispatcher(self.current_program, input_io)
 
             main_instance = SolObject("Main")
 

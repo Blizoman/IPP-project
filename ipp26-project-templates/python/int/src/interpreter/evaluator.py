@@ -1,24 +1,17 @@
 from typing import Protocol
 
 from interpreter.input_model import Expr, Literal, Send, Block
-from interpreter.sol_objects import SolObject, SolInteger, SolString, SolBlock, SOL_TRUE, SOL_FALSE, SOL_NIL
+from interpreter.sol_objects import SolObject, SolInteger, SolString, SolBlock, SolClass, SOL_TRUE, SOL_FALSE, SOL_NIL
 from interpreter.environment import Environment
 from interpreter.exceptions import InterpreterError
 from interpreter.error_codes import ErrorCode
+# TODO: import.dispatcher problemy 
 
 
-class MessageDispatcher(Protocol):
-    def send_message(
-        self,
-        receiver: SolObject,
-        selector: str,
-        args: list[SolObject],
-        environment: Environment,
-    ) -> SolObject:
-        ...
+
 
 class Evaluator:
-    def __init__(self, dispatcher: MessageDispatcher) -> None:
+    def __init__(self, dispatcher: Dispatcher) -> None:
         self.dispatcher = dispatcher          
         
 
@@ -34,7 +27,7 @@ class Evaluator:
         elif type == "Nil":
             return SOL_NIL
         elif type == "class":
-            return SolString(value) # TODO: fix classes
+            return SolClass(value) 
         else:
             raise InterpreterError(ErrorCode.INT_OTHER, f"Unknown literal class: {type}")
     
