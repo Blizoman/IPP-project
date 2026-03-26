@@ -4,7 +4,7 @@ from interpreter.environment import Environment
 from interpreter.error_codes import ErrorCode
 from interpreter.evaluator import Evaluator
 from interpreter.exceptions import InterpreterError, SemanticError
-from interpreter.input_model import Block, Program
+from interpreter.input_model import Block, ClassDef, Method, Program
 from interpreter.sol_objects import (
     SOL_FALSE,
     SOL_NIL,
@@ -24,7 +24,9 @@ class Dispatcher:
         self.input_io = input_io
         self.evaluator = Evaluator(self)
 
-    def _run_block(self, block_object: SolBlock, block_args: list[SolObject] | None = None) -> SolObject:
+    def _run_block(
+        self, block_object: SolBlock, block_args: list[SolObject] | None = None
+    ) -> SolObject:
         if block_args is None:
             block_args = []
 
@@ -61,20 +63,20 @@ class Dispatcher:
 
         return False
 
-    def execute_user_method(self, method, def_class, receiver, args):
+    def execute_user_method(self, method: Method, def_class: ClassDef, receiver: SolObject, args: list[SolObject]) -> SolObject:
         environment = Environment()
         environment.variables["self"] = receiver
         environment.variables["super"] = SolWrapper(receiver, def_class.parent)
 
         return self._run_block(SolBlock(method.block, environment), args)
 
-    #------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     #########################################################################
-    #------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
 
-    def send_message(self, receiver: SolObject, selector: str, args: list[SolObject], 
-                     environment: Environment) -> SolObject:
-        
+    def send_message(
+        self, receiver: SolObject, selector: str, args: list[SolObject], environment: Environment
+    ) -> SolObject:
         # 0. Unpacking wrapper
         if isinstance(receiver, SolWrapper):
             actual_receiver = receiver.actual_receiver
@@ -106,20 +108,22 @@ class Dispatcher:
 
         # 5. INSTANCNE ATRIBUTES
         return self._handle_instance_attribute(actual_receiver, start_class_name, selector, args)
-    
-    def _handle_class_message(self, actual_receiver: SolClass, selector: str, args: list[SolObject]) -> SolObject | None:
+
+    def _handle_class_message(
+        self, actual_receiver: SolClass, selector: str, args: list[SolObject]
+    ) -> SolObject | None:
         class_name = actual_receiver.value
-        
+
         if selector == "new":
-            if class_name == "Nil": 
+            if class_name == "Nil":
                 return SOL_NIL
-            if class_name == "True": 
+            if class_name == "True":
                 return SOL_TRUE
-            if class_name == "False": 
+            if class_name == "False":
                 return SOL_FALSE
-            if class_name == "Integer": 
+            if class_name == "Integer":
                 return SolInteger(0)
-            if class_name == "String": 
+            if class_name == "String":
                 return SolString("")
             if class_name == "Block":
                 empty_node = Block(arity=0, parameters=[], assigns=[])
@@ -127,15 +131,14 @@ class Dispatcher:
             return SolObject(class_name)
 
         if selector == "from":
-
             if len(args) != 1:
                 raise InterpreterError(ErrorCode.INT_DNU)
 
-            if class_name == "Nil": 
+            if class_name == "Nil":
                 return SOL_NIL
-            if class_name == "True": 
+            if class_name == "True":
                 return SOL_TRUE
-            if class_name == "False": 
+            if class_name == "False":
                 return SOL_FALSE
 
             source_object = args[0]
@@ -157,10 +160,16 @@ class Dispatcher:
 
         if selector == "read" and class_name == "String":
             return SolString.read(self.input_io)
-            
+
         return None
 
-    def _handle_builtin_control(self, actual_receiver: SolObject, selector: str, args: list[SolObject], environment: Environment) -> SolObject | None:
+    def _handle_builtin_control(
+        self,
+        actual_receiver: SolObject,
+        selector: str,
+        args: list[SolObject],
+        environment: Environment,
+    ) -> SolObject | None:
         if selector.startswith("value") and isinstance(actual_receiver, SolBlock):
             expected_args = selector.count(":")
             if expected_args != len(actual_receiver.ast_node.parameters):
@@ -192,20 +201,22 @@ class Dispatcher:
             return result
 
         if selector == "and:":
-            if actual_receiver is SOL_FALSE: 
+            if actual_receiver is SOL_FALSE:
                 return SOL_FALSE
-            if actual_receiver is SOL_TRUE: 
+            if actual_receiver is SOL_TRUE:
                 return self.send_message(args[0], "value", [], environment)
 
         if selector == "or:":
-            if actual_receiver is SOL_TRUE: 
+            if actual_receiver is SOL_TRUE:
                 return SOL_TRUE
-            if actual_receiver is SOL_FALSE: 
+            if actual_receiver is SOL_FALSE:
                 return self.send_message(args[0], "value", [], environment)
 
         return None
 
-    def _handle_python_builtin(self, actual_receiver: SolObject, selector: str, args: list[SolObject]) -> SolObject | None:
+    def _handle_python_builtin(
+        self, actual_receiver: SolObject, selector: str, args: list[SolObject]
+    ) -> SolObject | None:
         to_python = selector.strip(":")
         to_python = to_python.replace(":", "_")
 
@@ -216,10 +227,16 @@ class Dispatcher:
             function = getattr(actual_receiver, to_python)
             if callable(function):
                 return function(*args)
-        
+
         return None
 
-    def _handle_user_method(self, actual_receiver: SolObject, start_class_name: str, selector: str, args: list[SolObject]) -> SolObject | None:
+    def _handle_user_method(
+        self,
+        actual_receiver: SolObject,
+        start_class_name: str,
+        selector: str,
+        args: list[SolObject],
+    ) -> SolObject | None:
         current_class_name = start_class_name
 
         while current_class_name:
@@ -235,17 +252,25 @@ class Dispatcher:
                 if selector == mtd.selector:
                     return self.execute_user_method(mtd, found_class, actual_receiver, args)
             current_class_name = found_class.parent
-            
+
         return None
 
-    def _handle_instance_attribute(self, actual_receiver: SolObject, start_class_name: str, selector: str, args: list[SolObject]) -> SolObject:
+    def _handle_instance_attribute(
+        self,
+        actual_receiver: SolObject,
+        start_class_name: str,
+        selector: str,
+        args: list[SolObject],
+    ) -> SolObject:
         if selector.endswith(":") and len(args) == 1:
             attribute_name = selector.strip(":")
             python_method = attribute_name
             if python_method == "not":
                 python_method = "not_"
 
-            if hasattr(actual_receiver, python_method) and callable(getattr(actual_receiver, python_method)):
+            if hasattr(actual_receiver, python_method) and callable(
+                getattr(actual_receiver, python_method)
+            ):
                 raise InterpreterError(ErrorCode.INT_INST_ATTR)
 
             if self._has_method(start_class_name, attribute_name):
@@ -258,5 +283,5 @@ class Dispatcher:
             value = actual_receiver.attributes.get(selector)
             if value is not None:
                 return value
-                
+
         raise InterpreterError(ErrorCode.INT_DNU)

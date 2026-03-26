@@ -19,8 +19,12 @@ import { dirname, resolve } from "node:path";
 import { parseArgs } from "node:util";
 
 import { TestReport } from "./models.js";
-
 import { pino } from "pino";
+
+//================CUSTOM LIBS============================
+import { discoverTests } from "./discovery.js";
+import { filterTests } from "./filters.js";
+//================C======================================
 
 const logger = pino({
   transport: {
@@ -218,6 +222,30 @@ function main(): void {
   }
 
   // TODO: Your code for discovering and executing the test cases goes here.
+  logger.info(`Starting to search in folder: ${args.tests_dir}`);
+  const discovery_result = discoverTests(args.tests_dir, args.recursive);
+  logger.info(`Found ${discovery_result.discovered_test_cases.length} valid tests.`)
+
+  const filter_result = filterTests(discovery_result.discovered_test_cases, args);
+  logger.info(`Tests after filtration: ${filter_result.executed_tests.length} `);
+
+  const all_unexecuted = {
+    ...discovery_result.malformed_tests,
+    ...filter_result.filtered_out
+  };
+
+
+  if (args.dry_run) {
+    const report = new TestReport({
+      discovered_test_cases: discovery_result.discovered_test_cases,
+      unexecuted: discovery_result.malformed_tests,
+      results: null
+    });
+    writeResult(report, args.output);
+    return;
+  }
+
+
 
   // Example of how to write the final report:
   const report = new TestReport({ discovered_test_cases: [], unexecuted: {}, results: {} });
