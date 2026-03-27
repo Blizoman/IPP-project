@@ -49,8 +49,11 @@ export function parseSolTestFile(file_path: string) {
     else if(!has_parser_codes && has_interpreter_codes) {
         test_type = TestCaseType.EXECUTE_ONLY;
     }
-    else{
+    else if(has_parser_codes && has_interpreter_codes) { 
         test_type = TestCaseType.COMBINED;
+    }
+    else {
+        throw new Error("CANNOT_DETERMINE_TYPE");
     }
 
     return {

@@ -1,0 +1,25 @@
++++ OOP
+*** super keyword dispatches to parent method
+!C! 0
+!I! 0
+>>> 3
+
+class Base : Object {
+    greet [ |
+        _ := 'hello from Base' print.
+    ]
+}
+
+class Child : Base {
+    greet [ |
+        _ := super greet.
+        _ := 'hello from Child' print.
+    ]
+}
+
+class Main : Object {
+    run [ |
+        c := Child new.
+        _ := c greet.
+    ]
+}

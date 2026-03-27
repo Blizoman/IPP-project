@@ -1,0 +1,360 @@
+{
+  "discovered_test_cases": [
+    {
+      "name": "attr",
+      "test_type": 2,
+      "description": "Instance's attributes",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/attr.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/attr.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        54
+      ]
+    },
+    {
+      "name": "attr2.0",
+      "test_type": 2,
+      "description": "Attributes with self vs super (No error)",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/attr2.0.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/attr2.0.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "attr2.1",
+      "test_type": 2,
+      "description": "Attributes with self vs super (First error)",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/attr2.1.test",
+      "stdin_file": null,
+      "expected_stdout_file": null,
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        54
+      ]
+    },
+    {
+      "name": "attr2.2",
+      "test_type": 2,
+      "description": "Attributes with self vs super (Second error)",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/attr2.2.test",
+      "stdin_file": null,
+      "expected_stdout_file": null,
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        54
+      ]
+    },
+    {
+      "name": "attr2.3",
+      "test_type": 2,
+      "description": "Attributes with self vs super (Third error)",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/attr2.3.test",
+      "stdin_file": null,
+      "expected_stdout_file": null,
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        51
+      ]
+    },
+    {
+      "name": "block",
+      "test_type": 2,
+      "description": "Simple block",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/block.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/block.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "block2",
+      "test_type": 2,
+      "description": "Simple block 2",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/block2.test",
+      "stdin_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/block2.in",
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/block2.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "block_while",
+      "test_type": 2,
+      "description": "Block whileTrue:",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/block_while.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/block_while.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "bool",
+      "test_type": 2,
+      "description": "Boolean Short-Circuit-Evaluation",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/bool.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/bool.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "closure",
+      "test_type": 2,
+      "description": "Closure",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/closure.test",
+      "stdin_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/closure.in",
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/closure.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "from",
+      "test_type": 2,
+      "description": "<Classname> from:",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/from.test",
+      "stdin_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/from.in",
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/from.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        53
+      ]
+    },
+    {
+      "name": "method",
+      "test_type": 2,
+      "description": "Simple method call",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/method.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/method.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "references",
+      "test_type": 2,
+      "description": "Implementation based reference equality",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/references.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/references.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "selectors",
+      "test_type": 2,
+      "description": "Example 1 - selectors",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/selectors.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/selectors.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "self",
+      "test_type": 2,
+      "description": "Using self",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/self.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/self.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "send",
+      "test_type": 2,
+      "description": "Multistage send",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/send.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/send.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "super",
+      "test_type": 2,
+      "description": "Using self",
+      "category": "BASIC",
+      "points": 1,
+      "test_source_path": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/super.test",
+      "stdin_file": null,
+      "expected_stdout_file": "/mnt/c/Users/trinu/Desktop/IPP/IPP-project/ipp26-project-templates/typescript/tester/tests/basic/super.out",
+      "expected_parser_exit_codes": [
+        0
+      ],
+      "expected_interpreter_exit_codes": [
+        0
+      ]
+    }
+  ],
+  "unexecuted": {
+    "attr": {
+      "code": 0,
+      "message": null
+    },
+    "attr2.1": {
+      "code": 0,
+      "message": null
+    },
+    "attr2.2": {
+      "code": 0,
+      "message": null
+    },
+    "attr2.3": {
+      "code": 0,
+      "message": null
+    },
+    "block": {
+      "code": 0,
+      "message": null
+    },
+    "block2": {
+      "code": 0,
+      "message": null
+    },
+    "block_while": {
+      "code": 0,
+      "message": null
+    },
+    "bool": {
+      "code": 0,
+      "message": null
+    },
+    "closure": {
+      "code": 0,
+      "message": null
+    },
+    "from": {
+      "code": 0,
+      "message": null
+    },
+    "method": {
+      "code": 0,
+      "message": null
+    },
+    "references": {
+      "code": 0,
+      "message": null
+    },
+    "selectors": {
+      "code": 0,
+      "message": null
+    },
+    "self": {
+      "code": 0,
+      "message": null
+    },
+    "send": {
+      "code": 0,
+      "message": null
+    },
+    "super": {
+      "code": 0,
+      "message": null
+    }
+  },
+  "results": {
+    "BASIC": {
+      "total_points": 1,
+      "passed_points": 0,
+      "test_results": {
+        "attr2.0": {
+          "result": "diff_fail",
+          "parser_exit_code": 0,
+          "interpreter_exit_code": 0,
+          "parser_stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<program language=\"SOL26\" description=\"definuje a inicializuje instanční atributy 'p' a 'q'\">\n  <class name=\"Parent\" parent=\"Object\">\n    <method selector=\"something\">\n      <block arity=\"0\">\n        <assign order=\"1\">\n          <var name=\"p\"/>\n          <expr>\n            <send selector=\"p:\">\n              <expr>\n                <var name=\"self\"/>\n              </expr>\n              <arg order=\"1\">\n                <expr>\n                  <literal class=\"String\" value=\"hello\"/>\n                </expr>\n              </arg>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"2\">\n          <var name=\"q\"/>\n          <expr>\n            <send selector=\"q:\">\n              <expr>\n                <var name=\"self\"/>\n              </expr>\n              <arg order=\"1\">\n                <expr>\n                  <literal class=\"String\" value=\"world\"/>\n                </expr>\n              </arg>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"3\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"print\">\n              <expr>\n                <send selector=\"p\">\n                  <expr>\n                    <var name=\"self\"/>\n                  </expr>\n                </send>\n              </expr>\n            </send>\n          </expr>\n        </assign>\n      </block>\n    </method>\n  </class>\n  <class name=\"Main\" parent=\"Parent\">\n    <method selector=\"print:\">\n      <block arity=\"1\">\n        <parameter order=\"1\" name=\"x\"/>\n        <assign order=\"1\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"print\">\n              <expr>\n                <send selector=\"asString\">\n                  <expr>\n                    <var name=\"x\"/>\n                  </expr>\n                </send>\n              </expr>\n            </send>\n          </expr>\n        </assign>\n      </block>\n    </method>\n    <method selector=\"run\">\n      <block arity=\"0\">\n        <assign order=\"1\">\n          <var name=\"a\"/>\n          <expr>\n            <send selector=\"val:\">\n              <expr>\n                <var name=\"super\"/>\n              </expr>\n              <arg order=\"1\">\n                <expr>\n                  <literal class=\"Integer\" value=\"5\"/>\n                </expr>\n              </arg>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"2\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"print:\">\n              <expr>\n                <var name=\"self\"/>\n              </expr>\n              <arg order=\"1\">\n                <expr>\n                  <send selector=\"val\">\n                    <expr>\n                      <var name=\"self\"/>\n                    </expr>\n                  </send>\n                </expr>\n              </arg>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"3\">\n          <var name=\"a\"/>\n          <expr>\n            <send selector=\"instance:\">\n              <expr>\n                <var name=\"self\"/>\n              </expr>\n              <arg order=\"1\">\n                <expr>\n                  <var name=\"super\"/>\n                </expr>\n              </arg>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"4\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"print:\">\n              <expr>\n                <send selector=\"instance\">\n                  <expr>\n                    <var name=\"self\"/>\n                  </expr>\n                </send>\n              </expr>\n              <arg order=\"1\">\n                <expr>\n                  <literal class=\"Integer\" value=\"10\"/>\n                </expr>\n              </arg>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"5\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"instance:\">\n              <expr>\n                <var name=\"self\"/>\n              </expr>\n              <arg order=\"1\">\n                <expr>\n                  <literal class=\"Nil\" value=\"nil\"/>\n                </expr>\n              </arg>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"6\">\n          <var name=\"x\"/>\n          <expr>\n            <send selector=\"p\">\n              <expr>\n                <var name=\"self\"/>\n              </expr>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"7\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"something\">\n              <expr>\n                <var name=\"super\"/>\n              </expr>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"8\">\n          <var name=\"x\"/>\n          <expr>\n            <send selector=\"p\">\n              <expr>\n                <var name=\"self\"/>\n              </expr>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"9\">\n          <var name=\"y\"/>\n          <expr>\n            <send selector=\"p\">\n              <expr>\n                <var name=\"super\"/>\n              </expr>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"10\">\n          <var name=\"z\"/>\n          <expr>\n            <send selector=\"q\">\n              <expr>\n                <var name=\"self\"/>\n              </expr>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"11\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"print\">\n              <expr>\n                <var name=\"x\"/>\n              </expr>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"12\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"print\">\n              <expr>\n                <var name=\"y\"/>\n              </expr>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"13\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"print\">\n              <expr>\n                <var name=\"z\"/>\n              </expr>\n            </send>\n          </expr>\n        </assign>\n      </block>\n    </method>\n    <method selector=\"p\">\n      <block arity=\"0\">\n        <assign order=\"1\">\n          <var name=\"_\"/>\n          <expr>\n            <literal class=\"String\" value=\"foo\"/>\n          </expr>\n        </assign>\n      </block>\n    </method>\n  </class>\n</program>\n",
+          "parser_stderr": "",
+          "interpreter_stdout": "5foofoohelloworld",
+          "interpreter_stderr": "",
+          "diff_output": "1,6c1\n< 5\n< 10\n< foo\n< foo\n< hello\n< world\n---\n> 5foofoohelloworld\n\\ No newline at end of file\n"
+        }
+      }
+    }
+  }
+}

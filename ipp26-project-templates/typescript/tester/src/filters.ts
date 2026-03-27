@@ -1,19 +1,28 @@
 import { TestCaseDefinition, UnexecutedReason, UnexecutedReasonCode } from "./models.js"
 
+export interface FilterOptions {
+    include: string[] | null;
+    include_category: string[] | null;
+    include_test: string[] | null;
+    exclude: string[] | null;
+    exclude_category: string[] | null;
+    exclude_test: string[] | null;
+    regex_filters: boolean;
+}
 
 export interface FilterResult {
     executed_tests: TestCaseDefinition[];
     filtered_out: Record<string, UnexecutedReason>;
 }
 
-export function filterTests(tests: TestCaseDefinition[], args: any): FilterResult {
+export function filterTests(tests: TestCaseDefinition[], args: FilterOptions): FilterResult {
     const executed_tests: TestCaseDefinition[] = []
     const filtered_out: Record<string, UnexecutedReason> = {};
 
     for (const test of tests) {
         const has_include_filters = args.include !== null || 
                                     args.include_category !== null || 
-                                    args.include_test != null;
+                                    args.include_test !== null;
         
         let passed_include = false;
 
@@ -60,7 +69,7 @@ function controler(text: string, filters: string[] | null, is_regex: boolean) {
         return false;
     }
 
-    if (is_regex === false) {
+    if (!is_regex) {
         if (filters.includes(text)) {
             return true;
         }

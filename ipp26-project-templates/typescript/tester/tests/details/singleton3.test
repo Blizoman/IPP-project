@@ -1,0 +1,35 @@
++++ DETAILS
+*** boolean and nil are singletons, also their children?
+!I! 0
+!C! 0
+>>> 1
+
+class MyTrue : True {
+  print [| _ := 'MyTrue' print. ]
+}
+
+class MyFalse : False {
+  print [| _ := 'MyFalse' print. ]
+}
+
+class MyNil : Nil {
+  print [| _ := 'MyNil' print. ]
+}
+
+class Main : Object {
+  print: [:x | _ := (x asString) print.]
+
+  run [|
+    myTrue := MyTrue from: true.
+    _ := self print: (myTrue identicalTo: true). "false"
+    _ := self print: (myTrue equalTo: true). "true"
+
+    myFalse := MyFalse from: false.
+    _ := self print: (myFalse identicalTo: false). "false"
+    _ := self print: (myFalse equalTo: false). "true"
+
+    myNil := MyNil from: nil.
+    _ := self print: (myNil identicalTo: nil). "false"
+    _ := self print: (myNil equalTo: nil). "true"
+  ]
+}

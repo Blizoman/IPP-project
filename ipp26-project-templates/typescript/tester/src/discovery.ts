@@ -47,11 +47,23 @@ export function discoverTests(dir_path: string, recursive: boolean): DiscoveryRe
 
                 result.discovered_test_cases.push(test_case);
             }
-            catch (error: any) {
-                result.malformed_tests[test_name] = new UnexecutedReason(
-                    UnexecutedReasonCode.MALFORMED_TEST_CASE_FILE,
-                    "Failed to read file"
-                );
+            catch (error: unknown) {
+                const message = error instanceof Error ? error.message : String(error);
+
+                if (message === "CANNOT_DETERMINE_TYPE") {
+                    result.malformed_tests[full_path] = new UnexecutedReason(
+                        UnexecutedReasonCode.CANNOT_DETERMINE_TYPE,
+                        "Failed to determine type of test"
+                    );
+                }
+                else {
+                    result.malformed_tests[full_path] = new UnexecutedReason(
+                        UnexecutedReasonCode.MALFORMED_TEST_CASE_FILE,
+                        "Failed to read file"
+                    );
+                }
+                
+
             }
         }
     }

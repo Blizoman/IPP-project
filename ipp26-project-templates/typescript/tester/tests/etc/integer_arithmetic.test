@@ -1,0 +1,13 @@
++++ BASIC
+*** Basic integer arithmetic
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+    run [ |
+        a := 5 plus: 3.
+        b := a asString.
+        _ := b print.
+    ]
+}

@@ -24,6 +24,8 @@ import { pino } from "pino";
 //================CUSTOM LIBS============================
 import { discoverTests } from "./discovery.js";
 import { filterTests } from "./filters.js";
+import { executeTests } from "./executor.js";
+import { buildCategoryResults } from "./report.js";
 //================C======================================
 
 const logger = pino({
@@ -137,6 +139,7 @@ function parseCliArgumentsRaw(argv: string[]) {
   } as const);
 }
 
+// eslint-disable-next-line complexity
 function parseArguments(): CliArguments {
   /**
    * Parses the command-line arguments and performs basic validation a sanitization.
@@ -168,12 +171,12 @@ function parseArguments(): CliArguments {
     recursive: parsedValues["recursive"],
     output: parsedValues["output"] ?? null,
     dry_run: parsedValues["dry-run"],
-    include: listOrNull(parsedValues["include"]),
-    include_category: listOrNull(parsedValues["include-category"]),
-    include_test: listOrNull(parsedValues["include-test"]),
-    exclude: listOrNull(parsedValues["exclude"]),
-    exclude_category: listOrNull(parsedValues["exclude-category"]),
-    exclude_test: listOrNull(parsedValues["exclude-test"]),
+    include: listOrNull(parsedValues["include"]?.map((s) => s.trim())),
+    include_category: listOrNull(parsedValues["include-category"]?.map((s) => s.trim())),
+    include_test: listOrNull(parsedValues["include-test"]?.map((s) => s.trim())),
+    exclude: listOrNull(parsedValues["exclude"]?.map((s) => s.trim())),
+    exclude_category: listOrNull(parsedValues["exclude-category"]?.map((s) => s.trim())),
+    exclude_test: listOrNull(parsedValues["exclude-test"]?.map((s) => s.trim())),
     verbose: parsedValues["verbose"]?.length ?? 0,
     regex_filters: parsedValues["regex-filters"],
   };
@@ -222,12 +225,12 @@ function main(): void {
   }
 
   // TODO: Your code for discovering and executing the test cases goes here.
-  logger.info(`Starting to search in folder: ${args.tests_dir}`);
+  logger.info("Starting to search in folder: %s", args.tests_dir);
   const discovery_result = discoverTests(args.tests_dir, args.recursive);
-  logger.info(`Found ${discovery_result.discovered_test_cases.length} valid tests.`)
+  logger.info("Found %d valid tests.", discovery_result.discovered_test_cases.length);
 
   const filter_result = filterTests(discovery_result.discovered_test_cases, args);
-  logger.info(`Tests after filtration: ${filter_result.executed_tests.length} `);
+  logger.info("Tests after filtration: %d", filter_result.executed_tests.length);
 
   const all_unexecuted = {
     ...discovery_result.malformed_tests,
@@ -238,17 +241,32 @@ function main(): void {
   if (args.dry_run) {
     const report = new TestReport({
       discovered_test_cases: discovery_result.discovered_test_cases,
-      unexecuted: discovery_result.malformed_tests,
+      unexecuted: all_unexecuted,
       results: null
     });
     writeResult(report, args.output);
     return;
   }
+  
+  logger.info("Starting executor...");
+  const execute_result = executeTests(filter_result.executed_tests);
+  const final_unexecuted = {
+    ...all_unexecuted,
+    ...execute_result.failed_to_execute
+  };
+  logger.info("Successfully executed: %d", Object.keys(execute_result.executed_results).length);
 
+  const category_results = buildCategoryResults(
+    filter_result.executed_tests,
+    execute_result.executed_results
+  );
 
-
-  // Example of how to write the final report:
-  const report = new TestReport({ discovered_test_cases: [], unexecuted: {}, results: {} });
+  const report = new TestReport({ 
+    discovered_test_cases: discovery_result.discovered_test_cases,
+    unexecuted: final_unexecuted, 
+    results: category_results 
+  });
+  
   writeResult(report, args.output);
 }
 
