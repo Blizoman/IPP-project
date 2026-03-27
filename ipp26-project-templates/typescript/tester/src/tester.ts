@@ -234,25 +234,24 @@ function main(): void {
 
   const all_unexecuted = {
     ...discovery_result.malformed_tests,
-    ...filter_result.filtered_out
+    ...filter_result.filtered_out,
   };
-
 
   if (args.dry_run) {
     const report = new TestReport({
       discovered_test_cases: discovery_result.discovered_test_cases,
       unexecuted: all_unexecuted,
-      results: null
+      results: null,
     });
     writeResult(report, args.output);
     return;
   }
-  
+
   logger.info("Starting executor...");
   const execute_result = executeTests(filter_result.executed_tests);
   const final_unexecuted = {
     ...all_unexecuted,
-    ...execute_result.failed_to_execute
+    ...execute_result.failed_to_execute,
   };
   logger.info("Successfully executed: %d", Object.keys(execute_result.executed_results).length);
 
@@ -261,12 +260,12 @@ function main(): void {
     execute_result.executed_results
   );
 
-  const report = new TestReport({ 
+  const report = new TestReport({
     discovered_test_cases: discovery_result.discovered_test_cases,
-    unexecuted: final_unexecuted, 
-    results: category_results 
+    unexecuted: final_unexecuted,
+    results: category_results,
   });
-  
+
   writeResult(report, args.output);
 }
 

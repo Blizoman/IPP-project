@@ -9,6 +9,7 @@ class Environment:
         self.variables: dict[str, SolObject] = {}
         self.parent = parent
         self.parameters: set[str] = set()
+        self.context_class: str | None = parent.context_class if parent else None
 
     def get(self, name: str) -> SolObject:
         if name in self.variables:

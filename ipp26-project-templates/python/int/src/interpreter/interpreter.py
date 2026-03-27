@@ -77,14 +77,9 @@ class Interpreter:
         if self.current_program is None:
             return
         
-        try:
-            dispatcher = Dispatcher(self.current_program, input_io)
+        dispatcher = Dispatcher(self.current_program, input_io)
 
-            main_instance = SolObject("Main")
+        main_instance = SolObject("Main")
 
-            dispatcher.send_message(main_instance, "run", [], Environment())
+        dispatcher.send_message(main_instance, "run", [], Environment())
         
-        except InterpreterError as e:
-            print(f"Runtime Error: {e}")
-        except Exception as e:
-            print(f"Internal Error: {e}")

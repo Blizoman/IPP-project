@@ -30,3 +30,4 @@ validace výstupu. Ta by **měla vždy dopadnout dobře**. Pokud byste při expe
 narazili na kód v jazyce SOL26, pro který překladač vypíše zprávu „Generated XML does
 not conform to the schema“ a skončí s návratovým kódem 2, **kontaktujte cvičícího**.
 Znamená to, že je v překladači chyba, která není na vaší straně. :)
+  

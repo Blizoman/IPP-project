@@ -20,6 +20,6 @@ class Main : Object {
     ] value: 15.
 
     e := block value. "Error: 34"
-    
+
   ]
 }

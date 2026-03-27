@@ -36,4 +36,3 @@ class Main : Object {
     _ := (r1 asString) print. _ := (r2 asString) print.
   ]
 }
-

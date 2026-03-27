@@ -67,6 +67,7 @@ class Dispatcher:
         environment = Environment()
         environment.variables["self"] = receiver
         environment.variables["super"] = SolWrapper(receiver, def_class.parent)
+        environment.context_class = def_class.name
 
         return self._run_block(SolBlock(method.block, environment), args)
 
@@ -78,6 +79,8 @@ class Dispatcher:
         self, receiver: SolObject, selector: str, args: list[SolObject], environment: Environment
     ) -> SolObject:
         # 0. Unpacking wrapper
+        is_wrapper = False
+
         if isinstance(receiver, SolWrapper):
             actual_receiver = receiver.actual_receiver
             start_class_name = receiver.start_class_name
@@ -107,7 +110,7 @@ class Dispatcher:
             return result
 
         # 5. INSTANCNE ATRIBUTES
-        return self._handle_instance_attribute(actual_receiver, start_class_name, selector, args)
+        return self._handle_instance_attribute(actual_receiver, start_class_name, selector, args, is_wrapper, environment)
 
     def _handle_class_message(
         self, actual_receiver: SolClass, selector: str, args: list[SolObject]
@@ -261,6 +264,8 @@ class Dispatcher:
         start_class_name: str,
         selector: str,
         args: list[SolObject],
+        is_wrapper: bool,
+        environment: Environment
     ) -> SolObject:
         if selector.endswith(":") and len(args) == 1:
             attribute_name = selector.strip(":")
@@ -272,8 +277,17 @@ class Dispatcher:
                 getattr(actual_receiver, python_method)
             ):
                 raise InterpreterError(ErrorCode.INT_INST_ATTR)
+            
+            check_class = start_class_name
+            if not is_wrapper:
+                try:
+                    environment_self = environment.get("self")
+                    if actual_receiver is environment_self and getattr(environment, "context_class", None):
+                        check_class = environment.context_class
+                except Exception:
+                    ...
 
-            if self._has_method(start_class_name, attribute_name):
+            if self._has_method(check_class, attribute_name):
                 raise InterpreterError(ErrorCode.INT_INST_ATTR)
 
             actual_receiver.attributes[attribute_name] = args[0]

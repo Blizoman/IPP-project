@@ -8,7 +8,7 @@ class Main : Object {
     run [ |
         x := 1.
         _ := x value: 15.
-        _ := ((x value) asString) print. 
+        _ := ((x value) asString) print.
         _ := self name: 'Alice'.
         _ := (self name) print.
     ]

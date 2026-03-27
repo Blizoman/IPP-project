@@ -19,7 +19,7 @@ class C : B {
   print [ | _:= 'bar' print. ]
 }
 class Main : Object {
-  run [ | 
+  run [ |
     c := C new. "Vytvoří instanci c třídy C."
       "Této instanci pošle zprávu m -> implementace se najde v B. m (z B)
       nejprve zavolá implementaci z A, což vypíše 'ahoj'. Pak m (z B)
