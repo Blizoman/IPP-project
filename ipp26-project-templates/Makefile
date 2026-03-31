@@ -1,49 +1,112 @@
-IMG_CHECK = ipp-check
-IMG_RUN = ipp-runtime
-IMG_TEST = ipp-test
+LOGIN = xpruzir00
+TESTS_DIR ?= $(CURDIR)/tests
 
-# (make run ARGS="--help")
-ARGS ?=
+.PHONY: setup c clean zip commit cf1 cf2 cf3 cf4
 
-.PHONY: all pre-commit build-check check build-run run build-test test clean
+################################
+############ SETUP ############
 
-all: check test
+# Requires uv: curl -LsSf https://astral.sh/uv/install.sh | sh
+setup:
+	sudo apt-get install -y libxml2-dev libxslt-dev
+	rm -rf tester/venv
+	uv venv tester/venv --python 3.14
+	uv pip install --python tester/venv/bin/python \
+		-r tester/requirements.txt \
+		-r tester/requirements-dev.txt \
+		-r sol2xml/requirements.txt
+	cd int && npm install
 
-# -----------------------------------------
-# 1. PRE-COMMIT
-# -----------------------------------------
-pre-commit:
-	pre-commit run --all-files
+############ SETUP ############
+################################
+############ CLEAN #############
 
-# -----------------------------------------
-# 2. CHECK STAGE (linter + decorator)
-# -----------------------------------------
-build-check:
-	docker build --target check -t $(IMG_CHECK) .
-
-check: build-check
-	docker run --rm -v $(PWD)/python/int:/src/int -v $(PWD)/typescript/tester:/src/tester -it $(IMG_CHECK)
-
-# -----------------------------------------
-# 3. RUNTIME STAGE (py interpret)
-# -----------------------------------------
-build-run:
-	docker build --target runtime -t $(IMG_RUN) .
-
-run: build-run
-	docker run --rm $(IMG_RUN) $(ARGS)
-
-# -----------------------------------------
-# 4. TEST STAGE (Node.js testing))
-# -----------------------------------------
-build-test:
-	docker build --target test -t $(IMG_TEST) .
-
-test: build-test
-	docker run --rm $(IMG_TEST) $(ARGS)
-
-# -----------------------------------------
-# 5. CLEANUP
-# -----------------------------------------
+c: clean
 clean:
-	docker rmi $(IMG_CHECK) $(IMG_RUN) $(IMG_TEST) -f || true
+	rm -f results.json
+	rm -rf int/dist
+	rm -rf .mypy_cache
+	rm -rf tester/src/__pycache__
+	rm -f $(LOGIN).zip
+	rm -rf parses
+	rm -rf sol2xml/out/
+	clear
+
+############ CLEAN #############
+################################
+############# SEND #############
+
+zip: clean
+	zip -r $(LOGIN).zip \
+		int/ \
+		tester/ \
+		Dockerfile \
+		ai_audit.md \
+		-x "*/node_modules/*" \
+		-x "*/dist/*" \
+		-x "*/__pycache__/*" \
+		-x "*/venv/*" \
+		-x "*/.venv/*" \
+		-x "*/.git/*" \
+		-x "*/.*" \
+		-x "*.DS_Store" \
+		-x "*__MACOSX*"
+
+############# SEND #############
+################################
+############ COMMIT ############
+
+m ?= "Auto-commit"
+commit:
+	git add -A
+	PATH="$$(pwd)/tester/venv/bin:$$PATH" git commit -m "$(m)"
+fommit:
+	git add -A
+	PATH="$$(pwd)/tester/venv/bin:$$PATH" git commit -m "$(m)" --no-verify
+
+############ COMMIT ############
+################################
+############ DOCKER ############
+PWD := $(shell pwd)
+cf1:
+	pwd
+	docker build --target check --tag ipp-check .
+	docker run --rm -it -v $(PWD)/python/int:/src/int/ -v $(PWD)/typescript/tester/:/src/tester/ ipp-check
+
+cf2:
+	docker build --target build -t ipp-build -f Dockerfile .
+
+cf3:
+	docker build --target runtime -t ipp-runtime -f Dockerfile .
+
+cf4:
+	@docker build --target test -t ipp-test .
+	@docker run --rm \
+		-v $(TESTS_DIR):/opt/tests:ro \
+		ipp-test /opt/tests -r > results.json
+# 	@$(MAKE) done
+
+cf4-dry:
+	@docker build --target test -t ipp-test .
+	@docker run --rm \
+		-v $(TESTS_DIR):/opt/tests:ro \
+		ipp-test /opt/tests --recursive --dry-run
+
+############ DOCKER ############
+################################
+
+circ_deps:
+	npx madge --circular ./int/src/solint.ts
+
+precommit:
+	cd ./python/int && uv run pre-commit run --all-files
+
+GREEN = \033[1;32m
+NC = \033[0m # No Color
+done:
+	clear
+	@printf "$(GREEN) ____   ___  _   _ _____ $(NC)\n"
+	@printf "$(GREEN)|  _ \ / _ \| \ | | ____|$(NC)\n"
+	@printf "$(GREEN)| | | | | | |  \| |  _|  $(NC)\n"
+	@printf "$(GREEN)| |_| | |_| | |\  | |___ $(NC)\n"
+	@printf "$(GREEN)|____/ \___/|_| \_|_____|$(NC)\n"

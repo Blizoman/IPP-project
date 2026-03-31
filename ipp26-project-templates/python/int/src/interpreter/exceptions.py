@@ -31,3 +31,34 @@ class InterpreterError(Exception):
 class SemanticError(InterpreterError):
     def __init__(self, code: ErrorCode) -> None:
         super().__init__(error_code=code, message=f"Static semantic error: {code.name}")
+
+
+# ===========================================================
+# Runtime Errors (5x) - Používať v dispatcher.py, evaluator.py atď.
+# ===========================================================
+class MessageNotUnderstoodError(InterpreterError):
+    """Kód 51: Príjemca nerozumie zaslanej správe."""
+
+    def __init__(self, message: str = "Message not understood") -> None:
+        super().__init__(error_code=ErrorCode.INT_DNU, message=message)
+
+
+class RuntimeTypeError(InterpreterError):
+    """Kód 52: Iné behové chyby (napr. zlé typy operandov pre operácie)."""
+
+    def __init__(self, message: str = "Runtime type/operation error") -> None:
+        super().__init__(error_code=ErrorCode.INT_OTHER, message=message)
+
+
+class InvalidArgumentError(InterpreterError):
+    """Kód 53: Zlá hodnota argumentu (napr. delenie nulou, zlý from:)."""
+
+    def __init__(self, message: str = "Invalid argument value") -> None:
+        super().__init__(error_code=ErrorCode.INT_INVALID_ARG, message=message)
+
+
+class AttributeCollisionError(InterpreterError):
+    """Kód 54: Pokus o vytvorenie instančného atribútu, ktorý koliduje s metódou."""
+
+    def __init__(self, message: str = "Instance attribute collides with a method") -> None:
+        super().__init__(error_code=ErrorCode.INT_INST_ATTR, message=message)

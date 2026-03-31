@@ -35,7 +35,8 @@ RUN npm run build && \
 # mensia size
 FROM python:3.14-slim AS runtime
 WORKDIR /src
-RUN pip install --no-cache-dir pydantic pydantic-xml lxml
+RUN apt-get update && apt-get install -y libxml2-dev libxslt-dev gcc zlib1g-dev build-essential && rm -rf /var/lib/apt/lists/*
+RUN pip install --no-cache-dir pydantic pydantic-xml lxml lark==1.2.2
 COPY --from=build /src/int /src/int
 
 ENV PYTHONPATH="/src/int/src"
@@ -49,6 +50,8 @@ RUN apt-get update && \
     curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
     apt-get install -y nodejs && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+COPY sol2xml/ /src/sol2xml/
 
 COPY --from=build-test /src/dist /src/tester/dist
 COPY --from=build-test /src/node_modules /src/tester/node_modules

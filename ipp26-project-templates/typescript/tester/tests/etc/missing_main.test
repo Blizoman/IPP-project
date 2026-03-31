@@ -1,9 +1,0 @@
-+++ ERRORS
-*** Missing Main class should fail with error 31
-!C! 0
-!I! 31
->>> 1
-
-class Foo : Object {
-    run [ | _ := 'oops' print. ]
-}

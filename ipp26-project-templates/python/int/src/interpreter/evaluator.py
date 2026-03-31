@@ -13,14 +13,16 @@ from interpreter.sol_objects import (
     SolInteger,
     SolObject,
     SolString,
+    SolWrapper,
 )
 
 
 class MessageDispatcher(Protocol):
     """Runtime contract required by Evaluator for dispatching message sends."""
 
-    def send_message(self, receiver: SolObject, selector: str, args: list[SolObject], 
-                     environment: Environment) -> SolObject: ...
+    def send_message(
+        self, receiver: SolObject, selector: str, args: list[SolObject], environment: Environment
+    ) -> SolObject: ...
 
 
 class Evaluator:
@@ -57,8 +59,11 @@ class Evaluator:
 
         arguments = []
         for arg in ast_node.args:
-            arguments.append(self.evaluate(arg.expr, environment))
-        
+            arg_val = self.evaluate(arg.expr, environment)
+            if isinstance(arg_val, SolWrapper):
+                arg_val = arg_val.actual_receiver
+            arguments.append(arg_val)
+
         return self.dispatcher.send_message(receiver, ast_node.selector, arguments, environment)
 
     def evaluate(self, expr: Expr, environment: Environment) -> SolObject:
@@ -72,9 +77,3 @@ class Evaluator:
             return self.eval_send(expr.send, environment)
 
         raise InterpreterError(ErrorCode.INT_OTHER, "Expression has no evaluable value")
-
-
-
-
-
-

@@ -1,1 +1,3 @@
-/usr/bin/eslint
+#!/bin/bash
+npm i > /dev/null
+npm exec -- eslint "$@"

@@ -10,10 +10,6 @@ Author: Andrej Bližnák <xblizna00@fit.vut.cz>
 # ===========================================================
 # Mine imports
 # ===========================================================
-from interpreter.dispatcher import Dispatcher
-from interpreter.sol_objects import SolObject        
-from interpreter.environment import Environment
-
 # ===========================================================
 # Default imports
 # ===========================================================
@@ -25,9 +21,12 @@ from lxml import etree
 from lxml.etree import ParseError
 from pydantic import ValidationError
 
+from interpreter.dispatcher import Dispatcher
+from interpreter.environment import Environment
 from interpreter.error_codes import ErrorCode
 from interpreter.exceptions import InterpreterError
 from interpreter.input_model import Program
+from interpreter.sol_objects import SolObject
 from interpreter.static_analyzer import StaticAnalyzer
 
 logger = logging.getLogger(__name__)
@@ -76,10 +75,9 @@ class Interpreter:
 
         if self.current_program is None:
             return
-        
+
         dispatcher = Dispatcher(self.current_program, input_io)
 
         main_instance = SolObject("Main")
 
         dispatcher.send_message(main_instance, "run", [], Environment())
-        

@@ -1,19 +1,28 @@
-from typing import TextIO
+import inspect
+from typing import TextIO, cast
 
 from interpreter.environment import Environment
-from interpreter.error_codes import ErrorCode
 from interpreter.evaluator import Evaluator
-from interpreter.exceptions import InterpreterError, SemanticError
+from interpreter.exceptions import (
+    AttributeCollisionError,
+    InvalidArgumentError,
+    MessageNotUnderstoodError,
+    RuntimeTypeError,
+)
 from interpreter.input_model import Block, ClassDef, Method, Program
 from interpreter.sol_objects import (
     SOL_FALSE,
     SOL_NIL,
     SOL_TRUE,
     SolBlock,
+    SolBoolean,
     SolClass,
+    SolFalse,
     SolInteger,
+    SolNil,
     SolObject,
     SolString,
+    SolTrue,
     SolWrapper,
 )
 
@@ -30,14 +39,19 @@ class Dispatcher:
         if block_args is None:
             block_args = []
 
+        if len(block_args) != len(block_object.ast_node.parameters):
+            raise MessageNotUnderstoodError()
+
         local_environment = Environment(block_object.environment)
         for i, param in enumerate(block_object.ast_node.parameters):
             local_environment.set(param.name, block_args[i])
 
-        result = SOL_NIL
+        result: SolObject = SOL_NIL
 
         for node in block_object.ast_node.assigns:
             evaluated = self.evaluator.evaluate(node.expr, local_environment)
+            if isinstance(evaluated, SolWrapper):
+                evaluated = evaluated.actual_receiver
             result = local_environment.set(node.target.name, evaluated)
 
         return result
@@ -63,7 +77,27 @@ class Dispatcher:
 
         return False
 
-    def execute_user_method(self, method: Method, def_class: ClassDef, receiver: SolObject, args: list[SolObject]) -> SolObject:
+    def _get_base_builtin(self, class_name: str) -> str:
+        current = class_name
+        while current:
+            if current in ("Integer", "String", "Block", "True", "False", "Nil", "Object"):
+                return current
+
+            found_parent = None
+            for c in self.program.classes:
+                if c.name == current:
+                    found_parent = c.parent
+                    break
+
+            if found_parent is None:
+                break
+            current = found_parent
+
+        return "Object"
+
+    def execute_user_method(
+        self, method: Method, def_class: ClassDef, receiver: SolObject, args: list[SolObject]
+    ) -> SolObject:
         environment = Environment()
         environment.variables["self"] = receiver
         environment.variables["super"] = SolWrapper(receiver, def_class.parent)
@@ -82,6 +116,7 @@ class Dispatcher:
         is_wrapper = False
 
         if isinstance(receiver, SolWrapper):
+            is_wrapper = True
             actual_receiver = receiver.actual_receiver
             start_class_name = receiver.start_class_name
         else:
@@ -110,63 +145,88 @@ class Dispatcher:
             return result
 
         # 5. INSTANCNE ATRIBUTES
-        return self._handle_instance_attribute(actual_receiver, start_class_name, selector, args, is_wrapper, environment)
+        return self._handle_instance_attribute(
+            actual_receiver, start_class_name, selector, args, is_wrapper, environment
+        )
 
-    def _handle_class_message(
+    def _handle_class_message(  # noqa: C901
         self, actual_receiver: SolClass, selector: str, args: list[SolObject]
     ) -> SolObject | None:
         class_name = actual_receiver.value
+        base_builtin = self._get_base_builtin(class_name)
 
         if selector == "new":
-            if class_name == "Nil":
+            if base_builtin == "Nil":
                 return SOL_NIL
-            if class_name == "True":
+            if base_builtin == "True":
                 return SOL_TRUE
-            if class_name == "False":
+            if base_builtin == "False":
                 return SOL_FALSE
-            if class_name == "Integer":
-                return SolInteger(0)
-            if class_name == "String":
-                return SolString("")
-            if class_name == "Block":
+
+            if base_builtin == "Integer":
+                obj_int = SolInteger(0)
+                obj_int.sol_class_name = class_name
+                return obj_int
+            if base_builtin == "String":
+                obj_str = SolString("")
+                obj_str.sol_class_name = class_name
+                return cast(SolObject, obj_str)
+            if base_builtin == "Block":
                 empty_node = Block(arity=0, parameters=[], assigns=[])
-                return SolBlock(empty_node, Environment())
+                obj_block = SolBlock(empty_node, Environment())
+                obj_block.sol_class_name = class_name
+                return cast(SolObject, obj_block)
+
             return SolObject(class_name)
 
-        if selector == "from":
+        if selector == "from:":
             if len(args) != 1:
-                raise InterpreterError(ErrorCode.INT_DNU)
-
-            if class_name == "Nil":
-                return SOL_NIL
-            if class_name == "True":
-                return SOL_TRUE
-            if class_name == "False":
-                return SOL_FALSE
+                raise MessageNotUnderstoodError("from: requires exactly 1 argument")
 
             source_object = args[0]
-            new_instance = None
+            new_instance: SolObject
 
-            if class_name == "Integer":
+            if base_builtin == "Integer":
                 if not isinstance(source_object, SolInteger):
-                    raise InterpreterError(ErrorCode.INT_INVALID_ARG)
+                    raise InvalidArgumentError("from: expects an Integer-like object")
                 new_instance = SolInteger(source_object.value)
-            elif class_name == "String":
+                new_instance.sol_class_name = class_name
+            elif base_builtin == "String":
                 if not isinstance(source_object, SolString):
-                    raise InterpreterError(ErrorCode.INT_INVALID_ARG)
+                    raise InvalidArgumentError("from: expects a String-like object")
                 new_instance = SolString(source_object.value)
+                new_instance.sol_class_name = class_name
+            elif base_builtin == "True":
+                if (
+                    not isinstance(source_object, SolTrue)
+                    and getattr(source_object, "value", None) is not True
+                ):
+                    raise InvalidArgumentError("from: expects a True-like object")
+                new_instance = SolBoolean(class_name, True)
+            elif base_builtin == "False":
+                if (
+                    not isinstance(source_object, SolFalse)
+                    and getattr(source_object, "value", None) is not False
+                ):
+                    raise InvalidArgumentError("from: expects a False-like object")
+                new_instance = SolBoolean(class_name, False)
+            elif base_builtin == "Nil":
+                if not isinstance(source_object, SolNil):
+                    raise InvalidArgumentError("from: expects a Nil-like object")
+                new_instance = SolNil()
+                new_instance.sol_class_name = class_name
             else:
                 new_instance = SolObject(class_name)
 
             new_instance.attributes = source_object.attributes.copy()
             return new_instance
 
-        if selector == "read" and class_name == "String":
+        if selector == "read" and base_builtin == "String":
             return SolString.read(self.input_io)
 
         return None
 
-    def _handle_builtin_control(
+    def _handle_builtin_control(  # noqa: C901
         self,
         actual_receiver: SolObject,
         selector: str,
@@ -176,7 +236,7 @@ class Dispatcher:
         if selector.startswith("value") and isinstance(actual_receiver, SolBlock):
             expected_args = selector.count(":")
             if expected_args != len(actual_receiver.ast_node.parameters):
-                raise InterpreterError(ErrorCode.INT_DNU)
+                raise MessageNotUnderstoodError()
             return self._run_block(actual_receiver, args)
 
         if selector == "ifTrue:ifFalse:":
@@ -187,21 +247,21 @@ class Dispatcher:
 
         if selector == "timesRepeat:":
             if not isinstance(actual_receiver, SolInteger):
-                raise SemanticError(ErrorCode.SEM_ERROR)
-            result = SOL_NIL
+                raise RuntimeTypeError()
+            result_loop: SolObject = SOL_NIL
             if actual_receiver.value > 0:
                 for i in range(1, actual_receiver.value + 1):
                     counter = SolInteger(i)
-                    result = self.send_message(args[0], "value:", [counter], environment)
-            return result
+                    result_loop = self.send_message(args[0], "value:", [counter], environment)
+            return result_loop
 
         if selector == "whileTrue:":
-            result = SOL_NIL
+            result_loop_w: SolObject = SOL_NIL
             condition = self.send_message(actual_receiver, "value", [], environment)
             while condition is SOL_TRUE:
-                result = self.send_message(args[0], "value", [], environment)
+                result_loop_w = self.send_message(args[0], "value", [], environment)
                 condition = self.send_message(actual_receiver, "value", [], environment)
-            return result
+            return result_loop_w
 
         if selector == "and:":
             if actual_receiver is SOL_FALSE:
@@ -229,7 +289,11 @@ class Dispatcher:
         if hasattr(actual_receiver, to_python):
             function = getattr(actual_receiver, to_python)
             if callable(function):
-                return function(*args)
+                try:
+                    inspect.signature(function).bind(*args)
+                    return cast("SolObject", function(*args))
+                except TypeError:
+                    return None
 
         return None
 
@@ -265,7 +329,7 @@ class Dispatcher:
         selector: str,
         args: list[SolObject],
         is_wrapper: bool,
-        environment: Environment
+        environment: Environment,
     ) -> SolObject:
         if selector.endswith(":") and len(args) == 1:
             attribute_name = selector.strip(":")
@@ -276,19 +340,21 @@ class Dispatcher:
             if hasattr(actual_receiver, python_method) and callable(
                 getattr(actual_receiver, python_method)
             ):
-                raise InterpreterError(ErrorCode.INT_INST_ATTR)
-            
-            check_class = start_class_name
+                raise AttributeCollisionError()
+
+            check_class: str | None = start_class_name
             if not is_wrapper:
                 try:
                     environment_self = environment.get("self")
-                    if actual_receiver is environment_self and getattr(environment, "context_class", None):
+                    if actual_receiver is environment_self and getattr(
+                        environment, "context_class", None
+                    ):
                         check_class = environment.context_class
-                except Exception:
+                except Exception:  # noqa: BLE001
                     ...
 
-            if self._has_method(check_class, attribute_name):
-                raise InterpreterError(ErrorCode.INT_INST_ATTR)
+            if check_class is not None and self._has_method(check_class, attribute_name):
+                raise AttributeCollisionError()
 
             actual_receiver.attributes[attribute_name] = args[0]
             return actual_receiver
@@ -298,4 +364,4 @@ class Dispatcher:
             if value is not None:
                 return value
 
-        raise InterpreterError(ErrorCode.INT_DNU)
+        raise MessageNotUnderstoodError()

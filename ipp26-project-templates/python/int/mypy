@@ -1,1 +1,3 @@
-/usr/local/bin/mypy
+#!/bin/bash
+uv sync >/dev/null
+uv run mypy "$@"

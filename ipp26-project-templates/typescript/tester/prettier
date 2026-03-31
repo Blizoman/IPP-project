@@ -1,1 +1,3 @@
-/usr/bin/prettier
+#!/bin/bash
+npm i > /dev/null
+npm exec -- prettier "$@"

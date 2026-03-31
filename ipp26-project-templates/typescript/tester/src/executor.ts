@@ -29,6 +29,15 @@ function extractSolSource(testFilePath: string): string {
   return lines.slice(first_blan_line_index + 1).join("\n");
 }
 
+function getFirstExistingPath(paths: string[]): string {
+  for (const p of paths) {
+    if (existsSync(p)) {
+      return p;
+    }
+  }
+  throw new Error(`None of the expected paths exist. Tried: ${paths.join(", ")}`);
+}
+
 // eslint-disable-next-line complexity
 export function executeTests(tests: TestCaseDefinition[]): ExecutionResult {
   const executed_results: Record<string, TestCaseReport> = {};
@@ -36,8 +45,28 @@ export function executeTests(tests: TestCaseDefinition[]): ExecutionResult {
 
   const module_directory = dirname(fileURLToPath(import.meta.url));
   const tester_root = resolve(module_directory, "..");
-  const PARSER_SCRIPT = resolve(tester_root, "..", "..", "sol2xml", "sol_to_xml.py");
-  const INTERPRETER_SCRIPT = resolve(tester_root, "..", "..", "python", "int", "src", "solint.py");
+
+  let PARSER_SCRIPT: string;
+  try {
+    PARSER_SCRIPT = getFirstExistingPath([
+      resolve(tester_root, "..", "..", "sol2xml", "sol_to_xml.py"), // Local dev
+      "/src/sol2xml/sol_to_xml.py", // Docker
+    ]);
+  } catch {
+    PARSER_SCRIPT = "NOT_FOUND_PARSER";
+  }
+
+  let INTERPRETER_SCRIPT: string;
+  try {
+    INTERPRETER_SCRIPT = getFirstExistingPath([
+      resolve(tester_root, "..", "..", "python", "int", "src", "solint.py"), // Local dev
+      "/src/int/src/solint.py", // Docker
+      "/src/int/solint.py",
+    ]);
+  } catch {
+    INTERPRETER_SCRIPT = "NOT_FOUND_INTERPRETER";
+  }
+
   const local_venv_py = resolve(
     tester_root,
     "..",
