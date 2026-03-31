@@ -2,10 +2,10 @@
 This module defines the internal memory representation of SOL26 objects.
 """
 
-from typing import TYPE_CHECKING, TextIO
+from typing import TextIO, TYPE_CHECKING
 
 from interpreter.error_codes import ErrorCode
-from interpreter.exceptions import InterpreterError
+from interpreter.exceptions import InterpreterError, RuntimeTypeError, InvalidArgumentError
 from interpreter.input_model import Block
 
 if TYPE_CHECKING:
@@ -24,30 +24,30 @@ class SolObject:
     def get_attribute(self, name: str) -> SolObject | None:
         return self.attributes.get(name)
 
-    def identicalTo(self, other: SolObject) -> SolBoolean:  # noqa: N802
+    def identicalTo(self, other: SolObject) -> SolBoolean:
         if self is other:
             return SOL_TRUE
         return SOL_FALSE
 
-    def equalTo(self, other: SolObject) -> SolBoolean:  # noqa: N802
+    def equalTo(self, other: SolObject) -> SolBoolean:
         return self.identicalTo(other)
 
-    def asString(self) -> SolString:  # noqa: N802
+    def asString(self) -> SolString:
         return SolString("")
 
-    def isNumber(self) -> SolBoolean:  # noqa: N802
+    def isNumber(self) -> SolBoolean:
         return SOL_FALSE
 
-    def isString(self) -> SolBoolean:  # noqa: N802
+    def isString(self) -> SolBoolean:
         return SOL_FALSE
 
-    def isBlock(self) -> SolBoolean:  # noqa: N802
+    def isBlock(self) -> SolBoolean:
         return SOL_FALSE
 
-    def isNil(self) -> SolBoolean:  # noqa: N802
+    def isNil(self) -> SolBoolean:
         return SOL_FALSE
 
-    def isBoolean(self) -> SolBoolean:  # noqa: N802
+    def isBoolean(self) -> SolBoolean:
         return SOL_FALSE
 
 
@@ -62,13 +62,13 @@ class SolNil(SolObject):
     def __init__(self) -> None:
         super().__init__("Nil")
 
-    def isNil(self) -> SolBoolean:  # noqa: N802
+    def isNil(self) -> SolBoolean:
         return SOL_TRUE
 
-    def asString(self) -> SolString:  # noqa: N802
+    def asString(self) -> SolString:
         return SolString("nil")
 
-    def equalTo(self, other: SolObject) -> SolBoolean:  # noqa: N802
+    def equalTo(self, other: SolObject) -> SolBoolean:
         if isinstance(other, SolNil):
             return SOL_TRUE
         return SOL_FALSE
@@ -79,15 +79,15 @@ class SolBoolean(SolObject):
         super().__init__(class_name)
         self.value = value
 
-    def asString(self) -> SolString:  # noqa: N802
+    def asString(self) -> SolString:
         if self.value:
             return SolString("true")
         return SolString("false")
 
-    def isBoolean(self) -> SolBoolean:  # noqa: N802
+    def isBoolean(self) -> SolBoolean:
         return SOL_TRUE
 
-    def equalTo(self, other: SolObject) -> SolBoolean:  # noqa: N802
+    def equalTo(self, other: SolObject) -> SolBoolean:
         if isinstance(other, SolBoolean) and self.value == other.value:
             return SOL_TRUE
         return SOL_FALSE
@@ -114,22 +114,21 @@ class SolInteger(SolObject):
         self.value = value
         super().__init__("Integer")
 
-    def isNumber(self) -> SolTrue:  # noqa: N802
+    def isNumber(self) -> SolTrue:
         return SOL_TRUE
 
-    def asString(self) -> SolString:  # noqa: N802
+    def asString(self) -> SolString:
         return SolString(str(self.value))
 
-    def asInteger(self) -> SolInteger:  # noqa: N802
+    def asInteger(self) -> SolInteger:
         return self
 
-    def equalTo(self, other: SolObject) -> SolBoolean:  # noqa: N802
-        if isinstance(other, SolInteger):
-            if self.value == other.value:
-                return SOL_TRUE
+    def equalTo(self, other: SolObject) -> SolBoolean:
+        if isinstance(other, SolInteger) and self.value == other.value:
+            return SOL_TRUE
         return SOL_FALSE
 
-    def greaterThan(self, other: SolInteger) -> SolBoolean:  # noqa: N802
+    def greaterThan(self, other: SolInteger) -> SolBoolean:
         if self.value > other.value:
             return SOL_TRUE
         return SOL_FALSE
@@ -144,13 +143,13 @@ class SolInteger(SolObject):
             raise InterpreterError(ErrorCode.INT_OTHER)
         return SolInteger(self.value - other.value)
 
-    def multiplyBy(self, other: SolInteger) -> SolInteger:  # noqa: N802
+    def multiplyBy(self, other: SolInteger) -> SolInteger:
         if not isinstance(other, SolInteger):
             raise InterpreterError(ErrorCode.INT_OTHER)  # TODO: mby x*'ahoj' = ahojahojahoj ?
         return SolInteger(self.value * other.value)
 
     #### Raise lepsie spracovat ERR TODO:
-    def divBy(self, other: SolInteger) -> SolInteger:  # noqa: N802
+    def divBy(self, other: SolInteger) -> SolInteger:
         if not isinstance(other, SolInteger):
             raise InterpreterError(ErrorCode.INT_OTHER)
 
@@ -165,25 +164,24 @@ class SolString(SolObject):
         self.value = value
         super().__init__("String")
 
-    def isString(self) -> SolTrue:  # noqa: N802
+    def isString(self) -> SolTrue:
         return SOL_TRUE
 
-    def equalTo(self, other: SolObject) -> SolBoolean:  # noqa: N802
-        if isinstance(other, SolString):
-            if self.value == other.value:
-                return SOL_TRUE
+    def equalTo(self, other: SolObject) -> SolBoolean:
+        if isinstance(other, SolString) and self.value == other.value:
+            return SOL_TRUE
         return SOL_FALSE
 
-    def asString(self) -> SolString:  # noqa: N802
+    def asString(self) -> SolString:
         return self
 
-    def asInteger(self) -> SolObject:  # noqa: N802
+    def asInteger(self) -> SolObject:
         try:
             return SolInteger(int(self.value))
         except ValueError:
             return SOL_NIL
 
-    def concatenateWith(self, other: SolObject) -> SolObject:  # noqa: N802
+    def concatenateWith(self, other: 'SolObject') -> SolObject:
         if isinstance(other, SolString):
             return SolString(self.value + other.value)
         return SOL_NIL
@@ -196,7 +194,7 @@ class SolString(SolObject):
         print(self.value, end="")
         return self
 
-    def startsWith_endsBefore_(self, start: SolObject, end: SolObject) -> SolObject:  # noqa: N802
+    def startsWith_endsBefore_(self, start: SolObject, end: SolObject) -> SolObject:
         if not (isinstance(start, SolInteger) and isinstance(end, SolInteger)):
             return SOL_NIL
         if start.value <= 0 or end.value <= 0:
@@ -214,28 +212,30 @@ class SolClass(SolObject):
         super().__init__("Class")
         self.value = class_name
 
-    def asString(self) -> SolString:  # noqa: N802
+    def asString(self) -> SolString:
         return SolString(self.value)
 
-    def equalTo(self, other: SolObject) -> SolBoolean:  # noqa: N802
+    def equalTo(self, other: SolObject) -> SolBoolean:
         if isinstance(other, SolClass) and self.value == other.value:
             return SOL_TRUE
         return SOL_FALSE
 
 
 class SolBlock(SolObject):
-    def __init__(self, ast_node: Block, environment: Environment) -> None:
+    def __init__(self, ast_node: Block, environment: 'Environment') -> None:
         super().__init__("Block")
         self.ast_node = ast_node
         self.environment = environment
 
-    def isBlock(self) -> SolBoolean:  # noqa: N802
+    def isBlock(self) -> SolBoolean:
         return SOL_TRUE
 
-    def asString(self) -> SolString:  # noqa: N802
+    def asString(self) -> SolString:
         return SolString("[block]")
 
 
 SOL_NIL = SolNil()
 SOL_TRUE = SolTrue()
 SOL_FALSE = SolFalse()
+
+
