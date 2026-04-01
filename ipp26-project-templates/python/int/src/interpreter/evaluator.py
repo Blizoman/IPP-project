@@ -1,3 +1,8 @@
+"""
+This module defines the Evaluator responsible for processing AST expressions
+into runtime SOL26 objects.
+"""
+
 from typing import Protocol
 
 from interpreter.environment import Environment
@@ -17,19 +22,31 @@ from interpreter.sol_objects import (
 )
 
 
+# ===========================================================
+# DISPATCHER PROTOCOL
+# ===========================================================
 class MessageDispatcher(Protocol):
     """Runtime contract required by Evaluator for dispatching message sends."""
 
     def send_message(
         self, receiver: SolObject, selector: str, args: list[SolObject], environment: Environment
-    ) -> SolObject: ...
+    ) -> SolObject:
+        """Contract: Route message to the actual dispatcher implementation."""
+        ...
 
 
+# ===========================================================
+# EVALUATOR ENGINE
+# ===========================================================
 class Evaluator:
+    """Main/Core component: Translates static AST nodes into live memory objects."""
+
     def __init__(self, dispatcher: MessageDispatcher) -> None:
+        """Initialization of Evaluator with reference to MessageDispatcher."""
         self.dispatcher = dispatcher
 
     def eval_literal(self, literal_type: str, value: str) -> SolObject:
+        """Transform: AST Literal node to corresponding SOL26 memory object."""
         if literal_type == "Integer":
             return SolInteger(int(value))
         if literal_type == "String":
@@ -49,12 +66,15 @@ class Evaluator:
         )
 
     def eval_variable(self, name: str, environment: Environment) -> SolObject:
+        """Retrieve: Variable value from current memory Environment."""
         return environment.get(name)
 
     def eval_block(self, ast_node: Block, environment: Environment) -> SolBlock:
+        """Transform: AST Block node to live SOL26 Block (Closure)."""
         return SolBlock(ast_node, environment)
 
     def eval_send(self, ast_node: Send, environment: Environment) -> SolObject:
+        """Evaluate: Receiver and arguments, unwrap proxies, and dispatch message."""
         receiver = self.evaluate(ast_node.receiver, environment)
 
         arguments = []
@@ -67,6 +87,7 @@ class Evaluator:
         return self.dispatcher.send_message(receiver, ast_node.selector, arguments, environment)
 
     def evaluate(self, expr: Expr, environment: Environment) -> SolObject:
+        """Route: Given AST expression to its specific evaluation method."""
         if expr.literal:
             return self.eval_literal(expr.literal.class_id, expr.literal.value)
         if expr.var:

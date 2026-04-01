@@ -1,10 +1,23 @@
+"""
+This module performs static semantic analysis on the parsed SOL-XML program.
+
+It checks for class inheritance cycles, variable scoping, arity mismatches,
+and other static constraints before the execution begins.
+"""
+
 from interpreter.error_codes import ErrorCode
 from interpreter.exceptions import SemanticError
 from interpreter.input_model import Block, ClassDef, Expr, Literal, Program, Send, Var
 
 
+# ===========================================================
+# STATIC AND SEMANTIC CONTROL
+# ===========================================================
 class StaticAnalyzer:
+    """Performs static semantic checks on the AST before evaluation."""
+
     def __init__(self, program: Program) -> None:
+        """Initialize the static analyzer with the parsed program."""
         self.program = program
         self.scope_stack: list[set[str]] = []
         self.builtins = {"Object", "Nil", "Integer", "String", "Block", "True", "False"}
@@ -14,6 +27,7 @@ class StaticAnalyzer:
     # ENTRY POINT
     # ===========================================================
     def run(self) -> None:
+        """Run all static semantic checks on the program."""
         self.check_classes()
         self.check_main()
         for cls in self.program.classes:
@@ -23,6 +37,7 @@ class StaticAnalyzer:
     # CHECK CLASSES
     # ===========================================================
     def check_classes(self) -> None:
+        """Check class definitions for duplicates, invalid inheritance, and cycles."""
         names = [cls.name for cls in self.program.classes]
         if len(names) != len(set(names)):
             raise SemanticError(ErrorCode.SEM_ERROR)
@@ -55,6 +70,7 @@ class StaticAnalyzer:
     # CHECK MAIN
     # ===========================================================
     def check_main(self) -> None:
+        """Ensure the program has a Main class with a parameterless run method."""
         for cls in self.program.classes:
             if cls.name == "Main":
                 for method in cls.methods:
@@ -68,6 +84,7 @@ class StaticAnalyzer:
     # CHECK METHODS
     # ===========================================================
     def check_methods(self, cls: ClassDef) -> None:
+        """Check method definitions for duplicates and correct arity."""
         selector_names = [m.selector for m in cls.methods]
         if len(selector_names) != len(set(selector_names)):
             raise SemanticError(ErrorCode.SEM_ERROR)
@@ -85,6 +102,7 @@ class StaticAnalyzer:
     # CHECK BLOCK
     # ===========================================================
     def check_block(self, block: Block) -> None:
+        """Check block parameters and variable assignments for scoping rules."""
         if block.arity != len(block.parameters):
             raise SemanticError(ErrorCode.SEM_ARITY)
 
@@ -115,6 +133,7 @@ class StaticAnalyzer:
     # CHECK EXPRESSION
     # ===========================================================
     def check_expr(self, expr: Expr) -> None:
+        """Route the expression to the appropriate type checker."""
         if expr.block is not None:
             self.check_block(expr.block)
             return
@@ -135,6 +154,7 @@ class StaticAnalyzer:
     # CHECK LITERAL
     # ===========================================================
     def check_literal(self, literal: Literal) -> None:
+        """Validate literal expressions, ensuring class literals exist."""
         if literal.class_id == "class":
             class_name = literal.value
             defined_classes = {cls.name for cls in self.program.classes}
@@ -146,11 +166,8 @@ class StaticAnalyzer:
     # CHECK SEND
     # ===========================================================
     def check_send(self, send: Send) -> None:
-        self.check_expr(send.receiver)  # nikdy nie je None
-
-        # expected_arity = send.selector.count(":")
-        # if len(send.args) != expected_arity:
-        #    raise SemanticError(ErrorCode.SEM_ARITY)
+        """Check message sending, validating selector keywords and argument arity."""
+        self.check_expr(send.receiver)
 
         for arg in send.args:
             self.check_expr(arg.expr)
@@ -159,20 +176,21 @@ class StaticAnalyzer:
     # CHECK VARIABLE
     # ===========================================================
     def check_var(self, var: Var) -> None:
+        """Check if a variable usage is valid within current scope."""
         if not self.is_variable_defined(var.name):
             raise SemanticError(ErrorCode.SEM_UNDEF)
 
     def is_variable_defined(self, var_name: str) -> bool:
-        for scope in reversed(self.scope_stack):
-            if var_name in scope:
-                return True
-        return False
+        """Determine if a variable is defined in any active scope stack."""
+        return any(var_name in scope for scope in reversed(self.scope_stack))
 
     # ===========================================================
     # CHECK KEYWORDS / BUILTINS
     # ===========================================================
     def is_keyword(self, name: str) -> bool:
+        """Check if the given name is a reserved keyword."""
         return name in self.keywords
 
     def is_builtin(self, name: str) -> bool:
+        """Check if the given name is a built-in class."""
         return name in self.builtins
