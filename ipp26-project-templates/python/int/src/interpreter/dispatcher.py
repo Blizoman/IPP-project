@@ -45,6 +45,9 @@ class Dispatcher:
         self.input_io = input_io
         self.evaluator = Evaluator(self)
 
+    # ===========================================================
+    # SUPPORT METHODS
+    # ===========================================================
     def _run_block(
         self, block_object: SolBlock, block_args: list[SolObject] | None = None
     ) -> SolObject:
@@ -53,9 +56,11 @@ class Dispatcher:
         if block_args is None:
             block_args = []
 
+        # Numbero f parameters must represent number of arguments
         if len(block_args) != len(block_object.ast_node.parameters):
             raise MessageNotUnderstoodError()
 
+        # Pairing arguments with all parameters
         local_environment = Environment(block_object.environment)
         for i, param in enumerate(block_object.ast_node.parameters):
             local_environment.set(param.name, block_args[i])
@@ -64,6 +69,7 @@ class Dispatcher:
 
         for node in block_object.ast_node.assigns:
             evaluated = self.evaluator.evaluate(node.expr, local_environment)
+            # Un-wrap "super"
             if isinstance(evaluated, SolWrapper):
                 evaluated = evaluated.actual_receiver
             result = local_environment.set(node.target.name, evaluated)
@@ -73,8 +79,12 @@ class Dispatcher:
     def _has_method(self, class_name: str, method_name: str) -> bool:
         """Compare if: Method exists in the given class or its parents."""
         to_python = method_name.replace(":", "_")
+
+        # Python cannot take basic "not"
         if to_python == "not":
             to_python = "not_"
+
+        # Searching for given method
         current_class_name = class_name
         while current_class_name:
             found_class = None

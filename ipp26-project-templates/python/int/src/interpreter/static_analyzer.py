@@ -19,7 +19,12 @@ class StaticAnalyzer:
     def __init__(self, program: Program) -> None:
         """Initialize the static analyzer with the parsed program."""
         self.program = program
+
+        # Stack to keep track of variables available in the current scope.
+        # Each element in the list is a set of variable names for a specific block/level.
         self.scope_stack: list[set[str]] = []
+
+        # Reserved names that cannot be used for inheritance or override.
         self.builtins = {"Object", "Nil", "Integer", "String", "Block", "True", "False"}
         self.keywords = {"class", "self", "super", "nil", "true", "false"}
 
@@ -39,27 +44,34 @@ class StaticAnalyzer:
     def check_classes(self) -> None:
         """Check class definitions for duplicates, invalid inheritance, and cycles."""
         names = [cls.name for cls in self.program.classes]
+
+        # 1. Ensure, all class names are unique.
         if len(names) != len(set(names)):
             raise SemanticError(ErrorCode.SEM_ERROR)
 
         for cls in self.program.classes:
+            # 2. Prevent a class to inheritate from itself
             if cls.parent == cls.name:
                 raise SemanticError(ErrorCode.SEM_ERROR)
+            # 3. Check if parent class exist
             if cls.parent not in names and cls.parent not in self.builtins:
                 raise SemanticError(ErrorCode.SEM_UNDEF)
+            # 4. Prevent from redefining builtin classes or using keywrods as class names
             if self.is_builtin(cls.name):
                 raise SemanticError(ErrorCode.SEM_ERROR)
             if self.is_keyword(cls.name):
                 raise SemanticError(ErrorCode.SEM_ERROR)
 
-            # Cyclic inheritance check
+            # 5. Cyclic inheritance check
             visited = set()
             current = cls.name
+
+            # Traverse up the inheritance chain
             while current and current not in self.builtins:
                 if current in visited:
                     raise SemanticError(ErrorCode.SEM_ERROR)
                 visited.add(current)
-                # Find parent
+                # Find the parent of the current class in the chain
                 current_cls = next((c for c in self.program.classes if c.name == current), None)
                 if current_cls:
                     current = current_cls.parent
@@ -75,9 +87,11 @@ class StaticAnalyzer:
             if cls.name == "Main":
                 for method in cls.methods:
                     if method.selector == "run":
+                        # Run method must be without arguments
                         if method.block.arity != 0:
                             raise SemanticError(ErrorCode.SEM_MAIN)
                         return
+        # If we loop through everything and don`t return, Main or run() is missing
         raise SemanticError(ErrorCode.SEM_MAIN)
 
     # ===========================================================
@@ -86,14 +100,18 @@ class StaticAnalyzer:
     def check_methods(self, cls: ClassDef) -> None:
         """Check method definitions for duplicates and correct arity."""
         selector_names = [m.selector for m in cls.methods]
+
+        # Check, if there are not any duplicit names of method selectors.
         if len(selector_names) != len(set(selector_names)):
             raise SemanticError(ErrorCode.SEM_ERROR)
 
         for method in cls.methods:
+            # Checks, if every given ':' has its parameter
             expected_arity = method.selector.count(":")
             if method.block.arity != expected_arity:
                 raise SemanticError(ErrorCode.SEM_ARITY)
 
+            # Setup the base scope for the method
             self.scope_stack.append({"self", "super", "true", "false", "nil"})
             self.check_block(method.block)
             self.scope_stack.pop()
@@ -106,6 +124,7 @@ class StaticAnalyzer:
         if block.arity != len(block.parameters):
             raise SemanticError(ErrorCode.SEM_ARITY)
 
+        # Check, if block params are not named as keywords
         param_names = [p.name for p in block.parameters]
         for name in param_names:
             if self.is_keyword(name):
@@ -117,6 +136,7 @@ class StaticAnalyzer:
         current_scope = set(param_names)
         self.scope_stack.append(current_scope)
 
+        # Creation of variable
         for assign in block.assigns:
             self.check_expr(assign.expr)
             if assign.target.name in param_names:
@@ -182,6 +202,8 @@ class StaticAnalyzer:
 
     def is_variable_defined(self, var_name: str) -> bool:
         """Determine if a variable is defined in any active scope stack."""
+
+        # Checks trough scopes, if variable is defined somewhere
         return any(var_name in scope for scope in reversed(self.scope_stack))
 
     # ===========================================================

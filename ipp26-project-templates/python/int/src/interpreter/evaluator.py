@@ -4,7 +4,6 @@ into runtime SOL26 objects.
 """
 
 from typing import Protocol
-
 from interpreter.environment import Environment
 from interpreter.error_codes import ErrorCode
 from interpreter.exceptions import InterpreterError
@@ -80,6 +79,7 @@ class Evaluator:
         arguments = []
         for arg in ast_node.args:
             arg_val = self.evaluate(arg.expr, environment)
+            # Un-wrap "super"
             if isinstance(arg_val, SolWrapper):
                 arg_val = arg_val.actual_receiver
             arguments.append(arg_val)

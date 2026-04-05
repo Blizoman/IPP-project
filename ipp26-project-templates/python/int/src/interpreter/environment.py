@@ -22,18 +22,21 @@ class Environment:
 
     def get(self, name: str) -> SolObject:
         """Retrieve: Value of variable from current or parent scope."""
+
+        # Search in own backpack
         if name in self.variables:
             return self.variables[name]
-
+        # Search in parent backpack
         if self.parent is not None:
             return self.parent.get(name)
-
+        # Or, if it is BOOLEAN/NIL
         if name == "true":
             return SOL_TRUE
         if name == "false":
             return SOL_FALSE
         if name == "nil":
             return SOL_NIL
+        # Otherwise, variable does not exists
         raise SemanticError(ErrorCode.SEM_UNDEF)
 
     def contains(self, name: str) -> bool:
@@ -47,18 +50,23 @@ class Environment:
     def set(self, name: str, value: SolObject) -> SolObject:
         """Set: Value to a variable while preventing keyword/parameter collision."""
 
+        # Cannot override keywords
         if name in ("class", "self", "super", "nil", "true", "false"):
             raise SemanticError(ErrorCode.SEM_ERROR)
 
+        # Cannot override paramater
         if name in self.parameters:
             raise SemanticError(ErrorCode.SEM_COLLISION)
 
+        # If, variable exists, override its value
         if name in self.variables:
             self.variables[name] = value
             return value
-
+        
+        # Search in its parent
         if self.parent is not None and self.parent.contains(name):
             return self.parent.set(name, value)
 
+        # Create new variable
         self.variables[name] = value
         return value

@@ -1,0 +1,11 @@
++++ ERRORS
+*** Reading uninitialized variable should fail with error 32
+!C! 0
+!I! 32
+>>> 2
+
+class Main : Object {
+    run [ |
+        _ := x print.
+    ]
+}

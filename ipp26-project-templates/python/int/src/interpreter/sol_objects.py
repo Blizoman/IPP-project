@@ -82,6 +82,8 @@ class SolWrapper(SolObject):
     def __init__(self, actual_receiver: SolObject, start_class_name: str) -> None:
         """Initialization of wrapper with Receiver and Starting Class"""
         super().__init__("SuperReference")
+        # Wrapper remebers: Who is a real object and from where the parent
+        # method will be searched
         self.actual_receiver = actual_receiver
         self.start_class_name = start_class_name
 
@@ -289,6 +291,7 @@ class SolString(SolObject):
             return SOL_NIL
         if (end.value - start.value) <= 0:
             return SolString("")
+        # SOL26 starts indexing from 1 not 0 as in python
         return SolString(self.value[start.value - 1 : end.value - 1])
 
     def length(self) -> SolInteger:
@@ -326,7 +329,6 @@ class SolBlock(SolObject):
 
     def __init__(self, ast_node: Block, environment: Environment) -> None:
         """Initialization of Block object with AST node and Environment memory."""
-        super().__init__("Block")
         super().__init__("Block")
         self.ast_node = ast_node
         self.environment = environment

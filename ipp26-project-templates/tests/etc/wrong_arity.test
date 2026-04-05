@@ -1,0 +1,12 @@
++++ ERRORS
+*** Sending value: to 0-param block should fail with error 51
+!C! 0
+!I! 51
+>>> 2
+
+class Main : Object {
+    run [ |
+        b := [ | _ := 'hi' print. ].
+        _ := b value: 42.
+    ]
+}
