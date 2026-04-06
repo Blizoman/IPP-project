@@ -402,7 +402,7 @@ class Dispatcher:
         """Handle: User-defined methods located inside the class hierarchy."""
 
         current_class_name = start_class_name
-        
+
         # Searches for method first in current class, than in parent class,
         # if found, method is executed
         while current_class_name:
@@ -485,5 +485,5 @@ class Dispatcher:
             value = actual_receiver.attributes.get(selector)
             if value is not None:
                 return value
-            
+
         raise MessageNotUnderstoodError()

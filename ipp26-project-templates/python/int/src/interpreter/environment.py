@@ -64,7 +64,7 @@ class Environment:
         if name in self.variables:
             self.variables[name] = value
             return value
-        
+
         # Search in its parent
         if self.parent is not None and self.parent._contains(name):
             return self.parent.set(name, value)

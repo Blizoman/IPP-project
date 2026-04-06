@@ -12,7 +12,7 @@ class Parent : Object {
       "Je-li příjemce instance Parent, získá hodnotu v 'p' a vytiskne 'hello'."
       "Je-li příjemce instance Main, reaguje invokací metody 'p' a vypíše 'foo'."
     _ := (self p) print.
-  ] 
+  ]
 }
 class Main : Parent {
   print: [:x | _ := (x asString) print.]
@@ -30,11 +30,11 @@ class Main : Parent {
     _ := (self instance) print: 10. "10 or throws if not same"
 
     _ := self instance: nil. "So it does not take half of the debug report"
-    
+
     x := self p. "hodnotou x bude 'foo'"
 
     _ := super something. "nastaví atributy p, q a vypíše 'foo'"
-    
+
     x := self p. "x = 'foo' (volání metody)"
     y := super p. "y = 'hello' (přístup k atributu)"
     z := self q. "q = 'world' (přístup k atributu)"

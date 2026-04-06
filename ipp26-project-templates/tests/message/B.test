@@ -17,12 +17,12 @@ class B : A {
     a := self sus. "najde se metoda v B (má přednost před atributem vytvořeným z 'foo')"
     b := super sus. "metoda se hledá až v A, kde není, ale na instanci existuje atribut 'sus' -> do 'b' se přiřadí 1234"
     str_b := b asString.
-    _ := str_b print. 
+    _ := str_b print.
   ]
 }
 
 class A : Object {
-  foo  [ | 
+  foo  [ |
     "V následujících řádcích může 'self' ukazovat (a) na instanci, kde je vlastní třídou A (např. `(A new) foo.`),
         nebo (b) na instanci, kde je vlastní třídou B (tj. k volání 'foo' došlo díky dědičnosti), což se děje v tomto příkladu
         z funkce 'fun' ve třídě B."
@@ -31,15 +31,15 @@ class A : Object {
     "Případ (a): na třídě A se hledá metoda 'sus:', nenajde se -> pokus vytvořit atribut -> uspěje, protože metoda 'sus' neexistuje."
     "Případ (b): na třídě *B* se hledá metoda 'sus:', nenajde se -> na třídě A se hledá metoda 'sus:', nenajde se -> pokus vytvořit atribut
         -> kolize se kontroluje na třídě *A*, kde je *použito* self, tudíž pokus opět uspěje, protože ve třídě A metoda 'sus:' neexistuje"
-    
-    a := self gro. 
+
+    a := self gro.
     "Případ (a): na třídě A se hledá metoda 'gro', nenajde se -> na instanci se hledá atribut -> neuspěje (pokud takový atribut někdo
         dané instanci dřív nenastavil) -> CHYBA 51."
     "Případ (b): na třídě *B* se hledá metoda 'gro', nenajde se -> na třídě A se hledá metoda 'gro', nenajde se -> na instanci se hledá atribut 'gro'
         -> v tomto konkrétním případě (kdy se 'foo' volá z 'fun') už je na instanci atribut nastaven (řádek 5) -> do 'a' se přiřadí 5"
-    
+
     b := self sus.
-    "Případ (a): na třídě A se hledá metoda 'sus', nenajde se -> na instaci se hledá atribut 'sus' -> ten vznikl výše, tudíž je přečten 
+    "Případ (a): na třídě A se hledá metoda 'sus', nenajde se -> na instaci se hledá atribut 'sus' -> ten vznikl výše, tudíž je přečten
         -> do 'b' se přiřadí 1234."
     "Případ (b): na třídě B se hledá metoda 'sus', najde se! -> do 'b' se přiřadí řetězec 'hello' ('sus') (výsledek volání 'sus', které je definované v B)."
 

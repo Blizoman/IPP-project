@@ -11,7 +11,7 @@ class MyInt : Integer {
 }
 
 class Main : Object {
-  run [ | 
+  run [ |
     n := MyInt new.
     n := n plus: 10.
     _ := (n asString) print.

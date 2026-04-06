@@ -38,7 +38,7 @@ class StaticAnalyzer:
         self._check_classes()
         self._check_main()
         for cls in self.program.classes:
-            self._(cls)
+            self._check_methods(cls)
 
     # ===========================================================
     # CHECK CLASSES

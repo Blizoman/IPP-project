@@ -12,14 +12,14 @@ class Parent : Object {
       "Je-li příjemce instance Parent, získá hodnotu v 'p' a vytiskne 'hello'."
       "Je-li příjemce instance Main, reaguje invokací metody 'p' a vypíše 'foo'."
     _ := (self p) print.
-  ] 
+  ]
 }
 class Main : Parent {
   run [|
       "tyto čtyři příkazy mají stejný efekt"
     a := super value: super. b := super value: self.
     c := self value: super. d := self value: self.
-    
+
     x := self p. "hodnotou x bude 'foo'"
     x := super p. "CHYBA 51! Nadtřída nezná selektor p. (something se zatím neprovedla)"
 

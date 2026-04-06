@@ -12,7 +12,7 @@ class Parent : Object {
       "Je-li příjemce instance Parent, získá hodnotu v 'p' a vytiskne 'hello'."
       "Je-li příjemce instance Main, reaguje invokací metody 'p' a vypíše 'foo'."
     _ := (self p) print.
-  ] 
+  ]
 }
 class Main : Parent {
   run [|
@@ -22,7 +22,7 @@ class Main : Parent {
 
     x := self p: 'val'. "CHYBA 54! Vedlo by na vznik atributu, ale už máme instanční metodu p, takže atribut nelze vytvořit."
 
-    
+
   ]
 
   p [|

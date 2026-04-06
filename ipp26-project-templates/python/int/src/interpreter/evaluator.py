@@ -6,6 +6,7 @@ Author: Andrej Bližnák <xblizna00@fit.vut.cz>
 """
 
 from typing import Protocol
+
 from interpreter.environment import Environment
 from interpreter.error_codes import ErrorCode
 from interpreter.exceptions import InterpreterError

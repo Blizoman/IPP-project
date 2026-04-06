@@ -14,9 +14,9 @@ class Main : Object {
     _ := (a asString) print.
     _ := (c asString) print.
     _ := (d asString) print.
-  ] 
+  ]
 
-  foo: 
+  foo:
   [ :x |
       "s proměnnou 'u' se nijak dál nepracuje, ale výsledek zaslání
       zprávy 'plus:' bude vrácen jako výsledek volání metody 'foo'"
