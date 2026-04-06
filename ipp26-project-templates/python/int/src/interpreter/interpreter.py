@@ -78,6 +78,8 @@ class Interpreter:
 
         dispatcher = Dispatcher(self.current_program, input_io)
 
+        # Create an initial object of class Main
         main_instance = SolObject("Main")
 
+        # Starts the execution by sending 'run' message to Main instance
         dispatcher.send_message(main_instance, "run", [], Environment())

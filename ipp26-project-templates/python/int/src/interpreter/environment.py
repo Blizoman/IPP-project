@@ -1,5 +1,7 @@
 """
 This module defines the memory environment and variable scope for the SOL26 interpreter.
+
+Author: Andrej Bližnák <xblizna00@fit.vut.cz>
 """
 
 from interpreter.error_codes import ErrorCode
@@ -39,12 +41,12 @@ class Environment:
         # Otherwise, variable does not exists
         raise SemanticError(ErrorCode.SEM_UNDEF)
 
-    def contains(self, name: str) -> bool:
+    def _contains(self, name: str) -> bool:
         """Compare if: Variable name exists in current or parent scope."""
         if name in self.variables or name in self.parameters:
             return True
         if self.parent is not None:
-            return self.parent.contains(name)
+            return self.parent._contains(name)
         return False
 
     def set(self, name: str, value: SolObject) -> SolObject:
@@ -64,7 +66,7 @@ class Environment:
             return value
         
         # Search in its parent
-        if self.parent is not None and self.parent.contains(name):
+        if self.parent is not None and self.parent._contains(name):
             return self.parent.set(name, value)
 
         # Create new variable

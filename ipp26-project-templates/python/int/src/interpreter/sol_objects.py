@@ -1,6 +1,8 @@
 """
 This module defines the internal memory representation of SOL26 objects
 and its methods.
+
+Author: Andrej Bližnák <xblizna00@fit.vut.cz>
 """
 
 from typing import TYPE_CHECKING, TextIO

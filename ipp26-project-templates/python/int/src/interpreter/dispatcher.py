@@ -1,6 +1,8 @@
 """
 This module defines the Dispatcher, the core-heavy runtime engine for routing messages
 and executing methods in the SOL26 environment.
+
+Author: Andrej Bližnák <xblizna00@fit.vut.cz>
 """
 
 import inspect
@@ -121,7 +123,7 @@ class Dispatcher:
 
         return "Object"
 
-    def execute_user_method(
+    def _execute_user_method(
         self, method: Method, def_class: ClassDef, receiver: SolObject, args: list[SolObject]
     ) -> SolObject:
         """Execute: User method in new environment with context of 'self' and 'super'."""
@@ -195,7 +197,7 @@ class Dispatcher:
             return self._handle_class_from(class_name, base_builtin, args)
         if selector == "read" and base_builtin == "String":
             return SolString.read(self.input_io)
-
+        # Otherwise, dispatcher search in user methods
         return None
 
     def _handle_class_new(self, class_name: str, base_builtin: str) -> SolObject:
@@ -266,6 +268,7 @@ class Dispatcher:
         else:
             new_inst = SolObject(class_name)
 
+        # Old object attributes -> new object attributes
         new_inst.attributes = source_obj.attributes.copy()
         return new_inst
 
@@ -296,6 +299,7 @@ class Dispatcher:
     ) -> SolObject:
         """Handle: Loop constructs 'timesRepeat:' and 'whileTrue:'."""
 
+        # FOR cycle
         if selector == "timesRepeat:":
             if not isinstance(receiver, SolInteger):
                 raise RuntimeTypeError()
@@ -305,6 +309,7 @@ class Dispatcher:
                     res = self.send_message(args[0], "value:", [SolInteger(i)], env)
             return res
 
+        # WHILE cycle
         if selector == "whileTrue:":
             res_w: SolObject = SOL_NIL
             cond = self.send_message(receiver, "value", [], env)
@@ -363,16 +368,19 @@ class Dispatcher:
             "startsWith:endsBefore:": "starts_with_ends_before",
         }
 
-        # Check explicit mapping first
+        # Check explicit mapping first ('method_map')
         if selector in method_map:
             to_python = method_map[selector]
         else:
             # Fallback to old heuristic
             to_python = selector.strip(":")
             to_python = to_python.replace(":", "_")
+            # 'not' cannot be replaced strictly to its given form as 'not' without '*_'
             if to_python == "not":
                 to_python = "not_"
 
+        # Checks, if object has a corresponding method, if succeed, the method should be
+        # executed
         if hasattr(actual_receiver, to_python):
             function = getattr(actual_receiver, to_python)
             if callable(function):
@@ -394,7 +402,9 @@ class Dispatcher:
         """Handle: User-defined methods located inside the class hierarchy."""
 
         current_class_name = start_class_name
-
+        
+        # Searches for method first in current class, than in parent class,
+        # if found, method is executed
         while current_class_name:
             found_class = None
             for cls in self.program.classes:
@@ -406,7 +416,7 @@ class Dispatcher:
 
             for mtd in found_class.methods:
                 if selector == mtd.selector:
-                    return self.execute_user_method(mtd, found_class, actual_receiver, args)
+                    return self._execute_user_method(mtd, found_class, actual_receiver, args)
             current_class_name = found_class.parent
 
         return None
@@ -422,6 +432,7 @@ class Dispatcher:
     ) -> SolObject:
         """Handle: Instance attribute getters and setters, ensuring no method collisions."""
 
+        # SET attribute - contains one argument and ends with ':'
         if selector.endswith(":") and len(args) == 1:
             attribute_name = selector.strip(":")
 
@@ -469,9 +480,10 @@ class Dispatcher:
             actual_receiver.attributes[attribute_name] = args[0]
             return actual_receiver
 
+        # GET attribute - contains 0 arguments, so no ':'
         if len(args) == 0:
             value = actual_receiver.attributes.get(selector)
             if value is not None:
                 return value
-
+            
         raise MessageNotUnderstoodError()

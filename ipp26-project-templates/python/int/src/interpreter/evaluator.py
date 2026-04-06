@@ -1,6 +1,8 @@
 """
 This module defines the Evaluator responsible for processing AST expressions
 into runtime SOL26 objects.
+
+Author: Andrej Bližnák <xblizna00@fit.vut.cz>
 """
 
 from typing import Protocol
@@ -44,7 +46,7 @@ class Evaluator:
         """Initialization of Evaluator with reference to MessageDispatcher."""
         self.dispatcher = dispatcher
 
-    def eval_literal(self, literal_type: str, value: str) -> SolObject:
+    def _eval_literal(self, literal_type: str, value: str) -> SolObject:
         """Transform: AST Literal node to corresponding SOL26 memory object."""
         if literal_type == "Integer":
             return SolInteger(int(value))
@@ -64,15 +66,15 @@ class Evaluator:
             f"Unknown literal class: {literal_type}",
         )
 
-    def eval_variable(self, name: str, environment: Environment) -> SolObject:
+    def _eval_variable(self, name: str, environment: Environment) -> SolObject:
         """Retrieve: Variable value from current memory Environment."""
         return environment.get(name)
 
-    def eval_block(self, ast_node: Block, environment: Environment) -> SolBlock:
+    def _eval_block(self, ast_node: Block, environment: Environment) -> SolBlock:
         """Transform: AST Block node to live SOL26 Block (Closure)."""
         return SolBlock(ast_node, environment)
 
-    def eval_send(self, ast_node: Send, environment: Environment) -> SolObject:
+    def _eval_send(self, ast_node: Send, environment: Environment) -> SolObject:
         """Evaluate: Receiver and arguments, unwrap proxies, and dispatch message."""
         receiver = self.evaluate(ast_node.receiver, environment)
 
@@ -89,12 +91,12 @@ class Evaluator:
     def evaluate(self, expr: Expr, environment: Environment) -> SolObject:
         """Route: Given AST expression to its specific evaluation method."""
         if expr.literal:
-            return self.eval_literal(expr.literal.class_id, expr.literal.value)
+            return self._eval_literal(expr.literal.class_id, expr.literal.value)
         if expr.var:
-            return self.eval_variable(expr.var.name, environment)
+            return self._eval_variable(expr.var.name, environment)
         if expr.block:
-            return self.eval_block(expr.block, environment)
+            return self._eval_block(expr.block, environment)
         if expr.send:
-            return self.eval_send(expr.send, environment)
+            return self._eval_send(expr.send, environment)
 
         raise InterpreterError(ErrorCode.INT_OTHER, "Expression has no evaluable value")
