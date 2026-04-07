@@ -9,7 +9,7 @@
  *      but you are **free to modify it** in whatever way you like.
  *
  * Author: Ondřej Ondryáš <iondryas@fit.vut.cz>
- *
+ * Author: Andrej Bližnák <xblizna00@fit.vut.cz>
  * AI usage notice: The author used OpenAI Codex to create the implementation of this
  *                  module based on its Python counterpart.
  */
@@ -26,7 +26,7 @@ import { discoverTests } from "./discovery.js";
 import { filterTests } from "./filters.js";
 import { executeTests } from "./executor.js";
 import { buildCategoryResults } from "./report.js";
-//================C======================================
+//=======================================================
 
 const logger = pino({
   transport: {
@@ -225,10 +225,17 @@ function main(): void {
   }
 
   // TODO: Your code for discovering and executing the test cases goes here.
+
+  // =====================================================================
+  // 1. DISCOVERY PHASE
+  // =====================================================================
   logger.info("Starting to search in folder: %s", args.tests_dir);
   const discovery_result = discoverTests(args.tests_dir, args.recursive);
   logger.info("Found %d valid tests.", discovery_result.discovered_test_cases.length);
 
+  // =====================================================================
+  // 2. FILTERING PHASE
+  // =====================================================================
   const filter_result = filterTests(discovery_result.discovered_test_cases, args);
   logger.info("Tests after filtration: %d", filter_result.executed_tests.length);
 
@@ -237,6 +244,9 @@ function main(): void {
     ...filter_result.filtered_out,
   };
 
+  // =====================================================================
+  // 3. DRY RUN CHECK
+  // =====================================================================
   if (args.dry_run) {
     const report = new TestReport({
       discovered_test_cases: discovery_result.discovered_test_cases,
@@ -247,7 +257,11 @@ function main(): void {
     return;
   }
 
+  // =====================================================================
+  // 4. EXECUTION PHASE
+  // =====================================================================
   logger.info("Starting executor...");
+
   const execute_result = executeTests(filter_result.executed_tests);
   const final_unexecuted = {
     ...all_unexecuted,
@@ -255,11 +269,15 @@ function main(): void {
   };
   logger.info("Successfully executed: %d", Object.keys(execute_result.executed_results).length);
 
+  // =====================================================================
+  // 5. REPORTING PHASE
+  // =====================================================================
   const category_results = buildCategoryResults(
     filter_result.executed_tests,
     execute_result.executed_results
   );
 
+  // Final structured JSON object matching the specification
   const report = new TestReport({
     discovered_test_cases: discovery_result.discovered_test_cases,
     unexecuted: final_unexecuted,
