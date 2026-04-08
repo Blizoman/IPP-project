@@ -1,0 +1,14 @@
+*** Delenie nulou vyhodi runtime chybu 53
++++ RUNTIME_ERR
+!C! 0
+!I! 53
+>>> 2
+
+class Main : Object {
+    run [ |
+        a := 42.
+        b := 0.
+        "Tu musi interpret spadnut s navratovym kodom 53"
+        c := a divBy: b.
+    ]
+}

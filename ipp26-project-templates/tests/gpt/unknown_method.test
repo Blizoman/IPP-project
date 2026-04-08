@@ -1,0 +1,11 @@
+*** Unknown method call
++++ RUNTIME
+!I! 51
+>>> 1
+
+class Main : Object {
+run [|
+a := 1.
+_ := a foo.
+]
+}

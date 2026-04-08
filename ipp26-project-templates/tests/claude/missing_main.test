@@ -1,0 +1,8 @@
++++ ERROR
+*** Chyba 31 - chyba trieda Main alebo metoda run
+!C! 31
+>>> 2
+
+class Foo : Object {
+  bar [| _ := 1. ]
+}

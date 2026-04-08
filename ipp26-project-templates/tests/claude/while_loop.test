@@ -1,0 +1,15 @@
++++ CONTROL
+*** Cyklus pomocou whileTrue:
+!C! 0
+!I! 0
+>>> 3
+
+class Main : Object {
+  run [|
+    _ := self counter: 1.
+    _ := [| _ := (self counter) greaterThan: 3. ] whileTrue: [|
+      _ := ((self counter) asString) print.
+      _ := self counter: ((self counter) minus: 1).
+    ].
+  ]
+}

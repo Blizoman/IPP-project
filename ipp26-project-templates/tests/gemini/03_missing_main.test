@@ -1,0 +1,11 @@
+*** Program bez triedy Main musi zlyhat
++++ SEMANTICS_ERR
+!C! 0
+!I! 31
+>>> 1
+
+class Vedlejsi : Object {
+    nedelaj_nic [ | 
+        a := 1. 
+    ]
+}

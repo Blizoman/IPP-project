@@ -1,0 +1,14 @@
+*** Test nacitania zo stdin a spojenia retezcov
++++ STRINGS
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+    run [ |
+        s1 := String read.
+        s2 := ' world!'.
+        s3 := s1 concatenateWith: s2.
+        _ := s3 print.
+    ]
+}

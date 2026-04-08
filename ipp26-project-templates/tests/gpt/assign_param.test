@@ -1,0 +1,11 @@
+*** Assign to parameter
++++ STATIC
+!I! 34
+>>> 1
+
+class Main : Object {
+run [|
+b := [ :x | x := 5. ].
+_ := b value: 1.
+]
+}

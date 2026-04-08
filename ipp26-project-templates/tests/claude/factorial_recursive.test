@@ -1,0 +1,21 @@
++++ ADVANCED
+*** Rekurzivny faktorial cez podtriedu Integer
+!C! 0
+!I! 0
+>>> 4
+
+class Fact : Integer {
+  factorial [|
+    r := (self equalTo: 0)
+           ifTrue:  [| _ := Fact from: 1. ]
+           ifFalse: [| _ := self multiplyBy: ((Fact from: (self minus: 1)) factorial). ].
+  ]
+}
+
+class Main : Object {
+  run [|
+    n := Fact from: 5.
+    result := n factorial.
+    _ := (result asString) print.
+  ]
+}

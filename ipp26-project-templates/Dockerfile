@@ -2,6 +2,8 @@
 FROM python:3.14-bookworm AS check
 WORKDIR /src
 
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 RUN apt-get update && \
     apt-get install -y curl && \
     curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
@@ -14,13 +16,9 @@ RUN mkdir -p /src/int /src/tester
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/bin/bash"]
-
-# BUILD
-FROM python:3.14-slim AS build
-WORKDIR /src
-COPY python/int/src/ ./int/src/
 
 # BUILD-TEST
 FROM node:24-bookworm AS build-test
@@ -32,15 +30,13 @@ RUN npm run build && \
     npm prune --omit=dev
 
 # RUNTIME
-# mensia size
 FROM python:3.14-slim AS runtime
 WORKDIR /src
 RUN apt-get update && apt-get install -y libxml2-dev libxslt-dev gcc zlib1g-dev build-essential && rm -rf /var/lib/apt/lists/*
 RUN pip install --no-cache-dir pydantic pydantic-xml lxml lark==1.2.2
-COPY --from=build /src/int /src/int
+COPY python/int/src/ ./int/src/
 
 ENV PYTHONPATH="/src/int/src"
-## basic cesta v ENTRYPOINTE nesla, chatar cez -m (modul)
 ENTRYPOINT ["python3", "-m", "interpreter.interpreter"]
 
 # TEST

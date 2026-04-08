@@ -1,0 +1,10 @@
+*** Undefined variable usage
++++ STATIC
+!I! 32
+>>> 1
+
+class Main : Object {
+run [|
+a := b.
+]
+}

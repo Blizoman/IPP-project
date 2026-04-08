@@ -1,0 +1,15 @@
++++ BLOCK
+*** Uzaver - blok si pamata lokalne premenne vonkajsieho bloku
+!C! 0
+!I! 0
+>>> 4
+
+class Main : Object {
+  run [|
+    x := 10.
+    b := [| r := x plus: 5. ].
+    x := 20.
+    result := b value.
+    _ := (result asString) print.
+  ]
+}

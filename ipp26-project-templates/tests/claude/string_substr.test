@@ -1,0 +1,13 @@
++++ STRING
+*** Podretazec pomocou startsWith:endsBefore:
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    s := 'Hello World'.
+    sub := s startsWith: 1 endsBefore: 6.
+    _ := sub print.
+  ]
+}

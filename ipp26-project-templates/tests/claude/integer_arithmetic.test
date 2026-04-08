@@ -1,0 +1,18 @@
++++ BASIC
+*** Zakladne aritmeticke operacie s celymi cislami
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    a := 3 plus: 4.
+    b := 10 minus: 3.
+    c := 2 multiplyBy: 6.
+    d := 10 divBy: 3.
+    _ := (a asString) print.
+    _ := (b asString) print.
+    _ := (c asString) print.
+    _ := (d asString) print.
+  ]
+}

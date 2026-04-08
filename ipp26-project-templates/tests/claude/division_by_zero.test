@@ -1,0 +1,11 @@
++++ ERROR
+*** Delenie nulou vrati chybu 53
+!C! 0
+!I! 53
+>>> 2
+
+class Main : Object {
+  run [|
+    _ := 10 divBy: 0.
+  ]
+}

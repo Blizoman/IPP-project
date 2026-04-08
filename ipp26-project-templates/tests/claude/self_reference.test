@@ -1,0 +1,16 @@
++++ OOP
+*** Pouzitie self na volanie inej metody tej istej triedy
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  double: [:x |
+    _ := x multiplyBy: 2.
+  ]
+
+  run [|
+    r := self double: 7.
+    _ := (r asString) print.
+  ]
+}

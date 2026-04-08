@@ -1,0 +1,10 @@
+*** Missing Main class
++++ STATIC
+!I! 31
+>>> 1
+
+class A : Object {
+run [|
+a := 1.
+]
+}

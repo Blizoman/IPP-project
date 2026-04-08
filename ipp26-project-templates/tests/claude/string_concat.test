@@ -1,0 +1,14 @@
++++ STRING
+*** Konkatenacia retazcov a vypis
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    a := 'foo' concatenateWith: 'bar'.
+    _ := a print.
+    b := (a length) asString.
+    _ := b print.
+  ]
+}

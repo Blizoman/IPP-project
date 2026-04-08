@@ -1,0 +1,13 @@
++++ BLOCK
+*** Opakovanie bloku pomocou timesRepeat:
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    _ := 3 timesRepeat: [:i |
+      _ := (i asString) print.
+    ].
+  ]
+}

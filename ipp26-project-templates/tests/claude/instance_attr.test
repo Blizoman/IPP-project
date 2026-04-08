@@ -1,0 +1,14 @@
++++ OOP
+*** Instancne atributy - zapis a citanie
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    _ := self name: 'Alice'.
+    _ := self age: 30.
+    _ := (self name) print.
+    _ := ((self age) asString) print.
+  ]
+}

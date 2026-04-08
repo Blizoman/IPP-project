@@ -1,0 +1,14 @@
+*** Jednoduchy test scitania a vypisu
++++ BASIC
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+    run [ |
+        a := 10.
+        b := 5.
+        c := a plus: b.
+        _ := (c asString) print.
+    ]
+}

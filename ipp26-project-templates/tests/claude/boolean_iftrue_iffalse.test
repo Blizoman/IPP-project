@@ -1,0 +1,19 @@
++++ BOOLEAN
+*** Podmienene vetvenie pomocou ifTrue:ifFalse:
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    x := 5.
+    r := (x greaterThan: 3)
+           ifTrue:  [| _ := 'yes'. ]
+           ifFalse: [| _ := 'no'. ].
+    _ := r print.
+    r2 := (x greaterThan: 10)
+           ifTrue:  [| _ := 'big'. ]
+           ifFalse: [| _ := 'small'. ].
+    _ := r2 print.
+  ]
+}
