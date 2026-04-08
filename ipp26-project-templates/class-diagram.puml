@@ -1,0 +1,218 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+skinparam nodesep 40
+skinparam ranksep 60
+
+' ===========================================================
+' TEMPLATE CLASSES (Simplified per requirements)
+' ===========================================================
+package "Input Model (Provided Template)" <<Folder>> #F0F8FF {
+    class Program #White
+    class ClassDef #White
+    class Method #White
+    class Block #White
+    class Assign #White
+    class Expr #White
+    class Send #White
+    class Literal #White
+    class Var #White
+
+    Program "1" *-- "*" ClassDef
+    ClassDef "1" *-- "*" Method
+    Method "1" *-- "1" Block
+    Block "1" *-- "*" Assign
+    Assign "1" *-- "1" Expr
+    Expr "1" o-- "0..1" Send
+    Expr "1" o-- "0..1" Literal
+    Expr "1" o-- "0..1" Var
+    Expr "1" o-- "0..1" Block
+}
+
+' ===========================================================
+' CUSTOM CLASSES AND LOGIC
+' ===========================================================
+package "Runtime Engine (Custom Implementation)" {
+    class Interpreter {
+        + current_program: Program
+        + load_program(source_file_path: Path): void
+        + execute(input_io: TextIO): void
+    }
+
+    class Dispatcher {
+        + program: Program
+        + input_io: TextIO
+        + evaluator: Evaluator
+        + send_message(receiver: SolObject, selector: str, args: list, env: Environment): SolObject
+        - _run_block(...)
+        - _has_method(...)
+        - _get_base_builtin(...)
+        + execute_user_method(...)
+        - _handle_class_message(...)
+        - _handle_class_new(...)
+        - _handle_class_from(...)
+        - _handle_builtin_control(...)
+        - _handle_loops(...)
+        - _handle_booleans(...)
+        - _handle_python_builtin(...)
+        - _handle_user_method(...)
+        - _handle_instance_attribute(...)
+    }
+
+    class Evaluator {
+        + dispatcher: MessageDispatcher
+        + evaluate(expr: Expr, env: Environment): SolObject
+        - _eval_literal(...)
+        - _eval_variable(...)
+        - _eval_block(...)
+        - _eval_send(...)
+    }
+
+    class Environment {
+        + variables: dict[str, SolObject]
+        + parameters: set[str]
+        + context_class: str
+        + get(name: str): SolObject
+        + set(name: str, value: SolObject): SolObject
+        - _contains(name: str): bool
+    }
+    
+    interface MessageDispatcher <<Protocol>> {
+        + send_message(...)
+    }
+}
+
+package "Memory Model (SolObjects)" {
+    class SolObject {
+        + sol_class_name: str
+        + attributes: dict[str, SolObject]
+        + set_attribute(name, value): SolObject
+        + get_attribute(name): SolObject
+        + identical_to(other): SolBoolean
+        + equal_to(other): SolBoolean
+        + as_string(): SolString
+        + is_number(): SolBoolean
+        + is_string(): SolBoolean
+        + is_block(): SolBoolean
+        + is_nil(): SolBoolean
+        + is_boolean(): SolBoolean
+    }
+
+    class SolWrapper {
+        + actual_receiver: SolObject
+        + start_class_name: str
+    }
+
+    class SolNil {
+        + is_nil(): SolBoolean
+        + as_string(): SolString
+        + equal_to(other): SolBoolean
+    }
+
+    class SolBoolean {
+        + value: bool
+        + as_string(): SolString
+        + is_boolean(): SolBoolean
+        + equal_to(other): SolBoolean
+    }
+
+    class SolTrue {
+        + not_(): SolFalse
+    }
+
+    class SolFalse {
+        + not_(): SolTrue
+    }
+
+    class SolInteger {
+        + value: int
+        + is_number(): SolTrue
+        + as_string(): SolString
+        + as_integer(): SolInteger
+        + equal_to(other): SolBoolean
+        + greater_than(other): SolBoolean
+        + plus(other): SolInteger
+        + minus(other): SolInteger
+        + multiply_by(other): SolInteger
+        + div_by(other): SolInteger
+    }
+
+    class SolString {
+        + value: str
+        + is_string(): SolTrue
+        + equal_to(other): SolBoolean
+        + as_string(): SolString
+        + as_integer(): SolObject
+        + concatenate_with(other): SolObject
+        + {static} read(input_stream): SolString
+        + print(): SolString
+        + starts_with_ends_before(start, end): SolObject
+        + length(): SolInteger
+    }
+
+    class SolClass {
+        + value: str
+        + as_string(): SolString
+        + equal_to(other): SolBoolean
+    }
+
+    class SolBlock {
+        + ast_node: Block
+        + environment: Environment
+        + is_block(): SolBoolean
+        + as_string(): SolString
+    }
+
+    SolObject <|-- SolWrapper
+    SolObject <|-- SolNil
+    SolObject <|-- SolBoolean
+    SolObject <|-- SolInteger
+    SolObject <|-- SolString
+    SolObject <|-- SolClass
+    SolObject <|-- SolBlock
+    SolBoolean <|-- SolTrue
+    SolBoolean <|-- SolFalse
+}
+
+package "Static Analysis" {
+    class StaticAnalyzer {
+        + program: Program
+        + scope_stack: list[set[str]]
+        + builtins: set[str]
+        + keywords: set[str]
+        + run(): void
+        - _check_classes()
+        - _check_main()
+        - _check_methods(...)
+        - _check_block(...)
+        - _check_expr(...)
+        - _check_literal(...)
+        - _check_send(...)
+        - _check_var(...)
+        - _is_variable_defined(...)
+        - _is_keyword(...)
+        - _is_builtin(...)
+    }
+}
+
+' ===========================================================
+' RELATIONSHIPS: CUSTOM LOGIC <--> TEMPLATE
+' ===========================================================
+
+Interpreter "1" --> "1" Program : holds & executes >
+StaticAnalyzer "1" --> "1" Program : analyzes before run >
+
+Dispatcher "1" --> "1" Program : searches methods >
+Dispatcher "1" *-- "1" Evaluator : contains >
+Evaluator "1" --> "1" MessageDispatcher : delegates messages >
+
+Evaluator "1" ..> "1" Expr : receives >
+Evaluator "1" ..> "1" SolObject : creates & returns >
+
+SolBlock "1" o--> "1" Block : wraps AST node >
+SolBlock "1" o--> "1" Environment : Closure >
+
+Environment "1" <-- "1" Dispatcher : reads/writes
+Environment "1" <-- "1" Evaluator : reads variables
+@enduml

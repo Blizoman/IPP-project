@@ -4,10 +4,13 @@ repos:
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
+        exclude: '\.out$'
       - id: trailing-whitespace
+        exclude: '\.out$'
       - id: debug-statements
       - id: mixed-line-ending
         args: [ '--fix=lf' ]
+        exclude: '\.out$'
 ## PY
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.4
