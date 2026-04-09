@@ -74,7 +74,7 @@ cf1:
 	docker run --rm -it -v $(PWD)/python/int:/src/int/ -v $(PWD)/typescript/tester/:/src/tester/ ipp-check
 
 cf2:
-	docker build --target build -t ipp-build -f Dockerfile .
+	docker build --target build-test -t ipp-build -f Dockerfile .
 
 cf3:
 	docker build --target runtime -t ipp-runtime -f Dockerfile .

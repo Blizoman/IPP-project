@@ -37,7 +37,7 @@ RUN pip install --no-cache-dir pydantic pydantic-xml lxml lark==1.2.2
 COPY python/int/src/ ./int/src/
 
 ENV PYTHONPATH="/src/int/src"
-ENTRYPOINT ["python3", "-m", "interpreter.interpreter"]
+ENTRYPOINT ["python3", "/src/int/src/solint.py"]
 
 # TEST
 FROM runtime AS test
