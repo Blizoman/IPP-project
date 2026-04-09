@@ -1,0 +1,14 @@
++++ BUILTIN
+*** Integer asString converts integers to string representation
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := (0 asString) print.
+    _ := (42 asString) print.
+    _ := (-1 asString) print.
+    _ := (1000 asString) print.
+  ]
+}

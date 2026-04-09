@@ -1,0 +1,16 @@
++++ BUILTIN
+*** Integer timesRepeat: calls block the correct number of times
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    sum := 0.
+    _ := 5 timesRepeat: [:i | sum := sum plus: i. ].
+    _ := (sum asString) print.
+    _ := 3 timesRepeat: [:i | _ := (i asString) print. ].
+    _ := 0 timesRepeat: [:i | _ := 'should not print' print. ].
+    _ := 'done' print.
+  ]
+}

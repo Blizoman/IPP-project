@@ -1,0 +1,15 @@
++++ GPT_STRING
+*** concatenateWith: vrati nil pre ne-string argument
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    a := 'x' concatenateWith: 5.
+    b := 'x' concatenateWith: 'y'.
+    _ := (a asString) print.
+    _ := ':' print.
+    _ := b print.
+  ]
+}

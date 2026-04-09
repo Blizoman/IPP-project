@@ -1,0 +1,25 @@
++++ OOP
+*** self reference: calling own methods and accessing self
+!C! 0
+!I! 0
+>>> 2
+
+class Counter : Object {
+  increment: [:n |
+    _ := self count: ((self count) plus: n).
+  ]
+
+  show [|
+    _ := ((self count) asString) print.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Counter new.
+    _ := c count: 0.
+    _ := c increment: 5.
+    _ := c increment: 3.
+    _ := c show.
+  ]
+}

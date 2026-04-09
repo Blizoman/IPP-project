@@ -1,0 +1,11 @@
++++ BUILTIN
+*** nil error: triggers runtime error 51 (DNU)
+!C! 0
+!I! 51
+>>> 2
+
+class Main : Object {
+  run [|
+    _ := nil error.
+  ]
+}

@@ -1,0 +1,22 @@
++++ BUILTIN
+*** Object equalTo: compares value equality for all types
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 42 equalTo: 42.
+    _ := (r1 asString) print.
+    r2 := 'abc' equalTo: 'abc'.
+    _ := (r2 asString) print.
+    r3 := true equalTo: true.
+    _ := (r3 asString) print.
+    r4 := nil equalTo: nil.
+    _ := (r4 asString) print.
+    r5 := 42 equalTo: '42'.
+    _ := (r5 asString) print.
+    r6 := true equalTo: 1.
+    _ := (r6 asString) print.
+  ]
+}

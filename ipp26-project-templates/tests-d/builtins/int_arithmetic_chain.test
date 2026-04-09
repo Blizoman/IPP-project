@@ -1,0 +1,16 @@
++++ BUILTIN
+*** Integer arithmetic chain: combined plus, minus, multiplyBy, divBy
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r := ((3 plus: 4) multiplyBy: 2) minus: 6.
+    _ := (r asString) print.
+    r2 := (10 divBy: 3) plus: (10 divBy: 3).
+    _ := (r2 asString) print.
+    r3 := 2 multiplyBy: (3 plus: (4 minus: 1)).
+    _ := (r3 asString) print.
+  ]
+}

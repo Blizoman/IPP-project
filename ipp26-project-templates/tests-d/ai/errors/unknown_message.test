@@ -1,0 +1,12 @@
++++ ERRORS
+*** Sending unknown message to object should fail with error 51
+!C! 0
+!I! 51
+>>> 2
+
+class Main : Object {
+  run [|
+    x := 42.
+    _ := x unknownMethod.
+  ]
+}

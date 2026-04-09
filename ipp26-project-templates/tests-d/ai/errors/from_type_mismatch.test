@@ -1,0 +1,18 @@
++++ ERRORS
+*** Using from: with incompatible types should fail with error 53
+!C! 0
+!I! 53
+>>> 2
+
+class MyString : String {
+  doubled [|
+    _ := self concatenateWith: self.
+  ]
+}
+
+class Main : Object {
+  run [|
+    x := MyString from: 42.
+    _ := x doubled.
+  ]
+}

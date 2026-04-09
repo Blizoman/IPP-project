@@ -1,0 +1,14 @@
++++ BUILTIN
+*** String asInteger with leading integer parses first integer (JS parseInt behavior)
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := '123abc' asInteger.
+    _ := (r1 asString) print.
+    r2 := '42xyz' asInteger.
+    _ := (r2 asString) print.
+  ]
+}

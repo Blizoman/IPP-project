@@ -1,0 +1,24 @@
++++ BASIC
+*** Integer arithmetic: plus, minus, multiplyBy, divBy, greaterThan
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := 3 plus: 4.
+    _ := (a asString) print.
+    b := 10 minus: 3.
+    _ := (b asString) print.
+    c := 3 multiplyBy: 4.
+    _ := (c asString) print.
+    d := 10 divBy: 3.
+    _ := (d asString) print.
+    e := 5 greaterThan: 3.
+    _ := (e asString) print.
+    f := 3 greaterThan: 5.
+    _ := (f asString) print.
+    g := 5 greaterThan: 5.
+    _ := (g asString) print.
+  ]
+}

@@ -1,0 +1,15 @@
++++ BLOCKS
+*** Closures: block captures outer variables
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    x := 10.
+    b := [| _ := (x asString) print. ].
+    _ := b value.
+    x := 20.
+    _ := b value.
+  ]
+}

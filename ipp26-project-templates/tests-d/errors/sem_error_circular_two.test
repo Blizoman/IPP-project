@@ -1,0 +1,17 @@
++++ ERROR CODES
+*** Circular inheritance of just two classes should fail with error 35
+!C! 0
+!I! 35
+>>> 1
+
+class Alpha : Beta {
+  a [| _ := 'alpha' print. ]
+}
+
+class Beta : Alpha {
+  b [| _ := 'beta' print. ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

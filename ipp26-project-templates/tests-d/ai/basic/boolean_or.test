@@ -1,0 +1,18 @@
++++ BASIC
+*** Boolean or: with short-circuit evaluation
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := true or: [| _ := false. ].
+    _ := (r1 asString) print.
+    r2 := true or: [| _ := true. ].
+    _ := (r2 asString) print.
+    r3 := false or: [| _ := false. ].
+    _ := (r3 asString) print.
+    r4 := false or: [| _ := true. ].
+    _ := (r4 asString) print.
+  ]
+}

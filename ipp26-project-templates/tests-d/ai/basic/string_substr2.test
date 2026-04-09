@@ -1,0 +1,19 @@
++++ BASIC
+*** String startsWith:endsBefore: (1-indexed substring)
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    s := 'Hello World'.
+    r1 := s startsWith: 1 endsBefore: 6.
+    _ := r1 print.
+    r2 := s startsWith: 7 endsBefore: 12.
+    _ := r2 print.
+    r3 := s startsWith: 1 endsBefore: 2.
+    _ := r3 print.
+    r4 := s startsWith: 5 endsBefore: 6.
+    _ := r4 print.
+  ]
+}

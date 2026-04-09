@@ -1,0 +1,20 @@
++++ BUILTIN
+*** Integer greaterThan: comparisons - true and false cases
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 5 greaterThan: 3.
+    _ := (r1 asString) print.
+    r2 := 3 greaterThan: 5.
+    _ := (r2 asString) print.
+    r3 := 5 greaterThan: 5.
+    _ := (r3 asString) print.
+    r4 := -1 greaterThan: -2.
+    _ := (r4 asString) print.
+    r5 := 0 greaterThan: 1.
+    _ := (r5 asString) print.
+  ]
+}

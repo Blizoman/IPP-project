@@ -1,0 +1,23 @@
++++ BUILTIN
+*** Factorial using from: and recursion
+!C! 0
+!I! 0
+>>> 2
+
+class Factorial : Integer {
+  factorial [|
+    r := (self equalTo: 0) ifTrue: [| _ := Factorial from: 1. ]
+                           ifFalse: [| _ := self multiplyBy: ((Factorial from: (self minus: 1)) factorial). ].
+  ]
+}
+
+class Main : Object {
+  run [|
+    x := Factorial from: 5.
+    r := x factorial.
+    _ := (r asString) print.
+    y := Factorial from: 10.
+    r2 := y factorial.
+    _ := (r2 asString) print.
+  ]
+}

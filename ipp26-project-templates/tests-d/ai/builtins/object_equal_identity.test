@@ -1,0 +1,18 @@
++++ BUILTIN
+*** Object equalTo: and identicalTo:
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := 5.
+    b := 5.
+    c := a.
+    _ := ((a equalTo: b) asString) print.
+    _ := ((a identicalTo: b) asString) print.
+    _ := ((a identicalTo: c) asString) print.
+    _ := ((nil equalTo: nil) asString) print.
+    _ := ((nil identicalTo: nil) asString) print.
+  ]
+}

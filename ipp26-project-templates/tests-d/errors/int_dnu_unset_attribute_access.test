@@ -1,0 +1,18 @@
++++ ERROR CODES
+*** Accessing uninitialized attribute should fail with error 51
+!C! 0
+!I! 51
+>>> 2
+
+class Box : Object {
+  getWidth [|
+    _ := self width.
+  ]
+}
+
+class Main : Object {
+  run [|
+    b := Box new.
+    _ := b getWidth.
+  ]
+}

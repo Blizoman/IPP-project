@@ -1,0 +1,11 @@
++++ GPT_ERROR
+*** Delenie nulou vrati chybu 53
+!C! 0
+!I! 53
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := 5 divBy: 0.
+  ]
+}

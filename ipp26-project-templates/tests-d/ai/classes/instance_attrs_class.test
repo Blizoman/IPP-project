@@ -1,0 +1,23 @@
++++ OOP
+*** Instance attributes on custom class objects
+!C! 0
+!I! 0
+>>> 2
+
+class Person : Object {
+  greet [|
+    _ := ('Hello, I am ' concatenateWith: (self name)) print.
+  ]
+}
+
+class Main : Object {
+  run [|
+    p := Person new.
+    _ := p name: 'Alice'.
+    _ := p greet.
+    p2 := Person new.
+    _ := p2 name: 'Bob'.
+    _ := p2 greet.
+    _ := (p name) print.
+  ]
+}

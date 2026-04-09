@@ -1,0 +1,21 @@
++++ GPT_OOP
+*** Metoda vracajuca self umozni retazenie volani
+!C! 0
+!I! 0
+>>> 3
+
+class Counter : Object {
+  inc [|
+    _ := self n: ((self n) plus: 1).
+    _ := self.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Counter new.
+    _ := c n: 0.
+    _ := ((c inc) inc).
+    _ := ((c n) asString) print.
+  ]
+}

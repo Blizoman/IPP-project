@@ -1,0 +1,13 @@
++++ ERROR CODES
+*** Redefining built-in Block class should fail with error 35
+!C! 0
+!I! 35
+>>> 1
+
+class Block : Object {
+  myMethod [| _ := 'hello' print. ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

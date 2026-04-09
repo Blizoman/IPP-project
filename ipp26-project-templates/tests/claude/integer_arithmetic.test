@@ -11,8 +11,12 @@ class Main : Object {
     c := 2 multiplyBy: 6.
     d := 10 divBy: 3.
     _ := (a asString) print.
+    _ := '\n' print.
     _ := (b asString) print.
+    _ := '\n' print.
     _ := (c asString) print.
+    _ := '\n' print.
     _ := (d asString) print.
+    _ := '\n' print.
   ]
 }

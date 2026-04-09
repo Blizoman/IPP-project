@@ -1,0 +1,25 @@
++++ MESSAGE RESPONSE
+*** Super: 1-param selector finds and calls a 1-param method defined in superclass
+!C! 0
+!I! 0
+>>> 1
+
+class Base : Object {
+  setVal: [:v |
+    _ := self stored: v.
+  ]
+}
+
+class Child : Base {
+  test [|
+    _ := super setVal: 55.
+    _ := ((self stored) asString) print.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c test.
+  ]
+}

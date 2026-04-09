@@ -1,0 +1,14 @@
++++ BUILTIN
+*** String print returns the string itself (receiver)
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r := 'hello' print.
+    _ := ((r equalTo: 'hello') asString) print.
+    r2 := '' print.
+    _ := ((r2 equalTo: '') asString) print.
+  ]
+}

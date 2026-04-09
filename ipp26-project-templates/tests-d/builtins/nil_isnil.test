@@ -1,0 +1,18 @@
++++ BUILTIN
+*** Nil isNil returns true, other types return false
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := nil isNil.
+    _ := (r1 asString) print.
+    r2 := 42 isNil.
+    _ := (r2 asString) print.
+    r3 := 'hello' isNil.
+    _ := (r3 asString) print.
+    r4 := true isNil.
+    _ := (r4 asString) print.
+  ]
+}

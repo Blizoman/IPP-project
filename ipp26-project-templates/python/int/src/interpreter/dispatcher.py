@@ -161,7 +161,9 @@ class Dispatcher:
                 return result
 
         # 2. BUILT IN METHODS (and, or, ifTrue:ifFalse, whileTrue, timesRepeat, value)
-        result = self._handle_builtin_control(actual_receiver, selector, args, environment)
+        result = self._handle_builtin_control(
+            actual_receiver, start_class_name, selector, args, environment
+        )
         if result is not None:
             return result
 
@@ -246,6 +248,11 @@ class Dispatcher:
                 raise InvalidArgumentError("from: expects a String")
             new_inst = SolString(source_obj.value)
             new_inst.sol_class_name = class_name
+        elif base_builtin == "Block":
+            if not isinstance(source_obj, SolBlock):
+                raise InvalidArgumentError("from: expects a Block")
+            new_inst = SolBlock(source_obj.ast_node, source_obj.environment)
+            new_inst.sol_class_name = class_name
         elif base_builtin == "True":
             if (
                 not isinstance(source_obj, SolTrue)
@@ -275,6 +282,7 @@ class Dispatcher:
     def _handle_builtin_control(
         self,
         actual_receiver: SolObject,
+        start_class_name: str,
         selector: str,
         args: list[SolObject],
         environment: Environment,
@@ -282,6 +290,10 @@ class Dispatcher:
         """Handle: Built-in flow control structures (loops, conditionals, block evaluation)."""
 
         if selector.startswith("value") and isinstance(actual_receiver, SolBlock):
+            # User-defined methods on Block children should still be
+            #  dispatchable before falling back to closure execution.
+            if self._has_method(start_class_name, selector):
+                return None
             if selector.count(":") != len(actual_receiver.ast_node.parameters):
                 raise MessageNotUnderstoodError()
             return self._run_block(actual_receiver, args)
@@ -303,6 +315,8 @@ class Dispatcher:
         if selector == "timesRepeat:":
             if not isinstance(receiver, SolInteger):
                 raise RuntimeTypeError()
+            if len(args) != 1 or not isinstance(args[0], SolBlock):
+                raise InvalidArgumentError()
             res: SolObject = SOL_NIL
             if receiver.value > 0:
                 for i in range(1, receiver.value + 1):
@@ -311,12 +325,17 @@ class Dispatcher:
 
         # WHILE cycle
         if selector == "whileTrue:":
+            if len(args) != 1 or not isinstance(args[0], SolBlock):
+                raise InvalidArgumentError()
             res_w: SolObject = SOL_NIL
-            cond = self.send_message(receiver, "value", [], env)
-            while cond is SOL_TRUE:
-                res_w = self.send_message(args[0], "value", [], env)
+            while True:
                 cond = self.send_message(receiver, "value", [], env)
-            return res_w
+                if cond is SOL_TRUE:
+                    res_w = self.send_message(args[0], "value", [], env)
+                    continue
+                if cond is SOL_FALSE:
+                    return res_w
+                raise RuntimeTypeError()
 
         return SOL_NIL
 
@@ -325,23 +344,28 @@ class Dispatcher:
     ) -> SolObject | None:
         """Handle: Boolean operations 'ifTrue:ifFalse:', 'and:', and 'or:'."""
 
-        if selector == "ifTrue:ifFalse:":
+        if selector == "ifTrue:ifFalse:" and (receiver is SOL_TRUE or receiver is SOL_FALSE):
+            if len(args) != 2 or not isinstance(args[0], SolBlock) or not isinstance(
+                args[1], SolBlock
+            ):
+                raise InvalidArgumentError()
             if receiver is SOL_TRUE:
                 return self.send_message(args[0], "value", [], env)
-            if receiver is SOL_FALSE:
-                return self.send_message(args[1], "value", [], env)
+            return self.send_message(args[1], "value", [], env)
 
-        if selector == "and:":
+        if selector == "and:" and (receiver is SOL_TRUE or receiver is SOL_FALSE):
+            if len(args) != 1 or not isinstance(args[0], SolBlock):
+                raise InvalidArgumentError()
             if receiver is SOL_FALSE:
                 return SOL_FALSE
-            if receiver is SOL_TRUE:
-                return self.send_message(args[0], "value", [], env)
+            return self.send_message(args[0], "value", [], env)
 
-        if selector == "or:":
+        if selector == "or:" and (receiver is SOL_TRUE or receiver is SOL_FALSE):
+            if len(args) != 1 or not isinstance(args[0], SolBlock):
+                raise InvalidArgumentError()
             if receiver is SOL_TRUE:
                 return SOL_TRUE
-            if receiver is SOL_FALSE:
-                return self.send_message(args[0], "value", [], env)
+            return self.send_message(args[0], "value", [], env)
 
         return None
 
@@ -386,9 +410,9 @@ class Dispatcher:
             if callable(function):
                 try:
                     inspect.signature(function).bind(*args)
-                    return cast("SolObject", function(*args))
                 except TypeError:
                     return None
+                return cast("SolObject", function(*args))
 
         return None
 

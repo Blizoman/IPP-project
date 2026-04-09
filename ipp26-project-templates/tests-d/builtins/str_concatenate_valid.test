@@ -1,0 +1,18 @@
++++ BUILTIN
+*** String concatenateWith: concatenates two strings
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 'hello' concatenateWith: ' world'.
+    _ := r1 print.
+    r2 := '' concatenateWith: 'abc'.
+    _ := r2 print.
+    r3 := 'foo' concatenateWith: 'bar'.
+    _ := r3 print.
+    r4 := 'x' concatenateWith: ''.
+    _ := r4 print.
+  ]
+}

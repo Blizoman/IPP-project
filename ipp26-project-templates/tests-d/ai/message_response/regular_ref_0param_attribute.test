@@ -1,0 +1,19 @@
++++ MESSAGE RESPONSE
+*** Regular reference: 0-param selector reads instance attribute when no method found
+!C! 0
+!I! 0
+>>> 1
+
+class Foo : Object {
+  setVal [|
+    _ := self x: 99.
+  ]
+}
+
+class Main : Object {
+  run [|
+    f := Foo new.
+    _ := f setVal.
+    _ := ((f x) asString) print.
+  ]
+}

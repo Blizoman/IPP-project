@@ -1,0 +1,18 @@
++++ BASIC
+*** Integer equalTo: comparison
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := 5 equalTo: 5.
+    _ := (a asString) print.
+    b := 5 equalTo: 3.
+    _ := (b asString) print.
+    c := 0 equalTo: 0.
+    _ := (c asString) print.
+    d := -1 equalTo: -1.
+    _ := (d asString) print.
+  ]
+}

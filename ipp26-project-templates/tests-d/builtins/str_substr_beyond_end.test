@@ -1,0 +1,14 @@
++++ BUILTIN
+*** String startsWith:endsBefore: with beyond-end index gets clamped
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 'Hello' startsWith: 1 endsBefore: 100.
+    _ := r1 print.
+    r2 := 'Hi' startsWith: 1 endsBefore: 50.
+    _ := r2 print.
+  ]
+}

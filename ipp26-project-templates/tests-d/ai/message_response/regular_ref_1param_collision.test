@@ -1,0 +1,22 @@
++++ MESSAGE RESPONSE
+*** Regular reference: 1-param selector collides with existing 0-param method causing error 54
+!C! 0
+!I! 54
+>>> 1
+
+class Foo : Object {
+  score [|
+    _ := 0.
+  ]
+  testCollision [|
+    y := self.
+    _ := y score: 42.
+  ]
+}
+
+class Main : Object {
+  run [|
+    f := Foo new.
+    _ := f testCollision.
+  ]
+}

@@ -7,12 +7,14 @@
 class Animal : Object {
   speak [|
     _ := 'generic sound' print.
+    _ := '\n' print.
   ]
 }
 
 class Dog : Animal {
   speak [|
     _ := 'woof' print.
+    _ := '\n' print.
   ]
 }
 

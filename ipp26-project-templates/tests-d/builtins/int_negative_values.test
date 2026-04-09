@@ -1,0 +1,18 @@
++++ BUILTIN
+*** Integer negative values: asString with leading minus sign
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 0 minus: 42.
+    _ := (r1 asString) print.
+    r2 := -100 plus: 0.
+    _ := (r2 asString) print.
+    r3 := -5 multiplyBy: -3.
+    _ := (r3 asString) print.
+    r4 := -10 divBy: -3.
+    _ := (r4 asString) print.
+  ]
+}

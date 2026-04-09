@@ -7,6 +7,7 @@
 class Base : Object {
   greet [|
     _ := 'Hello from Base' print.
+    _ := '\n' print.
   ]
 }
 
@@ -14,6 +15,7 @@ class Child : Base {
   greet [|
     _ := super greet.
     _ := 'Hello from Child' print.
+    _ := '\n' print.
   ]
 }
 

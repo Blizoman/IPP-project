@@ -1,0 +1,16 @@
++++ ERROR CODES
+*** Sending unknown message to user-defined class instance should fail with error 51
+!C! 0
+!I! 51
+>>> 2
+
+class Animal : Object {
+  speak [| _ := 'generic' print. ]
+}
+
+class Main : Object {
+  run [|
+    a := Animal new.
+    _ := a fly.
+  ]
+}

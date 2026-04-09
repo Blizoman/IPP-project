@@ -1,0 +1,19 @@
++++ BASIC
+*** String concatenation and length
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := 'Hello'.
+    b := ' World'.
+    c := a concatenateWith: b.
+    _ := c print.
+    _ := ((c length) asString) print.
+    _ := (('' length) asString) print.
+    d := 'abc' concatenateWith: 'def'.
+    _ := d print.
+    _ := ((d length) asString) print.
+  ]
+}

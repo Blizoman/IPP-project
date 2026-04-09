@@ -1,0 +1,14 @@
++++ IO
+*** Read string and convert to integer
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    s := String read.
+    n := s asInteger.
+    r := n plus: 1.
+    _ := (r asString) print.
+  ]
+}

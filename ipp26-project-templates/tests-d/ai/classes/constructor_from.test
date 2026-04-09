@@ -1,0 +1,19 @@
++++ OOP
+*** Constructor from: creates instance with same internal value but different class
+!C! 0
+!I! 0
+>>> 2
+
+class MyInteger : Integer {
+  double [| _ := self plus: self. ]
+}
+
+class Main : Object {
+  run [|
+    base := 21.
+    mi := MyInteger from: base.
+    r := mi double.
+    _ := (r asString) print.
+    _ := ((mi isNumber) asString) print.
+  ]
+}

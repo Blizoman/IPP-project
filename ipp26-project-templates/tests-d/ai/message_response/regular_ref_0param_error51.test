@@ -1,0 +1,15 @@
++++ MESSAGE RESPONSE
+*** Regular reference: 0-param selector with no method and no attribute causes error 51
+!C! 0
+!I! 51
+>>> 1
+
+class Foo : Object {
+}
+
+class Main : Object {
+  run [|
+    f := Foo new.
+    _ := f missing.
+  ]
+}

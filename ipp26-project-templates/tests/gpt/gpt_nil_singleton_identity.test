@@ -1,0 +1,13 @@
++++ GPT_NIL
+*** nil a Nil new musia byt identicke
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    a := nil.
+    b := Nil new.
+    _ := ((a identicalTo: b) asString) print.
+  ]
+}

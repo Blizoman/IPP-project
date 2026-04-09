@@ -1,0 +1,16 @@
++++ BUILTIN
+*** Boolean logic chain: and, or, not combined
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := (true and: [| _ := false. ]) or: [| _ := true. ].
+    _ := (r1 asString) print.
+    r2 := (false or: [| _ := false. ]) and: [| _ := true. ].
+    _ := (r2 asString) print.
+    r3 := (true not) and: [| _ := true. ].
+    _ := (r3 asString) print.
+  ]
+}

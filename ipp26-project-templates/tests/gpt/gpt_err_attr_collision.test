@@ -1,0 +1,11 @@
++++ GPT_ERROR
+*** Kolizia atributu s builtin metodou vrati 54
+!C! 0
+!I! 54
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := self asString: 'boom'.
+  ]
+}

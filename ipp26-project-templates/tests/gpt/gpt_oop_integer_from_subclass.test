@@ -1,0 +1,19 @@
++++ GPT_OOP
+*** Podtrieda Integer + from: + vlastna metoda
+!C! 0
+!I! 0
+>>> 3
+
+class Fancy : Integer {
+  double [|
+    _ := self plus: self.
+  ]
+}
+
+class Main : Object {
+  run [|
+    x := Fancy from: 21.
+    y := x double.
+    _ := (y asString) print.
+  ]
+}

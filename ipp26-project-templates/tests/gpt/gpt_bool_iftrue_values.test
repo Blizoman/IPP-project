@@ -1,0 +1,15 @@
++++ GPT_BOOLEAN
+*** ifTrue:ifFalse: vracia hodnotu vetvy
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    r1 := true ifTrue: [| _ := 'Y'. ] ifFalse: [| _ := 'N'. ].
+    r2 := false ifTrue: [| _ := 'Y'. ] ifFalse: [| _ := 'N'. ].
+    _ := r1 print.
+    _ := ':' print.
+    _ := r2 print.
+  ]
+}

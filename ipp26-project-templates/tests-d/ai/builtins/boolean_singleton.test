@@ -1,0 +1,20 @@
++++ BUILTIN
+*** True and False singletons
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := true.
+    b := True new.
+    r1 := a identicalTo: b.
+    _ := (r1 asString) print.
+    c := false.
+    d := False new.
+    r2 := c identicalTo: d.
+    _ := (r2 asString) print.
+    r3 := a identicalTo: c.
+    _ := (r3 asString) print.
+  ]
+}

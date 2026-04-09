@@ -1,0 +1,11 @@
++++ BUILTIN
+*** Block whileTrue: with non-block argument returns error 53
+!C! 0
+!I! 53
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := [| _ := true. ] whileTrue: 42.
+  ]
+}

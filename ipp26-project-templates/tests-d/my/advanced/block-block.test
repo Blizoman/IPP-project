@@ -1,0 +1,22 @@
++++ ADVANCED
+*** B is child of Block and accepts value and value:value:
+!I! 0
+!C! 0
+>>> 1
+
+class B: Block {
+  value [ | _ := 'value\n' print. ]
+}
+
+class Main: Object {
+  run [ |
+    blok := [:x:y | 
+      sum := x plus: y.
+      _ := (sum asString) print.
+    ].
+
+    b := B from: blok.
+    _ := b value.
+    _ := b value: 10 value: 5.
+  ]
+}

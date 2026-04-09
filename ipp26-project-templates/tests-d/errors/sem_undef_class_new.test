@@ -1,0 +1,12 @@
++++ ERROR CODES
+*** Instantiating undefined class with new should fail with error 32
+!C! 0
+!I! 32
+>>> 1
+
+class Main : Object {
+  run [|
+    x := GhostClass new.
+    _ := x print.
+  ]
+}

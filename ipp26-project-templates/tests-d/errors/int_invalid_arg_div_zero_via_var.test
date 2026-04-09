@@ -1,0 +1,14 @@
++++ ERROR CODES
+*** Integer divBy: result used after zero divisor should fail with error 53
+!C! 0
+!I! 53
+>>> 2
+
+class Main : Object {
+  run [|
+    a := 100.
+    b := 0.
+    r := a divBy: b.
+    _ := (r asString) print.
+  ]
+}

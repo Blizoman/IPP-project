@@ -94,23 +94,31 @@ function executeSingleTest(
     // Create an isolated temporary directory for this specific test
     temp_directory = mkdtempSync(join(tmpdir(), "sol26-tester-"));
     source_path = join(temp_directory, `${test.name}.sol`);
-    writeFileSync(source_path, extractSolSource(test.test_source_path), "utf-8");
+    const sol_source = extractSolSource(test.test_source_path);
+    writeFileSync(source_path, sol_source, "utf-8");
 
     // =====================================================================
     // ===========================EXECUTE PARSER============================
     // =====================================================================
     if (test.test_type === TestCaseType.PARSE_ONLY || test.test_type === TestCaseType.COMBINED) {
-      const parser_process = spawnSync(PYTHON_EXECUTABLE, [PARSER_SCRIPT, source_path], {
-        encoding: "utf-8",
-      });
+      // Empty source is treated as parser syntax error (exit code 1).
+      if (sol_source.trim() === "") {
+        p_status = 1;
+        p_stdout = "";
+        p_stderr = "Invalid input: empty source\n";
+      } else {
+        const parser_process = spawnSync(PYTHON_EXECUTABLE, [PARSER_SCRIPT, source_path], {
+          encoding: "utf-8",
+        });
 
-      if (parser_process.error) {
-        throw new Error(`Unable to start Python`);
+        if (parser_process.error) {
+          throw new Error(`Unable to start Python`);
+        }
+
+        p_status = parser_process.status as number;
+        p_stdout = parser_process.stdout;
+        p_stderr = parser_process.stderr;
       }
-
-      p_status = parser_process.status as number;
-      p_stdout = parser_process.stdout;
-      p_stderr = parser_process.stderr;
 
       // Check if parser exited with expected code
       if (

@@ -1,0 +1,16 @@
++++ BUILTIN
+*** String operations chain: concatenate, length, substr
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    s := 'Hello' concatenateWith: ' World'.
+    _ := s print.
+    l := s length.
+    _ := (l asString) print.
+    sub := s startsWith: 1 endsBefore: 6.
+    _ := sub print.
+  ]
+}

@@ -1,0 +1,22 @@
++++ OOP
+*** from: constructor: create subclass instance with same primitive value
+!C! 0
+!I! 0
+>>> 2
+
+class PosInt : Integer {
+  isPositive [|
+    _ := self greaterThan: 0.
+  ]
+}
+
+class Main : Object {
+  run [|
+    n := PosInt from: 7.
+    _ := ((n isPositive) asString) print.
+    _ := ((n plus: 3) asString) print.
+    m := PosInt from: -3.
+    _ := ((m isPositive) asString) print.
+    _ := ((m asString)) print.
+  ]
+}

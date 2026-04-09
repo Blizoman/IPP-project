@@ -1,0 +1,16 @@
++++ BASIC
+*** Boolean not method chained and combined with conditional
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := ((true not) asString) print.
+    _ := ((false not) asString) print.
+    _ := (((true not) not) asString) print.
+    _ := (((false not) not) asString) print.
+    cond := (5 greaterThan: 10) not.
+    _ := (cond ifTrue: [| _ := 'not greater'. ] ifFalse: [| _ := 'greater'. ]) print.
+  ]
+}

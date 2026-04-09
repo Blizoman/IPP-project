@@ -1,0 +1,27 @@
++++ OOP
+*** Multi-level inheritance chain
+!C! 0
+!I! 0
+>>> 2
+
+class A : Object {
+  foo [| _ := 'A.foo' print. ]
+  bar [| _ := 'A.bar' print. ]
+}
+
+class B : A {
+  foo [| _ := 'B.foo' print. ]
+}
+
+class C : B {
+  baz [| _ := 'C.baz' print. ]
+}
+
+class Main : Object {
+  run [|
+    c := C new.
+    _ := c foo.
+    _ := c bar.
+    _ := c baz.
+  ]
+}

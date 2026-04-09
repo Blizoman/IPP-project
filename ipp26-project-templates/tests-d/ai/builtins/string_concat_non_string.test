@@ -1,0 +1,16 @@
++++ BUILTIN
+*** String concatenateWith: returns nil when arg is not a string
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r := 'hello' concatenateWith: 42.
+    _ := (r asString) print.
+    r2 := 'hello' concatenateWith: nil.
+    _ := (r2 asString) print.
+    r3 := 'hello' concatenateWith: true.
+    _ := (r3 asString) print.
+  ]
+}

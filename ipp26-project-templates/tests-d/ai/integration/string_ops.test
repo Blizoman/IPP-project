@@ -1,0 +1,23 @@
++++ INTEGRATION
+*** Counting words in a string (using length, startsWith:endsBefore:)
+!C! 0
+!I! 0
+>>> 2
+
+class StringUtils : Object {
+  charAt:in: [:idx :s |
+    _ := s startsWith: idx endsBefore: (idx plus: 1).
+  ]
+}
+
+class Main : Object {
+  run [|
+    s := String read.
+    len := s length.
+    _ := (len asString) print.
+    first3 := s startsWith: 1 endsBefore: 4.
+    _ := first3 print.
+    last3 := s startsWith: (len minus: 2) endsBefore: (len plus: 1).
+    _ := last3 print.
+  ]
+}

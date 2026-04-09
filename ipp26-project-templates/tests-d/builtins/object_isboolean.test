@@ -1,0 +1,20 @@
++++ BUILTIN
+*** Object isBoolean returns true for true/false, false for all others
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := true isBoolean.
+    _ := (r1 asString) print.
+    r2 := false isBoolean.
+    _ := (r2 asString) print.
+    r3 := 42 isBoolean.
+    _ := (r3 asString) print.
+    r4 := 'hello' isBoolean.
+    _ := (r4 asString) print.
+    r5 := nil isBoolean.
+    _ := (r5 asString) print.
+  ]
+}

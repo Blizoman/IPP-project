@@ -6,9 +6,10 @@
 
 class Main : Object {
   run [|
-    _ := self counter: 1.
-    _ := [| _ := (self counter) greaterThan: 3. ] whileTrue: [|
+    _ := self counter: 3.
+    _ := [| _ := (self counter) greaterThan: 0. ] whileTrue: [|
       _ := ((self counter) asString) print.
+      _ := '\n' print.
       _ := self counter: ((self counter) minus: 1).
     ].
   ]

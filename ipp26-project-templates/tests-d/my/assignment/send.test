@@ -1,0 +1,15 @@
++++ BASIC
+*** Multistage send
+!I! 0
+!C! 0
+>>> 1
+
+class Main : Object {
+  run [|
+      "výraz zaslání zprávy v argumentu je už nutné uzávorkovat"
+    a := self attrib: (Integer from: 10).
+      "vnořená zaslání zprávy, kde je výsledek užit jako cíl pro další zprávu"
+    b := [| x := ((self attrib) asString) concatenateWith: (10 asString). ].
+    _ := (b value) print.
+  ]
+}

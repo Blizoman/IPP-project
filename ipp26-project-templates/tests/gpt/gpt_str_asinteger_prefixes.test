@@ -1,0 +1,18 @@
++++ GPT_STRING
+*** asInteger parsuje veduci integer prefix
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    a := '+42abc' asInteger.
+    b := '-7z' asInteger.
+    c := 'abc' asInteger.
+    _ := (a asString) print.
+    _ := ',' print.
+    _ := (b asString) print.
+    _ := ',' print.
+    _ := (c asString) print.
+  ]
+}

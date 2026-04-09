@@ -1,0 +1,11 @@
++++ GPT_ERROR
+*** Neznamy selector na Integer vrati chybu 51
+!C! 0
+!I! 51
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := 7 mystery.
+  ]
+}

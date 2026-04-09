@@ -1,0 +1,29 @@
++++ MESSAGE RESPONSE
+*** Method in subclass overrides instance attribute from superclass; attribute accessible via super
+!C! 0
+!I! 0
+>>> 2
+
+class Animal : Object {
+  init [|
+    _ := self sound: 'generic'.
+  ]
+}
+
+class Dog : Animal {
+  sound [|
+    _ := 'woof' print.
+  ]
+  test [|
+    _ := self init.
+    _ := self sound.
+    _ := (super sound) print.
+  ]
+}
+
+class Main : Object {
+  run [|
+    d := Dog new.
+    _ := d test.
+  ]
+}

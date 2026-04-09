@@ -1,0 +1,16 @@
++++ BUILTIN
+*** Block isBlock and related is* methods
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    b := [| _ := 1. ].
+    _ := ((b isBlock) asString) print.
+    _ := ((b isString) asString) print.
+    _ := ((b isNil) asString) print.
+    _ := ((b isBoolean) asString) print.
+    _ := ((b isNumber) asString) print.
+  ]
+}

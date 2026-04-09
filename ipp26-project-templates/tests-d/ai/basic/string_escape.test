@@ -1,0 +1,14 @@
++++ BASIC
+*** String with special characters in literal
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    "Strings can contain spaces, digits, symbols"
+    _ := 'Hello, World!' print.
+    _ := 'abc123!@#' print.
+    _ := '' print.
+  ]
+}

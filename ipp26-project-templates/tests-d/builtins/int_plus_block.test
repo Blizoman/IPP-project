@@ -1,0 +1,12 @@
++++ BUILTIN
+*** Integer plus: with block argument should return error 53
+!C! 0
+!I! 53
+>>> 1
+
+class Main : Object {
+  run [|
+    b := [| _ := 1. ].
+    _ := 5 plus: b.
+  ]
+}

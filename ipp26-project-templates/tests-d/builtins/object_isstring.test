@@ -1,0 +1,20 @@
++++ BUILTIN
+*** Object isString returns true for strings, false for all others
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 'hello' isString.
+    _ := (r1 asString) print.
+    r2 := '' isString.
+    _ := (r2 asString) print.
+    r3 := 42 isString.
+    _ := (r3 asString) print.
+    r4 := true isString.
+    _ := (r4 asString) print.
+    r5 := nil isString.
+    _ := (r5 asString) print.
+  ]
+}

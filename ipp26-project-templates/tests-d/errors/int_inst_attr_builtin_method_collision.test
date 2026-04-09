@@ -1,0 +1,12 @@
++++ ERROR CODES
+*** Creating instance attribute colliding with built-in method should fail with error 54
+!C! 0
+!I! 54
+>>> 2
+
+class Main : Object {
+  run [|
+    x := 42.
+    _ := x asString: 'value'.
+  ]
+}

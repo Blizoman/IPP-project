@@ -1,0 +1,18 @@
++++ BASIC
+*** String equalTo: comparison
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := 'hello' equalTo: 'hello'.
+    _ := (a asString) print.
+    b := 'hello' equalTo: 'world'.
+    _ := (b asString) print.
+    c := '' equalTo: ''.
+    _ := (c asString) print.
+    d := 'abc' equalTo: 'ABC'.
+    _ := (d asString) print.
+  ]
+}

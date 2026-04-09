@@ -1,0 +1,20 @@
++++ BASIC
+*** String startsWith:endsBefore: substring extraction
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := 'Hello, World!' startsWith: 1 endsBefore: 6.
+    _ := a print.
+    b := 'Hello, World!' startsWith: 8 endsBefore: 14.
+    _ := b print.
+    c := 'Hello' startsWith: 2 endsBefore: 2.
+    _ := c print.
+    d := 'Hello' startsWith: 1 endsBefore: 100.
+    _ := d print.
+    e := 'Hello' startsWith: 1 endsBefore: 6.
+    _ := e print.
+  ]
+}

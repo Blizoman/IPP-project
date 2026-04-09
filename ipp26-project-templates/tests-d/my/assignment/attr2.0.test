@@ -1,0 +1,51 @@
++++ BASIC
+*** Attributes with self vs super (No error)
+!C! 0
+!I! 0
+>>> 1
+
+class Parent : Object {
+  something [|
+      "definuje a inicializuje instanční atributy 'p' a 'q'"
+    p := self p: 'hello'.
+    q := self q: 'world'.
+      "Je-li příjemce instance Parent, získá hodnotu v 'p' a vytiskne 'hello'."
+      "Je-li příjemce instance Main, reaguje invokací metody 'p' a vypíše 'foo'."
+    _ := (self p) print.
+  ] 
+}
+class Main : Parent {
+  print: [:x | _ := (x asString) print.]
+  run [|
+      "tyto čtyři příkazy mají stejný efekt"
+    "a := super value: super. b := super value: self.
+    c := self value: super. d := self value: self."
+
+      "Testing self == super as receiver"
+    a := super val: 5.
+    _ := self print: (self val). "5"
+
+      "Testing self == super as argument"
+    a := self instance: super.
+    _ := (self instance) print: 10. "10 or throws if not same"
+
+    _ := self instance: nil. "So it does not take half of the debug report"
+    
+    x := self p. "hodnotou x bude 'foo'"
+
+    _ := super something. "nastaví atributy p, q a vypíše 'foo'"
+    
+    x := self p. "x = 'foo' (volání metody)"
+    y := super p. "y = 'hello' (přístup k atributu)"
+    z := self q. "q = 'world' (přístup k atributu)"
+
+    _ := x print.
+    _ := y print.
+    _ := z print.
+  ]
+
+  p [|
+      "instanční metoda, která jen vrátí řetězec 'foo'"
+    _ := 'foo'.
+  ]
+}

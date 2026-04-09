@@ -1,0 +1,18 @@
++++ ERROR CODES
+*** Using from: with Integer prototype for a String subclass should fail with error 53
+!C! 0
+!I! 53
+>>> 2
+
+class MyStr : String {
+  upper [|
+    _ := self concatenateWith: '!'.
+  ]
+}
+
+class Main : Object {
+  run [|
+    x := MyStr from: 100.
+    _ := x upper.
+  ]
+}

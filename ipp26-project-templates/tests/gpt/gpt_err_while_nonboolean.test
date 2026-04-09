@@ -1,0 +1,11 @@
++++ GPT_ERROR
+*** whileTrue: s neboolean podmienkou vrati 52
+!C! 0
+!I! 52
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := [| _ := 'x'. ] whileTrue: [| _ := nil. ].
+  ]
+}

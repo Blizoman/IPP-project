@@ -1,0 +1,21 @@
++++ MESSAGE RESPONSE
+*** Regular reference: 0-param selector finds method in superclass
+!C! 0
+!I! 0
+>>> 1
+
+class Base : Object {
+  greet [|
+    _ := 'hello' print.
+  ]
+}
+
+class Child : Base {
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c greet.
+  ]
+}

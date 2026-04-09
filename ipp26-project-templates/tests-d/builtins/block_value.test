@@ -1,0 +1,17 @@
++++ BUILTIN
+*** Block value invokes a zero-parameter block
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    b := [| _ := 'executed' print. ].
+    _ := b value.
+    b2 := [| _ := 42. ].
+    r := b2 value.
+    _ := (r asString) print.
+    b3 := [| _ := 'first' print. _ := 'second' print. ].
+    _ := b3 value.
+  ]
+}

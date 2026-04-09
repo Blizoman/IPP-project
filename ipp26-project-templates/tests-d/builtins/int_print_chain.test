@@ -1,0 +1,13 @@
++++ BUILTIN
+*** Integer print: using asString with print for formatted output
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := 'Result: ' print.
+    _ := (42 asString) print.
+    _ := ' done' print.
+  ]
+}

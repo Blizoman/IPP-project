@@ -1,0 +1,28 @@
++++ BASIC
+*** Implementation based reference equality
+!I! 0
+!C! 0
+>>> 1
+
+class MyInt : Integer { }
+
+class Main : Object {
+  run [|
+    x := 1. y := 1. z := Integer from: 1.
+
+    u := MyInt from: 1. w := MyInt from: 1.
+
+    a := ((x equalTo: y) asString) print. a := ((x equalTo: z) asString) print. "obojí true"
+
+    a := x identicalTo: y. "podle implementace"
+
+    a := x identicalTo: z. "podle implementace"
+
+    a := ((u equalTo: x) asString) print. a := ((u equalTo: w) asString) print. "obojí true"
+
+    a := ((u identicalTo: x) asString) print. "false"
+
+    a := u identicalTo: w. "podle implementace"
+
+  ]
+}

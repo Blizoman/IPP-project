@@ -1,0 +1,20 @@
++++ BASIC
+*** Boolean short-circuit: and: stops evaluation on false, or: stops on true
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    "Short-circuit: false and: block - block should NOT be evaluated"
+    side := false.
+    r := false and: [| side := true. ].
+    _ := (r asString) print.
+    _ := (side asString) print.
+    "Short-circuit: true or: block - block should NOT be evaluated"
+    side2 := false.
+    r2 := true or: [| side2 := true. ].
+    _ := (r2 asString) print.
+    _ := (side2 asString) print.
+  ]
+}

@@ -1,0 +1,25 @@
++++ OOP
+*** Single inheritance: child class inherits parent methods
+!C! 0
+!I! 0
+>>> 2
+
+class Animal : Object {
+  sound [| _ := 'generic sound' print. ]
+  type [| _ := 'Animal' print. ]
+}
+
+class Dog : Animal {
+  sound [| _ := 'Woof!' print. ]
+}
+
+class Main : Object {
+  run [|
+    d := Dog new.
+    _ := d sound.
+    _ := d type.
+    a := Animal new.
+    _ := a sound.
+    _ := a type.
+  ]
+}

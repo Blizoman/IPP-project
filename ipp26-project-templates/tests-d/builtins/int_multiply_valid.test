@@ -1,0 +1,18 @@
++++ BUILTIN
+*** Integer multiplyBy: with valid integer arguments
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 3 multiplyBy: 4.
+    _ := (r1 asString) print.
+    r2 := 0 multiplyBy: 99.
+    _ := (r2 asString) print.
+    r3 := -5 multiplyBy: 3.
+    _ := (r3 asString) print.
+    r4 := -4 multiplyBy: -2.
+    _ := (r4 asString) print.
+  ]
+}

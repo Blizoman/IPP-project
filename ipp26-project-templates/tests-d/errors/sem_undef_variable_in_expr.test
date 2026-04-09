@@ -1,0 +1,11 @@
++++ ERROR CODES
+*** Using undefined variable in expression should fail with error 32
+!C! 0
+!I! 32
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := (undeclared plus: 1) asString.
+  ]
+}

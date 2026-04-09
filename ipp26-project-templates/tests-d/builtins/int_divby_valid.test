@@ -1,0 +1,18 @@
++++ BUILTIN
+*** Integer divBy: integer division with truncation toward negative infinity
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 10 divBy: 3.
+    _ := (r1 asString) print.
+    r2 := 10 divBy: 2.
+    _ := (r2 asString) print.
+    r3 := -10 divBy: 3.
+    _ := (r3 asString) print.
+    r4 := 7 divBy: 1.
+    _ := (r4 asString) print.
+  ]
+}

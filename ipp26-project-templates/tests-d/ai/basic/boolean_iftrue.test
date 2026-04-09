@@ -1,0 +1,18 @@
++++ BASIC
+*** Boolean ifTrue:ifFalse: conditional branching
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := true ifTrue: [| _ := 'yes'. ] ifFalse: [| _ := 'no'. ].
+    _ := r1 print.
+    r2 := false ifTrue: [| _ := 'yes'. ] ifFalse: [| _ := 'no'. ].
+    _ := r2 print.
+    r3 := (5 greaterThan: 3) ifTrue: [| _ := 'big'. ] ifFalse: [| _ := 'small'. ].
+    _ := r3 print.
+    r4 := (3 greaterThan: 5) ifTrue: [| _ := 'big'. ] ifFalse: [| _ := 'small'. ].
+    _ := r4 print.
+  ]
+}

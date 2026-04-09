@@ -1,0 +1,12 @@
++++ ERROR CODES
+*** Assignment to second formal parameter in block should fail with error 34
+!C! 0
+!I! 34
+>>> 2
+
+class Main : Object {
+  run [|
+    b := [:x :y | y := x plus: 1. ].
+    _ := b value: 3 value: 4.
+  ]
+}

@@ -1,0 +1,9 @@
++++ ERROR CODES
+*** Main with only wrongly-named method should fail with error 31
+!C! 0
+!I! 31
+>>> 1
+
+class Main : Object {
+  start [| _ := 'hello' print. ]
+}

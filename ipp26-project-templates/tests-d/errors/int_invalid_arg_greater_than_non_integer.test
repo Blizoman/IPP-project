@@ -1,0 +1,12 @@
++++ ERROR CODES
+*** Integer greaterThan: with non-integer argument should fail with error 53
+!C! 0
+!I! 53
+>>> 2
+
+class Main : Object {
+  run [|
+    r := 5 greaterThan: 'big'.
+    _ := (r asString) print.
+  ]
+}

@@ -1,0 +1,25 @@
++++ MESSAGE RESPONSE
+*** Super: 1-param selector creates instance attribute when no method in superclass chain and no collision
+!C! 0
+!I! 0
+>>> 1
+
+class Base : Object {
+}
+
+class Child : Base {
+  init [|
+    _ := super x: 42.
+  ]
+  getX [|
+    _ := ((self x) asString) print.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c init.
+    _ := c getX.
+  ]
+}

@@ -1,0 +1,15 @@
++++ GPT_IO
+*** Dve citania zo stdin a spojenie vysledku
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    a := String read.
+    b := String read.
+    c := a concatenateWith: '-'.
+    d := c concatenateWith: b.
+    _ := d print.
+  ]
+}

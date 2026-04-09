@@ -1,0 +1,12 @@
++++ ERROR CODES
+*** Integer plus: with nil argument should fail with error 53
+!C! 0
+!I! 53
+>>> 2
+
+class Main : Object {
+  run [|
+    r := 5 plus: nil.
+    _ := (r asString) print.
+  ]
+}

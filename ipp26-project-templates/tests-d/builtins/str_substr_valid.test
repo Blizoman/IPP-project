@@ -1,0 +1,18 @@
++++ BUILTIN
+*** String startsWith:endsBefore: extracts substrings
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 'Hello' startsWith: 1 endsBefore: 4.
+    _ := r1 print.
+    r2 := 'Hello' startsWith: 2 endsBefore: 5.
+    _ := r2 print.
+    r3 := 'Hello' startsWith: 1 endsBefore: 6.
+    _ := r3 print.
+    r4 := 'Hello' startsWith: 3 endsBefore: 4.
+    _ := r4 print.
+  ]
+}

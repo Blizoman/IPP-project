@@ -1,0 +1,16 @@
++++ BLOCKS
+*** whileTrue: loop where condition is immediately false: body never executes
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    counter := 0.
+    _ := [| _ := false. ] whileTrue: [|
+      counter := counter plus: 1.
+    ].
+    _ := (counter asString) print.
+    _ := 'done' print.
+  ]
+}

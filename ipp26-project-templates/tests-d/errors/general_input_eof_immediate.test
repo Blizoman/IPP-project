@@ -1,0 +1,14 @@
++++ ERROR CODES
+*** Reading input after EOF on second read should fail with error 11
+!C! 0
+!I! 11
+>>> 2
+
+class Main : Object {
+  run [|
+    s1 := String read.
+    _ := s1 print.
+    s2 := String read.
+    _ := s2 print.
+  ]
+}

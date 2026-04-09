@@ -1,0 +1,12 @@
++++ BUILTIN
+*** Block value calling 0-param block with value: returns nil (DNU)
+!C! 0
+!I! 51
+>>> 1
+
+class Main : Object {
+  run [|
+    b := [| _ := 'zero arg block'. ].
+    _ := b value: 42.
+  ]
+}

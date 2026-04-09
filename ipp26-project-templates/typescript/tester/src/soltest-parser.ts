@@ -9,6 +9,74 @@
 import { readFileSync } from "node:fs";
 import { TestCaseType } from "./models.js";
 
+interface ParsedHeaderData {
+  description: string | null;
+  category: string;
+  points: number;
+  expected_parser_exit_codes: number[];
+  expected_interpreter_exit_codes: number[];
+}
+
+function parseHeader(lines: string[]): ParsedHeaderData {
+  let description: string | null = null;
+  let category = "DEFAULT";
+  let points = 1;
+  const expected_parser_exit_codes: number[] = [];
+  const expected_interpreter_exit_codes: number[] = [];
+
+  for (const line of lines) {
+    if (line.trim() === "") {
+      break;
+    }
+
+    if (line.startsWith("***")) {
+      description = line.substring(3).trim();
+      continue;
+    }
+
+    if (line.startsWith("+++")) {
+      category = line.substring(3).trim();
+      continue;
+    }
+
+    if (line.startsWith(">>>")) {
+      points = parseInt(line.substring(3).trim(), 10);
+      continue;
+    }
+
+    if (line.startsWith("!C!")) {
+      expected_parser_exit_codes.push(parseInt(line.substring(3).trim(), 10));
+      continue;
+    }
+
+    if (line.startsWith("!I!")) {
+      expected_interpreter_exit_codes.push(parseInt(line.substring(3).trim(), 10));
+    }
+  }
+
+  return {
+    description,
+    category,
+    points,
+    expected_parser_exit_codes,
+    expected_interpreter_exit_codes,
+  };
+}
+
+function resolveTestType(has_parser_codes: boolean, has_interpreter_codes: boolean): TestCaseType {
+  if (has_parser_codes && !has_interpreter_codes) {
+    return TestCaseType.PARSE_ONLY;
+  }
+  if (!has_parser_codes && has_interpreter_codes) {
+    return TestCaseType.EXECUTE_ONLY;
+  }
+  if (has_parser_codes && has_interpreter_codes) {
+    return TestCaseType.COMBINED;
+  }
+
+  throw new Error("CANNOT_DETERMINE_TYPE");
+}
+
 /**
  * Reads a `.test` file and extracts its configuration metadata.
  * The metadata block must be at the very top of the file and ends with the first blank line.
@@ -21,53 +89,28 @@ export function parseSolTestFile(file_path: string) {
   const file_content = readFileSync(file_path, "utf-8");
   const lines = file_content.split(/\r?\n/);
 
-  // Default set -> values
-  let description = null;
-  let category: string = "DEFAULT";
-  let points: number = 1;
-  const expected_parser_exit_codes: number[] = [];
-  const expected_interpreter_exit_codes: number[] = [];
-
-  // Parse header line by line (metadata h ends at first empty line)
-  for (const line of lines) {
-    if (line.trim() === "") {
-      break;
-    }
-
-    if (line.startsWith("***")) {
-      description = line.substring(3).trim();
-    } else if (line.startsWith("+++")) {
-      category = line.substring(3).trim();
-    } else if (line.startsWith(">>>")) {
-      points = parseInt(line.substring(3).trim(), 10);
-    } else if (line.startsWith("!C!")) {
-      expected_parser_exit_codes.push(parseInt(line.substring(3).trim(), 10));
-    } else if (line.startsWith("!I!")) {
-      expected_interpreter_exit_codes.push(parseInt(line.substring(3).trim(), 10));
-    }
-  }
+  const {
+    description,
+    category,
+    points,
+    expected_parser_exit_codes,
+    expected_interpreter_exit_codes,
+  } = parseHeader(lines);
 
   // What kind of test this is based on the provided exit codes
-  let test_type: TestCaseType;
   const has_parser_codes = expected_parser_exit_codes.length > 0;
   const has_interpreter_codes = expected_interpreter_exit_codes.length > 0;
+  const test_type = resolveTestType(has_parser_codes, has_interpreter_codes);
 
-  if (has_parser_codes && !has_interpreter_codes) {
-    test_type = TestCaseType.PARSE_ONLY;
-  } else if (!has_parser_codes && has_interpreter_codes) {
-    test_type = TestCaseType.EXECUTE_ONLY;
-  } else if (has_parser_codes && has_interpreter_codes) {
-    test_type = TestCaseType.COMBINED;
-  } else {
-    throw new Error("CANNOT_DETERMINE_TYPE");
-  }
+  const parser_codes = has_parser_codes ? expected_parser_exit_codes : null;
+  const interpreter_codes = has_interpreter_codes ? expected_interpreter_exit_codes : null;
 
   return {
     test_type: test_type,
     description: description,
     category: category,
     points: points,
-    expected_parser_exit_codes: expected_parser_exit_codes,
-    expected_interpreter_exit_codes: expected_interpreter_exit_codes,
+    expected_parser_exit_codes: parser_codes,
+    expected_interpreter_exit_codes: interpreter_codes,
   };
 }

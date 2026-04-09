@@ -1,0 +1,25 @@
++++ OOP
+*** Method returning self allows chaining and shared state
+!C! 0
+!I! 0
+>>> 2
+
+class Builder : Object {
+  init [| _ := self n: 0. ]
+  add: [:x |
+    _ := self n: ((self n) plus: x).
+    _ := self.
+  ]
+  show [| _ := ((self n) asString) print. ]
+}
+
+class Main : Object {
+  run [|
+    b := Builder new.
+    _ := b init.
+    result := b add: 10.
+    _ := result add: 5.
+    _ := b show.
+    _ := result show.
+  ]
+}

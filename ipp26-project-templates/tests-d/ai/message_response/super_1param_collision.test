@@ -1,0 +1,24 @@
++++ MESSAGE RESPONSE
+*** Super: 1-param selector collides with 0-param method in superclass causing error 54
+!C! 0
+!I! 54
+>>> 1
+
+class Base : Object {
+  x [|
+    _ := 0.
+  ]
+}
+
+class Child : Base {
+  init [|
+    _ := super x: 42.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c init.
+  ]
+}

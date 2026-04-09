@@ -1,0 +1,15 @@
++++ GPT_BLOCK
+*** Volanie dvojparametroveho bloku cez value:value:
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    sum := [:a :b |
+      _ := a plus: b.
+    ].
+    r := sum value: 7 value: 8.
+    _ := (r asString) print.
+  ]
+}

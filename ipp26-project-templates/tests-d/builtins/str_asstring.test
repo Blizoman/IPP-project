@@ -1,0 +1,15 @@
++++ BUILTIN
+*** String asString returns the string itself (identity)
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r := 'hello' asString.
+    _ := r print.
+    r2 := '' asString.
+    _ := r2 print.
+    _ := ('test' asString) print.
+  ]
+}

@@ -1,6 +1,4 @@
 #!/bin/bash
+cd "$(dirname "$0")"
 npm i > /dev/null
-if [ "$#" -eq 0 ]; then
-set -- "src/**/*.ts"
-fi
-npm exec -- eslint "$@"
+npm exec -- eslint "${@:-src/}"

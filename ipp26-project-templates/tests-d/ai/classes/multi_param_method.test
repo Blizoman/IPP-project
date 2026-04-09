@@ -1,0 +1,25 @@
++++ OOP
+*** Method with multiple parameters
+!C! 0
+!I! 0
+>>> 2
+
+class Calculator : Object {
+  add:to: [:a :b |
+    _ := a plus: b.
+  ]
+
+  multiply:by: [:a :b |
+    _ := a multiplyBy: b.
+  ]
+}
+
+class Main : Object {
+  run [|
+    calc := Calculator new.
+    r1 := calc add: 3 to: 4.
+    _ := (r1 asString) print.
+    r2 := calc multiply: 5 by: 6.
+    _ := (r2 asString) print.
+  ]
+}

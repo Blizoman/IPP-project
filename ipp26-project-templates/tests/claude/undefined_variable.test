@@ -1,6 +1,7 @@
 +++ ERROR
 *** Chyba 32 - pouzitie neinicializovanej premennej
-!C! 32
+!C! 0
+!I! 32
 >>> 1
 
 class Main : Object {

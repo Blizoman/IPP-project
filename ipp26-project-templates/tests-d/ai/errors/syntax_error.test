@@ -1,0 +1,10 @@
++++ ERRORS
+*** Syntax error in SOL code should fail compilation with error 1
+!C! 1
+>>> 1
+
+class Main : Object {
+  run [|
+    := broken syntax.
+  ]
+}

@@ -1,0 +1,24 @@
++++ BASIC
+*** Integer arithmetic with zero operands
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := 0 plus: 5.
+    _ := (a asString) print.
+    b := 5 plus: 0.
+    _ := (b asString) print.
+    c := 0 multiplyBy: 100.
+    _ := (c asString) print.
+    d := 100 multiplyBy: 0.
+    _ := (d asString) print.
+    e := 10 minus: 0.
+    _ := (e asString) print.
+    f := 0 minus: 10.
+    _ := (f asString) print.
+    g := 0 divBy: 5.
+    _ := (g asString) print.
+  ]
+}

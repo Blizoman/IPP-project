@@ -1,0 +1,28 @@
++++ MESSAGE RESPONSE
+*** Super: 2-param selector finds method in superclass skipping subclass override
+!C! 0
+!I! 0
+>>> 1
+
+class Base : Object {
+  add: to: [:a :b |
+    _ := a plus: b.
+  ]
+}
+
+class Child : Base {
+  add: to: [:a :b |
+    _ := (a plus: b) multiplyBy: 2.
+  ]
+  test [|
+    result := super add: 3 to: 4.
+    _ := (result asString) print.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c test.
+  ]
+}

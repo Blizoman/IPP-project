@@ -1,0 +1,11 @@
++++ BUILTIN
+*** Boolean ifTrue:ifFalse: with non-block false branch should return error 53
+!C! 0
+!I! 53
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := false ifTrue: [| _ := 'yes'. ] ifFalse: 42.
+  ]
+}

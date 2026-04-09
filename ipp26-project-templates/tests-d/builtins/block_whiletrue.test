@@ -1,0 +1,16 @@
++++ BUILTIN
+*** Block whileTrue: loops while condition block evaluates to true
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    i := 1.
+    _ := [| _ := i greaterThan: 0. ] whileTrue: [|
+      _ := (i asString) print.
+      i := i minus: 1.
+    ].
+    _ := 'done' print.
+  ]
+}

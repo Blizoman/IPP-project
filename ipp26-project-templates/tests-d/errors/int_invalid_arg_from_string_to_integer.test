@@ -1,0 +1,18 @@
++++ ERROR CODES
+*** Using from: with String prototype for an Integer subclass should fail with error 53
+!C! 0
+!I! 53
+>>> 2
+
+class MyInt : Integer {
+  doubled [|
+    _ := self plus: self.
+  ]
+}
+
+class Main : Object {
+  run [|
+    x := MyInt from: 'hello'.
+    _ := x doubled.
+  ]
+}

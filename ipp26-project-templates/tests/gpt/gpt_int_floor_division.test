@@ -1,0 +1,18 @@
++++ GPT_INTEGER
+*** divBy: pouziva floor delenie pre zaporne cisla
+!C! 0
+!I! 0
+>>> 3
+
+class Main : Object {
+  run [|
+    a := -7 divBy: 3.
+    b := 7 divBy: -3.
+    c := -7 divBy: -3.
+    _ := (a asString) print.
+    _ := ',' print.
+    _ := (b asString) print.
+    _ := ',' print.
+    _ := (c asString) print.
+  ]
+}

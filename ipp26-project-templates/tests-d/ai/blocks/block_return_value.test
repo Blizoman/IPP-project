@@ -1,0 +1,19 @@
++++ BLOCKS
+*** Block return value: last expression is result
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    b1 := [| _ := 1. _ := 2. _ := 3. ].
+    r1 := b1 value.
+    _ := (r1 asString) print.
+    b2 := [:x | y := x plus: 10. ].
+    r2 := b2 value: 5.
+    _ := (r2 asString) print.
+    b3 := [| _ := 'ignored'. _ := 'result'. ].
+    r3 := b3 value.
+    _ := r3 print.
+  ]
+}

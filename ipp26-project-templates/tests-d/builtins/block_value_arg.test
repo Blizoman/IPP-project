@@ -1,0 +1,16 @@
++++ BUILTIN
+*** Block value: invokes a one-parameter block with the given argument
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    b := [:x | _ := (x asString) print. ].
+    _ := b value: 5.
+    _ := b value: 99.
+    b2 := [:n | _ := n multiplyBy: 2. ].
+    r := b2 value: 7.
+    _ := (r asString) print.
+  ]
+}

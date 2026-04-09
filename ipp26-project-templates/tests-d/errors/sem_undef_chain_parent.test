@@ -1,0 +1,16 @@
++++ ERROR CODES
+*** Two classes forming a longer chain with undefined root should fail with error 32
+!C! 0
+!I! 32
+>>> 1
+
+class Child : Parent {
+  greet [| _ := 'hi' print. ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c greet.
+  ]
+}

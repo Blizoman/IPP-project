@@ -1,0 +1,15 @@
++++ BUILTIN
+*** Integer isNumber and Integer isBlock
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := ((42 isNumber) asString) print.
+    _ := ((42 isString) asString) print.
+    _ := ((42 isNil) asString) print.
+    _ := ((42 isBoolean) asString) print.
+    _ := ((42 isBlock) asString) print.
+  ]
+}

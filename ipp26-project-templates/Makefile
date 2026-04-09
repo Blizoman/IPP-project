@@ -1,4 +1,4 @@
-LOGIN = xpruzir00
+LOGIN = xblizna00
 TESTS_DIR ?= $(CURDIR)/tests
 
 .PHONY: setup c clean zip commit cf1 cf2 cf3 cf4
@@ -84,6 +84,39 @@ cf4:
 	@docker run --rm \
 		-v $(TESTS_DIR):/opt/tests:ro \
 		ipp-test /opt/tests -r > results.json
+	@printf '%s\n' \
+		'import json' \
+		'from pathlib import Path' \
+		'' \
+		'results_path = Path("results.json")' \
+		'if not results_path.exists():' \
+		'    raise SystemExit("results.json was not generated")' \
+		'' \
+		'report = json.loads(results_path.read_text(encoding="utf-8"))' \
+		'green = "\033[32m"' \
+		'red = "\033[31m"' \
+		'reset = "\033[0m"' \
+		'passed = 0' \
+		'failed = 0' \
+		'results = report.get("results") or {}' \
+		'for category in sorted(results):' \
+		'    test_results = (results.get(category) or {}).get("test_results") or {}' \
+		'    for test_name in sorted(test_results):' \
+		'        test_result = (test_results.get(test_name) or {}).get("result")' \
+		'        if test_result == "passed":' \
+		'            passed += 1' \
+		'            print(f"{green}PASS{reset} {test_name} ({category})")' \
+		'        else:' \
+		'            failed += 1' \
+		'            print(f"{red}FAIL{reset} {test_name} ({category}) [{test_result}]")' \
+		'unexecuted = report.get("unexecuted") or {}' \
+		'for test_name in sorted(unexecuted):' \
+		'    failed += 1' \
+		'    reason = (unexecuted.get(test_name) or {}).get("message") or "UNEXECUTED"' \
+		'    print(f"{red}FAIL{reset} {test_name} [UNEXECUTED: {reason}]")' \
+		'print(f"Summary: {green}{passed}{reset} passed, {red}{failed}{reset} failed")' \
+	| python3 -
+	
 # 	@$(MAKE) done
 
 cf4-dry:

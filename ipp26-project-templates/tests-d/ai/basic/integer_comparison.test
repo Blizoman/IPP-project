@@ -1,0 +1,16 @@
++++ BASIC
+*** Integer comparison: greaterThan: edge cases
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := ((5 greaterThan: 3) asString) print.
+    _ := ((3 greaterThan: 5) asString) print.
+    _ := ((5 greaterThan: 5) asString) print.
+    _ := ((0 greaterThan: -1) asString) print.
+    _ := ((-1 greaterThan: 0) asString) print.
+    _ := ((-5 greaterThan: -3) asString) print.
+  ]
+}

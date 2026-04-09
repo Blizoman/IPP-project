@@ -1,0 +1,13 @@
++++ ERRORS
+*** Inheriting from undefined class should fail with error 32
+!C! 0
+!I! 32
+>>> 1
+
+class Foo : NonExistent {
+  run [| _ := 'hello' print. ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

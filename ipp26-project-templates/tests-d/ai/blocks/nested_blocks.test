@@ -1,0 +1,22 @@
++++ BLOCKS
+*** Nested blocks and closures
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    multiplier := 3.
+    outer := [:n |
+      inner := [| r := n multiplyBy: multiplier. ].
+      r2 := inner value.
+    ].
+    r1 := outer value: 4.
+    _ := (r1 asString) print.
+    r2 := outer value: 7.
+    _ := (r2 asString) print.
+    multiplier := 2.
+    r3 := outer value: 5.
+    _ := (r3 asString) print.
+  ]
+}

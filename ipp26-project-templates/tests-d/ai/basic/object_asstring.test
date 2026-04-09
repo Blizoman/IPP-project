@@ -1,0 +1,13 @@
++++ BASIC
+*** Object asString: default returns empty string
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    o := Object new.
+    _ := (self asString) print.
+    _ := (o asString) print.
+  ]
+}

@@ -1,0 +1,16 @@
++++ BUILTIN
+*** Integer greaterThan: returns false when values are equal
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r := 42 greaterThan: 42.
+    _ := (r asString) print.
+    r2 := 0 greaterThan: 0.
+    _ := (r2 asString) print.
+    r3 := -5 greaterThan: -5.
+    _ := (r3 asString) print.
+  ]
+}

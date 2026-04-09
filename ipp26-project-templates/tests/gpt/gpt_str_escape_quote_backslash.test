@@ -1,0 +1,13 @@
++++ GPT_STRING
+*** Escape sekvencie \\ a \' v stringoch
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    _ := 'path\\to' print.
+    _ := '|' print.
+    _ := 'it\'s' print.
+  ]
+}

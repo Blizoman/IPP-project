@@ -8,6 +8,7 @@ class Main : Object {
   run [|
     _ := 3 timesRepeat: [:i |
       _ := (i asString) print.
+      _ := '\n' print.
     ].
   ]
 }

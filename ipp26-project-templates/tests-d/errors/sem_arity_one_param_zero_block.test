@@ -1,0 +1,15 @@
++++ ERROR CODES
+*** One-param selector with zero-param block should fail with error 33
+!C! 0
+!I! 33
+>>> 1
+
+class Counter : Object {
+  increment: [|
+    _ := 'no param' print.
+  ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

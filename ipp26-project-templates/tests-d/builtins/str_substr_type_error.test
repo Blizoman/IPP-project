@@ -1,0 +1,16 @@
++++ BUILTIN
+*** String startsWith:endsBefore: with non-integer arguments returns nil
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 'Hello' startsWith: 'a' endsBefore: 3.
+    _ := (r1 asString) print.
+    r2 := 'Hello' startsWith: 1 endsBefore: true.
+    _ := (r2 asString) print.
+    r3 := 'Hello' startsWith: nil endsBefore: nil.
+    _ := (r3 asString) print.
+  ]
+}

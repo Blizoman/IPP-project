@@ -1,0 +1,21 @@
++++ GPT_INTEGER
+*** Balik porovnani greaterThan:
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    r1 := (5 greaterThan: 4) asString.
+    r2 := (5 greaterThan: 5) asString.
+    r3 := (-1 greaterThan: -2) asString.
+    r4 := (-2 greaterThan: -1) asString.
+    _ := r1 print.
+    _ := ',' print.
+    _ := r2 print.
+    _ := ',' print.
+    _ := r3 print.
+    _ := ',' print.
+    _ := r4 print.
+  ]
+}

@@ -1,0 +1,8 @@
++++ ERROR CODES
+*** Main class with no methods at all should fail with error 31
+!C! 0
+!I! 31
+>>> 1
+
+class Main : Object {
+}

@@ -1,0 +1,20 @@
++++ OOP
+*** Methods calling other methods of the same class via self
+!C! 0
+!I! 0
+>>> 2
+
+class Calculator : Object {
+  double: [:n | _ := n multiplyBy: 2. ]
+  triple: [:n | _ := n multiplyBy: 3. ]
+  sextuple: [:n | _ := self double: (self triple: n). ]
+}
+
+class Main : Object {
+  run [|
+    c := Calculator new.
+    _ := ((c double: 5) asString) print.
+    _ := ((c triple: 4) asString) print.
+    _ := ((c sextuple: 7) asString) print.
+  ]
+}

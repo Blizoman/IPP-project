@@ -1,0 +1,14 @@
++++ ERROR CODES
+*** whileTrue: condition evaluating to integer instead of boolean should fail with error 52
+!C! 0
+!I! 52
+>>> 2
+
+class Main : Object {
+  run [|
+    i := 0.
+    _ := [| _ := i. ] whileTrue: [|
+      i := i plus: 1.
+    ].
+  ]
+}

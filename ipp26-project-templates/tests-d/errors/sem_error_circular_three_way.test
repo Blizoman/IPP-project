@@ -1,0 +1,21 @@
++++ ERROR CODES
+*** Three-way circular inheritance should fail with error 35
+!C! 0
+!I! 35
+>>> 1
+
+class X : Y {
+  foo [| _ := 'x' print. ]
+}
+
+class Y : Z {
+  bar [| _ := 'y' print. ]
+}
+
+class Z : X {
+  baz [| _ := 'z' print. ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

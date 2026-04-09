@@ -1,0 +1,16 @@
++++ BLOCKS
+*** Closure: block captures and modifies outer variable
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    counter := 0.
+    inc := [| counter := counter plus: 1. ].
+    _ := inc value.
+    _ := inc value.
+    _ := inc value.
+    _ := (counter asString) print.
+  ]
+}

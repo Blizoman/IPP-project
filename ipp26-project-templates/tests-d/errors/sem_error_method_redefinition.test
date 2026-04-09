@@ -1,0 +1,14 @@
++++ ERROR CODES
+*** Defining two methods with the same selector in one class should fail with error 35
+!C! 0
+!I! 35
+>>> 1
+
+class Foo : Object {
+  greet [| _ := 'first' print. ]
+  greet [| _ := 'second' print. ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

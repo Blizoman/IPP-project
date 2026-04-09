@@ -1,0 +1,29 @@
++++ INTEGRATION
+*** Fibonacci sequence using recursion
+!C! 0
+!I! 0
+>>> 2
+
+class Fib : Integer {
+  fib [|
+    r := (self greaterThan: 1)
+      ifTrue: [|
+        a := Fib from: (self minus: 1).
+        b := Fib from: (self minus: 2).
+        _ := (a fib) plus: (b fib).
+      ]
+      ifFalse: [|
+        _ := Fib from: self.
+      ].
+  ]
+}
+
+class Main : Object {
+  run [|
+    _ := 10 timesRepeat: [:k |
+      f := Fib from: k.
+      r := f fib.
+      _ := (r asString) print.
+    ].
+  ]
+}

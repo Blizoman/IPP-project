@@ -1,0 +1,21 @@
++++ BUILTIN
+*** Block isBlock returns true for a block, false for other types
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    b := [| _ := 1. ].
+    r1 := b isBlock.
+    _ := (r1 asString) print.
+    r2 := 42 isBlock.
+    _ := (r2 asString) print.
+    r3 := 'hello' isBlock.
+    _ := (r3 asString) print.
+    r4 := nil isBlock.
+    _ := (r4 asString) print.
+    r5 := true isBlock.
+    _ := (r5 asString) print.
+  ]
+}

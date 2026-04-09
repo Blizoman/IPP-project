@@ -1,0 +1,16 @@
++++ BUILTIN
+*** String asInteger returns nil for non-numeric strings
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 'hello' asInteger.
+    _ := (r1 asString) print.
+    r2 := '' asInteger.
+    _ := (r2 asString) print.
+    r3 := 'abc123' asInteger.
+    _ := (r3 asString) print.
+  ]
+}

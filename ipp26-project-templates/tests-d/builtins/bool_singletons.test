@@ -1,0 +1,17 @@
++++ BUILTIN
+*** Boolean true/false singletons: True new and False new return singletons
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := true.
+    b := True new.
+    _ := ((a identicalTo: b) asString) print.
+    c := false.
+    d := False new.
+    _ := ((c identicalTo: d) asString) print.
+    _ := ((a identicalTo: c) asString) print.
+  ]
+}

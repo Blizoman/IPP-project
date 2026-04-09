@@ -1,0 +1,20 @@
++++ BASIC
+*** String print and concatenateWith:
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := 'Hello, World!' print.
+    a := 'Hello' concatenateWith: ', World!'.
+    _ := a print.
+    b := '' concatenateWith: 'empty'.
+    _ := b print.
+    c := 'abc' concatenateWith: ''.
+    _ := c print.
+    d := 'foo' concatenateWith: 'bar'.
+    e := d concatenateWith: 'baz'.
+    _ := e print.
+  ]
+}

@@ -1,0 +1,18 @@
++++ BUILTIN
+*** Boolean not negates the boolean value
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := true not.
+    _ := (r1 asString) print.
+    r2 := false not.
+    _ := (r2 asString) print.
+    r3 := (true not) not.
+    _ := (r3 asString) print.
+    r4 := (false not) not.
+    _ := (r4 asString) print.
+  ]
+}

@@ -8,7 +8,9 @@ class Main : Object {
   run [|
     x := nil.
     _ := (x asString) print.
-    _ := (x isNil) asString.
-    _ := _ print.
+    _ := '\n' print.
+    r := (x isNil) asString.
+    _ := r print.
+    _ := '\n' print.
   ]
 }

@@ -1,0 +1,17 @@
++++ BUILTIN
+*** Block closures capture outer variables
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    x := 10.
+    b := [| _ := x plus: 5. ].
+    r := b value.
+    _ := (r asString) print.
+    x := 20.
+    r2 := b value.
+    _ := (r2 asString) print.
+  ]
+}

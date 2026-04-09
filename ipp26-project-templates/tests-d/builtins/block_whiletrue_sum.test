@@ -1,0 +1,17 @@
++++ BUILTIN
+*** Block whileTrue: with multiple iterations: sum 1..5
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    i := 5.
+    sum := 0.
+    _ := [| _ := i greaterThan: 0. ] whileTrue: [|
+      sum := sum plus: i.
+      i := i minus: 1.
+    ].
+    _ := (sum asString) print.
+  ]
+}

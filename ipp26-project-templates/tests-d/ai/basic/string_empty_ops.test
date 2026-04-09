@@ -1,0 +1,20 @@
++++ BASIC
+*** Empty string: length, concatenation, and equality
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    s := ''.
+    _ := ((s length) asString) print.
+    t := s concatenateWith: 'hello'.
+    _ := t print.
+    u := 'world' concatenateWith: s.
+    _ := u print.
+    v := s concatenateWith: s.
+    _ := ((v length) asString) print.
+    _ := ((s equalTo: '') asString) print.
+    _ := ((s equalTo: 'x') asString) print.
+  ]
+}

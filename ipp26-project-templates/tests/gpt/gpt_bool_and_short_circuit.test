@@ -1,0 +1,18 @@
++++ GPT_BOOLEAN
+*** and: musi short-circuitnut pri false
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    marker := 'A'.
+    r := false and: [|
+      marker := 'B'.
+      _ := true.
+    ].
+    _ := (r asString) print.
+    _ := ':' print.
+    _ := marker print.
+  ]
+}

@@ -1,0 +1,11 @@
++++ BUILTIN
+*** Sending unknown message to nil returns error 51
+!C! 0
+!I! 51
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := nil unknownMessage.
+  ]
+}

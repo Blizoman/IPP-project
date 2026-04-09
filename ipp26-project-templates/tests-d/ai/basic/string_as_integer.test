@@ -1,0 +1,19 @@
++++ BASIC
+*** String asInteger conversion
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    n1 := '42' asInteger.
+    _ := ((n1 plus: 1) asString) print.
+    n2 := '-7' asInteger.
+    _ := (n2 asString) print.
+    n3 := '0' asInteger.
+    _ := (n3 asString) print.
+    "Non-numeric string returns nil"
+    n4 := 'abc' asInteger.
+    _ := (n4 asString) print.
+  ]
+}

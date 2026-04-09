@@ -1,0 +1,13 @@
++++ BLOCKS
+*** Simple block without parameters: value
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    b := [| _ := 'hello from block' print. ].
+    _ := b value.
+    _ := b value.
+  ]
+}

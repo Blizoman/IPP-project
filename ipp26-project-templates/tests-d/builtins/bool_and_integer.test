@@ -1,0 +1,11 @@
++++ BUILTIN
+*** Boolean and: with integer argument should return error 53
+!C! 0
+!I! 53
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := true and: 42.
+  ]
+}

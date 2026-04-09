@@ -1,0 +1,19 @@
++++ BUILTIN
+*** Integer timesRepeat: with various counts
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    "Zero times - should print nothing"
+    _ := 0 timesRepeat: [:i | _ := (i asString) print. ].
+    _ := 'after zero' print.
+    "One time"
+    _ := 1 timesRepeat: [:i | _ := (i asString) print. ].
+    "Five times"
+    sum := 0.
+    _ := 5 timesRepeat: [:i | sum := sum plus: i. ].
+    _ := (sum asString) print.
+  ]
+}

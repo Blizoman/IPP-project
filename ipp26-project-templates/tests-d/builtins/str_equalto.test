@@ -1,0 +1,20 @@
++++ BUILTIN
+*** String equalTo: compares strings for equality
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 'hello' equalTo: 'hello'.
+    _ := (r1 asString) print.
+    r2 := 'hello' equalTo: 'world'.
+    _ := (r2 asString) print.
+    r3 := '' equalTo: ''.
+    _ := (r3 asString) print.
+    r4 := 'abc' equalTo: 42.
+    _ := (r4 asString) print.
+    r5 := 'true' equalTo: true.
+    _ := (r5 asString) print.
+  ]
+}

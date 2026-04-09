@@ -1,0 +1,16 @@
++++ GPT_OOP
+*** Setter/getter atributov na instancii Object
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    o := Object new.
+    _ := o name: 'Neo'.
+    _ := o age: 42.
+    _ := (o name) print.
+    _ := ':' print.
+    _ := ((o age) asString) print.
+  ]
+}

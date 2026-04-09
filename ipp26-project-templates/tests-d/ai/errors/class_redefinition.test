@@ -1,0 +1,17 @@
++++ ERRORS
+*** Class redefinition should fail with error 35
+!C! 0
+!I! 35
+>>> 1
+
+class Foo : Object {
+  run [| _ := 'first' print. ]
+}
+
+class Foo : Object {
+  run [| _ := 'second' print. ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

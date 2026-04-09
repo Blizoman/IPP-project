@@ -1,0 +1,17 @@
++++ BUILTIN
+*** Block whileTrue: accumulates results correctly
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    result := ''.
+    i := 1.
+    _ := [| _ := i greaterThan: 0. ] whileTrue: [|
+      result := result concatenateWith: (i asString).
+      i := i minus: 1.
+    ].
+    _ := result print.
+  ]
+}

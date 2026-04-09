@@ -1,0 +1,22 @@
++++ BUILTIN
+*** Integer equalTo: compares integers and handles cross-type comparison
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 5 equalTo: 5.
+    _ := (r1 asString) print.
+    r2 := 5 equalTo: 6.
+    _ := (r2 asString) print.
+    r3 := 0 equalTo: 0.
+    _ := (r3 asString) print.
+    r4 := -3 equalTo: -3.
+    _ := (r4 asString) print.
+    r5 := 5 equalTo: 'five'.
+    _ := (r5 asString) print.
+    r6 := 0 equalTo: false.
+    _ := (r6 asString) print.
+  ]
+}

@@ -1,0 +1,20 @@
++++ GPT_BLOCK
+*** Uzaver meni vonkajsiu premennu viacnasobne
+!C! 0
+!I! 0
+>>> 3
+
+class Main : Object {
+  run [|
+    x := 1.
+    inc := [|
+      x := x plus: 1.
+      _ := x.
+    ].
+    _ := ((inc value) asString) print.
+    _ := ',' print.
+    _ := ((inc value) asString) print.
+    _ := ',' print.
+    _ := ((inc value) asString) print.
+  ]
+}

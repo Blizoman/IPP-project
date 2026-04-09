@@ -1,0 +1,19 @@
++++ GPT_STRING
+*** startsWith:endsBefore: hranicne spravanie
+!C! 0
+!I! 0
+>>> 3
+
+class Main : Object {
+  run [|
+    s := 'abcdef'.
+    a := s startsWith: 1 endsBefore: 7.
+    b := s startsWith: 4 endsBefore: 4.
+    c := s startsWith: 0 endsBefore: 2.
+    _ := a print.
+    _ := '|' print.
+    _ := b print.
+    _ := '|' print.
+    _ := (c asString) print.
+  ]
+}

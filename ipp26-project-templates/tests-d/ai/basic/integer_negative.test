@@ -1,0 +1,18 @@
++++ BASIC
+*** Negative integer literals and arithmetic
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := -5 plus: 3.
+    _ := (a asString) print.
+    b := -3 multiplyBy: -4.
+    _ := (b asString) print.
+    c := 0 minus: 7.
+    _ := (c asString) print.
+    d := -10 divBy: 3.
+    _ := (d asString) print.
+  ]
+}

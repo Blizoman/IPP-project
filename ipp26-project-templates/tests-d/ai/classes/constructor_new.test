@@ -1,0 +1,17 @@
++++ OOP
+*** Constructor new: default values for built-in types
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    i := Integer new.
+    _ := (i asString) print.
+    s := String new.
+    _ := s print.
+    b := Block new.
+    r := b value.
+    _ := (r asString) print.
+  ]
+}

@@ -1,0 +1,15 @@
++++ BUILTIN
+*** String isString and related is* methods
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := (('hello' isString) asString) print.
+    _ := (('hello' isNumber) asString) print.
+    _ := (('hello' isNil) asString) print.
+    _ := (('hello' isBoolean) asString) print.
+    _ := (('hello' isBlock) asString) print.
+  ]
+}

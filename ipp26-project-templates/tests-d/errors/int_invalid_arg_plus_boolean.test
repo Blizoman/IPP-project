@@ -1,0 +1,12 @@
++++ ERROR CODES
+*** Integer plus: with boolean argument should fail with error 53
+!C! 0
+!I! 53
+>>> 2
+
+class Main : Object {
+  run [|
+    r := 3 plus: true.
+    _ := (r asString) print.
+  ]
+}

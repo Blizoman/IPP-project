@@ -1,0 +1,27 @@
++++ MESSAGE RESPONSE
+*** Super: 0-param selector finds method in superclass skipping subclass override
+!C! 0
+!I! 0
+>>> 1
+
+class Base : Object {
+  greet [|
+    _ := 'from base' print.
+  ]
+}
+
+class Child : Base {
+  greet [|
+    _ := 'from child' print.
+  ]
+  test [|
+    _ := super greet.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c test.
+  ]
+}

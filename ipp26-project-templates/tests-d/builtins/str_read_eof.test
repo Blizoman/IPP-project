@@ -1,0 +1,11 @@
++++ BUILTIN
+*** String read at EOF returns error 11
+!C! 0
+!I! 11
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := String read.
+  ]
+}

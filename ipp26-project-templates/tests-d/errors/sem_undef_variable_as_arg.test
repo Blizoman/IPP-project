@@ -1,0 +1,12 @@
++++ ERROR CODES
+*** Using undefined variable as argument should fail with error 32
+!C! 0
+!I! 32
+>>> 1
+
+class Main : Object {
+  run [|
+    x := 5.
+    _ := x plus: notDefined.
+  ]
+}

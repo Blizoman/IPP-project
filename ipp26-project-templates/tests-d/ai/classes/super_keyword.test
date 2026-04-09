@@ -1,0 +1,25 @@
++++ OOP
+*** super keyword: calling parent class method
+!C! 0
+!I! 0
+>>> 2
+
+class Base : Object {
+  greet [| _ := 'Hello from Base' print. ]
+  info [| _ := 'I am Base' print. ]
+}
+
+class Child : Base {
+  greet [|
+    _ := 'Hello from Child' print.
+    _ := super greet.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c greet.
+    _ := c info.
+  ]
+}

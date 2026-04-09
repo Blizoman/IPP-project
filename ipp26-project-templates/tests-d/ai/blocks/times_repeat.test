@@ -1,0 +1,14 @@
++++ BLOCKS
+*** Integer timesRepeat: with block
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := 3 timesRepeat: [:i | _ := (i asString) print. ].
+    sum := 0.
+    _ := 5 timesRepeat: [:i | sum := sum plus: i. ].
+    _ := (sum asString) print.
+  ]
+}

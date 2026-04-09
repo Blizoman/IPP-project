@@ -1,0 +1,14 @@
++++ GPT_INTEGER
+*** Retazenie aritmetiky so zapornymi cislami
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    n := -1000 plus: 1.
+    m := n multiplyBy: -2.
+    k := m minus: 1000.
+    _ := (k asString) print.
+  ]
+}

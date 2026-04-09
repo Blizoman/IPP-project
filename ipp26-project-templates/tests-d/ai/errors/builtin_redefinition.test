@@ -1,0 +1,13 @@
++++ ERRORS
+*** Redefining built-in class should fail with error 35
+!C! 0
+!I! 35
+>>> 1
+
+class Integer : Object {
+  plus: [:x | _ := x. ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

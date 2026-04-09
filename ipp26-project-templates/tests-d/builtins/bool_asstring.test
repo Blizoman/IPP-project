@@ -1,0 +1,14 @@
++++ BUILTIN
+*** Boolean asString returns 'true' or 'false'
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := (true asString) print.
+    _ := (false asString) print.
+    _ := ((true not) asString) print.
+    _ := ((false not) asString) print.
+  ]
+}

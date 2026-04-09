@@ -5,10 +5,11 @@ and its methods.
 Author: Andrej Bližnák <xblizna00@fit.vut.cz>
 """
 
+import re
 from typing import TYPE_CHECKING, TextIO
 
 from interpreter.error_codes import ErrorCode
-from interpreter.exceptions import InterpreterError
+from interpreter.exceptions import InterpreterError, InvalidArgumentError
 from interpreter.input_model import Block
 
 if TYPE_CHECKING:
@@ -204,6 +205,8 @@ class SolInteger(SolObject):
 
     def greater_than(self, other: SolInteger) -> SolBoolean:
         """Compare if: Given Integer is strictly greater than other"""
+        if not isinstance(other, SolInteger):
+            raise InvalidArgumentError()
         if self.value > other.value:
             return SOL_TRUE
         return SOL_FALSE
@@ -211,30 +214,30 @@ class SolInteger(SolObject):
     def plus(self, other: SolInteger) -> SolInteger:
         """Arithmetic operation: Add given Integer"""
         if not isinstance(other, SolInteger):
-            raise InterpreterError(ErrorCode.INT_OTHER)
+            raise InvalidArgumentError()
         return SolInteger(self.value + other.value)
 
     def minus(self, other: SolInteger) -> SolInteger:
         """Arithmetic operation: Subtract given Integer"""
         if not isinstance(other, SolInteger):
-            raise InterpreterError(ErrorCode.INT_OTHER)
+            raise InvalidArgumentError()
         return SolInteger(self.value - other.value)
 
     def multiply_by(self, other: SolInteger) -> SolInteger:
         """Arithmetic operation: Multiply by given Integer"""
         if not isinstance(other, SolInteger):
-            raise InterpreterError(ErrorCode.INT_OTHER)
+            raise InvalidArgumentError()
         return SolInteger(self.value * other.value)
 
     def div_by(self, other: SolInteger) -> SolInteger:
         """Arithmetic operation: Divide by given Integer"""
         if not isinstance(other, SolInteger):
-            raise InterpreterError(ErrorCode.INT_OTHER)
+            raise InvalidArgumentError()
 
         try:
-            return SolInteger(int(self.value / other.value))
+            return SolInteger(self.value // other.value)
         except ZeroDivisionError as err:
-            raise InterpreterError(error_code=ErrorCode.INT_INVALID_ARG) from err
+            raise InvalidArgumentError() from err
 
 
 # ===========================================================
@@ -264,10 +267,10 @@ class SolString(SolObject):
 
     def as_integer(self) -> SolObject:
         """Transform: String to Integer or NIL if invalid format"""
-        try:
-            return SolInteger(int(self.value))
-        except ValueError:
+        match = re.match(r"^[+-]?\d+", self.value)
+        if not match:
             return SOL_NIL
+        return SolInteger(int(match.group(0)))
 
     def concatenate_with(self, other: SolObject) -> SolObject:
         """String operation: Append another String"""
@@ -278,7 +281,10 @@ class SolString(SolObject):
     @classmethod
     def read(cls, input_stream: TextIO) -> SolString:
         """I/O operation: Read line from standard input and transform to String"""
-        return cls(input_stream.readline().rstrip("\n"))
+        line = input_stream.readline()
+        if line == "":
+            raise InterpreterError(ErrorCode.GENERAL_INPUT)
+        return cls(line.rstrip("\n"))
 
     def print(self) -> SolString:
         """I/O operation: Print String to standard output"""

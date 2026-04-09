@@ -1,0 +1,12 @@
++++ ERROR CODES
+*** Main inheriting from class without run should fail with error 31
+!C! 0
+!I! 31
+>>> 1
+
+class Base : Object {
+  init [| _ := 'init' print. ]
+}
+
+class Main : Base {
+}

@@ -1,0 +1,20 @@
++++ BUILTIN
+*** Boolean equalTo: compares booleans for equality
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := true equalTo: true.
+    _ := (r1 asString) print.
+    r2 := false equalTo: false.
+    _ := (r2 asString) print.
+    r3 := true equalTo: false.
+    _ := (r3 asString) print.
+    r4 := false equalTo: true.
+    _ := (r4 asString) print.
+    r5 := true equalTo: 1.
+    _ := (r5 asString) print.
+  ]
+}

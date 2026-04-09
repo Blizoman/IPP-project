@@ -1,0 +1,25 @@
++++ MESSAGE RESPONSE
+*** Regular reference: 1-param selector collides with 0-param method inherited from superclass causing error 54
+!C! 0
+!I! 54
+>>> 1
+
+class Base : Object {
+  score [|
+    _ := 0.
+  ]
+}
+
+class Child : Base {
+  testCollision [|
+    y := self.
+    _ := y score: 42.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c testCollision.
+  ]
+}

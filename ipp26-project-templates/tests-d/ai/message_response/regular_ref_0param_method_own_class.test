@@ -1,0 +1,18 @@
++++ MESSAGE RESPONSE
+*** Regular reference: 0-param selector finds method in receiver's own class
+!C! 0
+!I! 0
+>>> 1
+
+class Counter : Object {
+  getValue [|
+    _ := 42.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Counter new.
+    _ := ((c getValue) asString) print.
+  ]
+}

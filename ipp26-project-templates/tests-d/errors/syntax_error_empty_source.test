@@ -1,0 +1,6 @@
++++ ERROR CODES
+*** Empty source file should fail compilation with error 1
+!C! 1
+>>> 1
+
+

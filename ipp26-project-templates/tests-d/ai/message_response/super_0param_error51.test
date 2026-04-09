@@ -1,0 +1,21 @@
++++ MESSAGE RESPONSE
+*** Super: 0-param selector with no method and no attribute in superclass chain causes error 51
+!C! 0
+!I! 51
+>>> 1
+
+class Base : Object {
+}
+
+class Child : Base {
+  test [|
+    _ := super missing.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c test.
+  ]
+}

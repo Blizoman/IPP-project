@@ -1,0 +1,17 @@
++++ ERRORS
+*** Circular inheritance should fail with error 35
+!C! 0
+!I! 35
+>>> 1
+
+class A : B {
+  foo [| _ := 'a' print. ]
+}
+
+class B : A {
+  bar [| _ := 'b' print. ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

@@ -1,0 +1,29 @@
++++ MESSAGE RESPONSE
+*** Super: 0-param selector reads instance attribute when superclass has no method (attribute set via inherited init)
+!C! 0
+!I! 0
+>>> 1
+
+class Base : Object {
+  init [|
+    _ := self x: 42.
+  ]
+}
+
+class Child : Base {
+  x [|
+    _ := 99.
+  ]
+  test [|
+    _ := self init.
+    _ := ((self x) asString) print.
+    _ := ((super x) asString) print.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c test.
+  ]
+}

@@ -1,0 +1,18 @@
++++ BUILTIN
+*** Integer minus: with valid integer arguments
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 10 minus: 3.
+    _ := (r1 asString) print.
+    r2 := 0 minus: 5.
+    _ := (r2 asString) print.
+    r3 := -4 minus: -2.
+    _ := (r3 asString) print.
+    r4 := 1 minus: 1.
+    _ := (r4 asString) print.
+  ]
+}

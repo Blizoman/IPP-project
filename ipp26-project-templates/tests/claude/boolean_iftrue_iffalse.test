@@ -11,9 +11,11 @@ class Main : Object {
            ifTrue:  [| _ := 'yes'. ]
            ifFalse: [| _ := 'no'. ].
     _ := r print.
+    _ := '\n' print.
     r2 := (x greaterThan: 10)
            ifTrue:  [| _ := 'big'. ]
            ifFalse: [| _ := 'small'. ].
     _ := r2 print.
+    _ := '\n' print.
   ]
 }

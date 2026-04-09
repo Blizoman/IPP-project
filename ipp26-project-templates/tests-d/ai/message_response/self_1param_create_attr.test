@@ -1,0 +1,23 @@
++++ MESSAGE RESPONSE
+*** Self: 1-param selector creates instance attribute when no method and no collision
+!C! 0
+!I! 0
+>>> 1
+
+class Box : Object {
+  init [|
+    _ := self width: 10.
+    _ := self height: 20.
+  ]
+  area [|
+    _ := (self width) multiplyBy: (self height).
+  ]
+}
+
+class Main : Object {
+  run [|
+    b := Box new.
+    _ := b init.
+    _ := ((b area) asString) print.
+  ]
+}

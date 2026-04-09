@@ -1,0 +1,14 @@
++++ IO
+*** Read string from input and print it
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    s := String read.
+    _ := s print.
+    s2 := String read.
+    _ := s2 print.
+  ]
+}

@@ -1,0 +1,21 @@
++++ BUILTIN
+*** String startsWith:endsBefore: edge cases
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    "Invalid index (negative or zero) returns nil"
+    r1 := 'Hello' startsWith: 0 endsBefore: 3.
+    _ := (r1 asString) print.
+    "endsBefore <= startsWith returns empty string"
+    r2 := 'Hello' startsWith: 3 endsBefore: 3.
+    _ := r2 print.
+    r3 := 'Hello' startsWith: 3 endsBefore: 2.
+    _ := r3 print.
+    "Beyond end of string (clamped)"
+    r4 := 'Hello' startsWith: 1 endsBefore: 100.
+    _ := r4 print.
+  ]
+}

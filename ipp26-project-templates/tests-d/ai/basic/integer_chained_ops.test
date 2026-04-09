@@ -1,0 +1,18 @@
++++ BASIC
+*** Integer chained arithmetic: nested message sends
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := (3 plus: 4) plus: 5.
+    _ := (a asString) print.
+    b := (10 minus: 3) multiplyBy: 2.
+    _ := (b asString) print.
+    c := (10 divBy: 2) plus: (3 multiplyBy: 4).
+    _ := (c asString) print.
+    d := (2 multiplyBy: 3) multiplyBy: (4 multiplyBy: 5).
+    _ := (d asString) print.
+  ]
+}

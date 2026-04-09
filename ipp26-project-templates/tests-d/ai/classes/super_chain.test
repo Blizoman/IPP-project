@@ -1,0 +1,30 @@
++++ OOP
+*** super in multi-level inheritance
+!C! 0
+!I! 0
+>>> 2
+
+class A : Object {
+  greet [| _ := 'Hello from A' print. ]
+}
+
+class B : A {
+  greet [|
+    _ := 'Hello from B' print.
+    _ := super greet.
+  ]
+}
+
+class C : B {
+  greet [|
+    _ := 'Hello from C' print.
+    _ := super greet.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := C new.
+    _ := c greet.
+  ]
+}

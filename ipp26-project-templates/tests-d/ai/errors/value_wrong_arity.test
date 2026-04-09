@@ -1,0 +1,12 @@
++++ ERRORS
+*** Sending value:value: to a one-parameter block should fail with error 51
+!C! 0
+!I! 51
+>>> 2
+
+class Main : Object {
+  run [|
+    b := [:x | _ := (x asString) print. ].
+    _ := b value: 1 value: 2.
+  ]
+}

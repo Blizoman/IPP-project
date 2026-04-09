@@ -1,0 +1,42 @@
++++ INTEGRATION
+*** Counter class using self and instance attributes
+!C! 0
+!I! 0
+>>> 2
+
+class Counter : Object {
+  init [|
+    _ := self value: 0.
+  ]
+
+  increment [|
+    _ := self value: ((self value) plus: 1).
+  ]
+
+  decrement [|
+    _ := self value: ((self value) minus: 1).
+  ]
+
+  reset [|
+    _ := self value: 0.
+  ]
+
+  show [|
+    _ := ((self value) asString) print.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Counter new.
+    _ := c init.
+    _ := c increment.
+    _ := c increment.
+    _ := c increment.
+    _ := c show.
+    _ := c decrement.
+    _ := c show.
+    _ := c reset.
+    _ := c show.
+  ]
+}

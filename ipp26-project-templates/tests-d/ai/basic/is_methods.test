@@ -1,0 +1,23 @@
++++ BASIC
+*** Object is* methods: isNil, isNumber, isString, isBlock, isBoolean
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    "Integer should respond isNumber: true"
+    _ := ((42 isNumber) asString) print.
+    _ := ((42 isString) asString) print.
+    _ := ((42 isNil) asString) print.
+    "String should respond isString: true"
+    _ := (('hello' isString) asString) print.
+    _ := (('hello' isNumber) asString) print.
+    "nil should respond isNil: true"
+    _ := ((nil isNil) asString) print.
+    "true/false should respond isBoolean: true"
+    _ := ((true isBoolean) asString) print.
+    _ := ((false isBoolean) asString) print.
+    _ := ((true isNil) asString) print.
+  ]
+}

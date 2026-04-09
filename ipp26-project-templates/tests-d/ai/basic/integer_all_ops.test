@@ -1,0 +1,17 @@
++++ BASIC
+*** Integer arithmetic: all operations
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := ((10 plus: 5) asString) print.
+    _ := ((10 minus: 3) asString) print.
+    _ := ((4 multiplyBy: 6) asString) print.
+    _ := ((10 divBy: 3) asString) print.
+    _ := ((10 divBy: -3) asString) print.
+    _ := ((-10 divBy: 3) asString) print.
+    _ := ((-10 divBy: -3) asString) print.
+  ]
+}

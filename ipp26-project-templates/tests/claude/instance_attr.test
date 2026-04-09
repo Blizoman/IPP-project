@@ -9,6 +9,8 @@ class Main : Object {
     _ := self name: 'Alice'.
     _ := self age: 30.
     _ := (self name) print.
+    _ := '\n' print.
     _ := ((self age) asString) print.
+    _ := '\n' print.
   ]
 }

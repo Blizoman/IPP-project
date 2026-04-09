@@ -1,0 +1,18 @@
++++ OOP
+*** Simple class definition with instance methods
+!C! 0
+!I! 0
+>>> 1
+
+class Dog : Object {
+  speak [| _ := 'Woof!' print. ]
+  name [| _ := 'Buddy' print. ]
+}
+
+class Main : Object {
+  run [|
+    d := Dog new.
+    _ := d speak.
+    _ := d name.
+  ]
+}

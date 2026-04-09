@@ -1,0 +1,16 @@
++++ BUILTIN
+*** String startsWith:endsBefore: with zero or negative index returns nil
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 'Hello' startsWith: 0 endsBefore: 3.
+    _ := (r1 asString) print.
+    r2 := 'Hello' startsWith: -1 endsBefore: 3.
+    _ := (r2 asString) print.
+    r3 := 'Hello' startsWith: 1 endsBefore: 0.
+    _ := (r3 asString) print.
+  ]
+}

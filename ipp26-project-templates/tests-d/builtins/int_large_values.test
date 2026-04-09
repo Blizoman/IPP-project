@@ -1,0 +1,16 @@
++++ BUILTIN
+*** Integer large values: multiplication and addition
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 1000 multiplyBy: 1000.
+    _ := (r1 asString) print.
+    r2 := 999 plus: 1.
+    _ := (r2 asString) print.
+    r3 := 100 multiplyBy: 100.
+    _ := (r3 asString) print.
+  ]
+}

@@ -8,7 +8,9 @@ class Main : Object {
   run [|
     a := 'foo' concatenateWith: 'bar'.
     _ := a print.
+    _ := '\n' print.
     b := (a length) asString.
     _ := b print.
+    _ := '\n' print.
   ]
 }

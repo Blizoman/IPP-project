@@ -1,0 +1,25 @@
++++ INTEGRATION
+*** FizzBuzz using Boolean methods and modulo simulation
+!C! 0
+!I! 0
+>>> 2
+
+class Main : Object {
+  run [|
+    _ := 15 timesRepeat: [:i |
+      div3 := (i divBy: 3) multiplyBy: 3.
+      div5 := (i divBy: 5) multiplyBy: 5.
+      is3 := div3 equalTo: i.
+      is5 := div5 equalTo: i.
+      _ := (is3 and: [| _ := is5. ]) ifTrue: [|
+        _ := 'FizzBuzz' print.
+      ] ifFalse: [|
+        _ := is3 ifTrue: [| _ := 'Fizz' print. ] ifFalse: [|
+          _ := is5 ifTrue: [| _ := 'Buzz' print. ] ifFalse: [|
+            _ := (i asString) print.
+          ].
+        ].
+      ].
+    ].
+  ]
+}

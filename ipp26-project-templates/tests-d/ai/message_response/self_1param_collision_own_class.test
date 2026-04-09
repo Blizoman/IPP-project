@@ -1,0 +1,21 @@
++++ MESSAGE RESPONSE
+*** Self: 1-param selector collides with 0-param method in own class causing error 54
+!C! 0
+!I! 54
+>>> 1
+
+class Foo : Object {
+  x [|
+    _ := 0.
+  ]
+  init [|
+    _ := self x: 10.
+  ]
+}
+
+class Main : Object {
+  run [|
+    f := Foo new.
+    _ := f init.
+  ]
+}

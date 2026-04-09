@@ -1,0 +1,14 @@
++++ BUILTIN
+*** Block whileTrue: never executes if initial condition is false
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := [| _ := false. ] whileTrue: [|
+      _ := 'should not print' print.
+    ].
+    _ := 'done' print.
+  ]
+}

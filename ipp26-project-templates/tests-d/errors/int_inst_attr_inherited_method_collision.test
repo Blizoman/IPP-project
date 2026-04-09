@@ -1,0 +1,22 @@
++++ ERROR CODES
+*** Creating instance attribute colliding with inherited method should fail with error 54
+!C! 0
+!I! 54
+>>> 2
+
+class Base : Object {
+  name [| _ := 'base'. ]
+}
+
+class Child : Base {
+  init [|
+    _ := self name: 'child'.
+  ]
+}
+
+class Main : Object {
+  run [|
+    c := Child new.
+    _ := c init.
+  ]
+}

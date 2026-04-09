@@ -1,0 +1,14 @@
++++ BLOCKS
+*** Block with one parameter: value:
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    b := [:x | _ := (x asString) print. ].
+    _ := b value: 42.
+    _ := b value: -7.
+    _ := b value: 0.
+  ]
+}

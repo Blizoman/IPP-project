@@ -1,0 +1,18 @@
++++ OOP
+*** equalTo: vs identicalTo: with custom objects
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := Object new.
+    b := Object new.
+    "Different objects, but both have Object type with no value"
+    _ := ((a equalTo: b) asString) print.
+    _ := ((a identicalTo: b) asString) print.
+    c := a.
+    _ := ((a identicalTo: c) asString) print.
+    _ := ((a equalTo: c) asString) print.
+  ]
+}

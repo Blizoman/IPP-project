@@ -25,6 +25,8 @@ class StaticAnalyzer:
         # Stack to keep track of variables available in the current scope.
         # Each element in the list is a set of variable names for a specific block/level.
         self.scope_stack: list[set[str]] = []
+        # Stack to track parameter names of active nested blocks.
+        self.param_scope_stack: list[set[str]] = []
 
         # Reserved names that cannot be used for inheritance or override.
         self.builtins = {"Object", "Nil", "Integer", "String", "Block", "True", "False"}
@@ -137,11 +139,12 @@ class StaticAnalyzer:
 
         current_scope = set(param_names)
         self.scope_stack.append(current_scope)
+        self.param_scope_stack.append(set(param_names))
 
         # Creation of variable
         for assign in block.assigns:
             self._check_expr(assign.expr)
-            if assign.target.name in param_names:
+            if self._is_parameter_name(assign.target.name):
                 raise SemanticError(ErrorCode.SEM_COLLISION)
 
             if self._is_keyword(assign.target.name):
@@ -149,6 +152,7 @@ class StaticAnalyzer:
 
             current_scope.add(assign.target.name)
 
+        self.param_scope_stack.pop()
         self.scope_stack.pop()
 
     # ===========================================================
@@ -207,6 +211,11 @@ class StaticAnalyzer:
 
         # Checks trough scopes, if variable is defined somewhere
         return any(var_name in scope for scope in reversed(self.scope_stack))
+
+    def _is_parameter_name(self, var_name: str) -> bool:
+        """Check if a variable name collides with any active block parameter."""
+
+        return any(var_name in params for params in reversed(self.param_scope_stack))
 
     # ===========================================================
     # CHECK KEYWORDS / BUILTINS

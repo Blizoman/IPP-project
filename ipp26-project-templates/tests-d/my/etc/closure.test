@@ -1,0 +1,14 @@
++++ BLOCKS
+*** Closure captures outer variable
+!C! 0
+!I! 0
+>>> 3
+
+class Main : Object {
+    run [ |
+        n := 10.
+        b := [ :x | r := x plus: n. ].
+        c := b value: 5.
+        _ := (c asString) print.
+    ]
+}

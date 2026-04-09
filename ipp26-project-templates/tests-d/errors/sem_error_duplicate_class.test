@@ -1,0 +1,17 @@
++++ ERROR CODES
+*** Defining two classes with same name should fail with error 35
+!C! 0
+!I! 35
+>>> 1
+
+class Widget : Object {
+  draw [| _ := 'first' print. ]
+}
+
+class Widget : Object {
+  draw [| _ := 'second' print. ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

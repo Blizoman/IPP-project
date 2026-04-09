@@ -1,0 +1,12 @@
++++ ERROR CODES
+*** Reading from empty input immediately should fail with error 11
+!C! 0
+!I! 11
+>>> 2
+
+class Main : Object {
+  run [|
+    s := String read.
+    _ := s print.
+  ]
+}

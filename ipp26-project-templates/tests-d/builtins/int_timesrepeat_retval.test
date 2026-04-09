@@ -1,0 +1,16 @@
++++ BUILTIN
+*** Integer timesRepeat: return value is last block evaluation
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r := 3 timesRepeat: [:i | _ := i. ].
+    _ := (r asString) print.
+    r2 := 1 timesRepeat: [:i | _ := 99. ].
+    _ := (r2 asString) print.
+    r3 := 0 timesRepeat: [:i | _ := 42. ].
+    _ := (r3 asString) print.
+  ]
+}

@@ -1,0 +1,19 @@
++++ BASIC
+*** Integer asString and asInteger conversions
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    a := 42 asString.
+    _ := a print.
+    b := -7 asString.
+    _ := b print.
+    c := 0 asString.
+    _ := c print.
+    d := 42 asInteger.
+    e := d plus: 8.
+    _ := (e asString) print.
+  ]
+}

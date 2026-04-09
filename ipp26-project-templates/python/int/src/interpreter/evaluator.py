@@ -47,12 +47,33 @@ class Evaluator:
         """Initialization of Evaluator with reference to MessageDispatcher."""
         self.dispatcher = dispatcher
 
+    @staticmethod
+    def _decode_string_literal(value: str) -> str:
+        """Decode the string escapes supported by SOL26 literals."""
+        escape_map = {"n": "\n", "'": "'", "\\": "\\"}
+        decoded: list[str] = []
+        i = 0
+
+        while i < len(value):
+            if value[i] == "\\" and i + 1 < len(value):
+                escaped = value[i + 1]
+                mapped = escape_map.get(escaped)
+                if mapped is not None:
+                    decoded.append(mapped)
+                    i += 2
+                    continue
+
+            decoded.append(value[i])
+            i += 1
+
+        return "".join(decoded)
+
     def _eval_literal(self, literal_type: str, value: str) -> SolObject:
         """Transform: AST Literal node to corresponding SOL26 memory object."""
         if literal_type == "Integer":
             return SolInteger(int(value))
         if literal_type == "String":
-            return SolString(value)
+            return SolString(self._decode_string_literal(value))
         if literal_type == "True":
             return SOL_TRUE
         if literal_type == "False":

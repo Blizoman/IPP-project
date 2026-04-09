@@ -1,0 +1,11 @@
++++ GPT_ERROR
+*** Integer from: so String argumentom vrati 53
+!C! 0
+!I! 53
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := Integer from: 'x'.
+  ]
+}

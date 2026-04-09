@@ -1,0 +1,23 @@
++++ BUILTIN
+*** Object isNumber returns true for integers, false for all others
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 42 isNumber.
+    _ := (r1 asString) print.
+    r2 := 0 isNumber.
+    _ := (r2 asString) print.
+    r3 := 'hello' isNumber.
+    _ := (r3 asString) print.
+    r4 := true isNumber.
+    _ := (r4 asString) print.
+    r5 := nil isNumber.
+    _ := (r5 asString) print.
+    b := [| _ := 1. ].
+    r6 := b isNumber.
+    _ := (r6 asString) print.
+  ]
+}

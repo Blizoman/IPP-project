@@ -1,0 +1,15 @@
++++ ERROR CODES
+*** Assignment to parameter in a nested block should fail with error 34
+!C! 0
+!I! 34
+>>> 2
+
+class Main : Object {
+  run [|
+    outer := [:p |
+      inner := [| p := 99. ].
+      _ := inner value.
+    ].
+    _ := outer value: 5.
+  ]
+}

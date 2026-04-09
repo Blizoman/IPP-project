@@ -1,0 +1,37 @@
++++ INTEGRATION
+*** Polymorphism: different classes respond to same message
+!C! 0
+!I! 0
+>>> 2
+
+class Shape : Object {
+  area [| _ := 0. ]
+  describe [|
+    _ := ('Area: ' concatenateWith: ((self area) asString)) print.
+  ]
+}
+
+class Rectangle : Shape {
+  area [|
+    _ := (self width) multiplyBy: (self height).
+  ]
+}
+
+class Square : Rectangle {
+  init: [:side |
+    _ := self width: side.
+    _ := self height: side.
+  ]
+}
+
+class Main : Object {
+  run [|
+    r := Rectangle new.
+    _ := r width: 5.
+    _ := r height: 3.
+    _ := r describe.
+    s := Square new.
+    _ := s init: 4.
+    _ := s describe.
+  ]
+}

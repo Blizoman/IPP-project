@@ -1,0 +1,25 @@
++++ GPT_OOP
+*** Potomok pouzije super a doplni vysledok
+!C! 0
+!I! 0
+>>> 3
+
+class Base : Object {
+  msg [|
+    _ := 'B'.
+  ]
+}
+
+class Child : Base {
+  msg [|
+    x := super msg.
+    _ := x concatenateWith: 'C'.
+  ]
+}
+
+class Main : Object {
+  run [|
+    r := (Child new) msg.
+    _ := r print.
+  ]
+}

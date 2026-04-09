@@ -1,0 +1,18 @@
++++ MESSAGE RESPONSE
+*** Regular reference: 2-param selector finds method in receiver's class and returns correct result
+!C! 0
+!I! 0
+>>> 1
+
+class Adder : Object {
+  add: to: [:a :b |
+    _ := a plus: b.
+  ]
+}
+
+class Main : Object {
+  run [|
+    a := Adder new.
+    _ := ((a add: 3 to: 4) asString) print.
+  ]
+}

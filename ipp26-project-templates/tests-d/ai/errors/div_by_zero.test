@@ -1,0 +1,12 @@
++++ ERRORS
+*** Division by zero should fail with error 53
+!C! 0
+!I! 53
+>>> 2
+
+class Main : Object {
+  run [|
+    r := 10 divBy: 0.
+    _ := (r asString) print.
+  ]
+}

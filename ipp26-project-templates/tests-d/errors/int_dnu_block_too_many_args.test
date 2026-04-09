@@ -1,0 +1,12 @@
++++ ERROR CODES
+*** Sending value:value:value: to two-param block should fail with error 51
+!C! 0
+!I! 51
+>>> 2
+
+class Main : Object {
+  run [|
+    b := [:x :y | _ := x plus: y. ].
+    _ := b value: 1 value: 2 value: 3.
+  ]
+}

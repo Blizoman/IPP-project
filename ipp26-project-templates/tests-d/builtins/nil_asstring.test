@@ -1,0 +1,13 @@
++++ BUILTIN
+*** Nil asString returns 'nil'
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    _ := (nil asString) print.
+    r := Nil new.
+    _ := (r asString) print.
+  ]
+}

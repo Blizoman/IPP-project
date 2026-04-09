@@ -1,0 +1,17 @@
++++ BUILTIN
+*** Block value: with 1-param block returns last expression result
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    b := [:x | _ := x multiplyBy: 2. ].
+    r1 := b value: 5.
+    _ := (r1 asString) print.
+    r2 := b value: -3.
+    _ := (r2 asString) print.
+    r3 := b value: 0.
+    _ := (r3 asString) print.
+  ]
+}

@@ -1,0 +1,13 @@
++++ ERROR CODES
+*** Redefining built-in True class should fail with error 35
+!C! 0
+!I! 35
+>>> 1
+
+class True : Object {
+  myMethod [| _ := 'hello' print. ]
+}
+
+class Main : Object {
+  run [| _ := 'ok' print. ]
+}

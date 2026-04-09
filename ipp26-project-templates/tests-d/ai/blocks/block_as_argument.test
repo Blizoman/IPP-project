@@ -1,0 +1,25 @@
++++ BLOCKS
+*** Block passed as argument to a method
+!C! 0
+!I! 0
+>>> 1
+
+class Processor : Object {
+  process: [:block |
+    r := block value.
+    _ := (r asString) print.
+  ]
+
+  transform:with: [:val :block |
+    r := block value: val.
+    _ := (r asString) print.
+  ]
+}
+
+class Main : Object {
+  run [|
+    p := Processor new.
+    _ := p process: [| _ := 42. ].
+    _ := p transform: 10 with: [:x | _ := x plus: 5. ].
+  ]
+}

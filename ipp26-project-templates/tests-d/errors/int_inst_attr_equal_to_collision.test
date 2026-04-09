@@ -1,0 +1,20 @@
++++ ERROR CODES
+*** Creating instance attribute colliding with zero-param method via one-param setter should fail with error 54
+!C! 0
+!I! 54
+>>> 2
+
+class Shape : Object {
+  area [| _ := 0. ]
+
+  init [|
+    _ := self area: 42.
+  ]
+}
+
+class Main : Object {
+  run [|
+    s := Shape new.
+    _ := s init.
+  ]
+}

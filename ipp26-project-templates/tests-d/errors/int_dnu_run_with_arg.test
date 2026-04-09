@@ -1,0 +1,16 @@
++++ ERROR CODES
+*** Sending a message that does not exist on Object should fail with error 51
+!C! 0
+!I! 51
+>>> 2
+
+class Thing : Object {
+  name [| _ := 'thing'. ]
+}
+
+class Main : Object {
+  run [|
+    t := Thing new.
+    _ := t describe.
+  ]
+}

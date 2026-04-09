@@ -1,0 +1,16 @@
++++ BUILTIN
+*** Integer divBy: with negative divisor
+!C! 0
+!I! 0
+>>> 1
+
+class Main : Object {
+  run [|
+    r1 := 10 divBy: -3.
+    _ := (r1 asString) print.
+    r2 := -10 divBy: -3.
+    _ := (r2 asString) print.
+    r3 := 0 divBy: 5.
+    _ := (r3 asString) print.
+  ]
+}
