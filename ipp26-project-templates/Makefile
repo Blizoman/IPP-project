@@ -37,11 +37,13 @@ clean:
 ############# SEND #############
 
 zip: clean
-	zip -r $(LOGIN).zip \
-		int/ \
-		tester/ \
-		Dockerfile \
-		ai_audit.md \
+	rm -rf /tmp/$(LOGIN)_zip
+	mkdir -p /tmp/$(LOGIN)_zip
+	cp -r python/int /tmp/$(LOGIN)_zip/int
+	cp -r typescript/tester /tmp/$(LOGIN)_zip/tester
+	cp Dockerfile /tmp/$(LOGIN)_zip/
+	cp ai_audit.md /tmp/$(LOGIN)_zip/
+	cd /tmp/$(LOGIN)_zip && zip -r $(CURDIR)/$(LOGIN).zip . \
 		-x "*/node_modules/*" \
 		-x "*/dist/*" \
 		-x "*/__pycache__/*" \
@@ -51,6 +53,7 @@ zip: clean
 		-x "*/.*" \
 		-x "*.DS_Store" \
 		-x "*__MACOSX*"
+	rm -rf /tmp/$(LOGIN)_zip
 
 ############# SEND #############
 ################################
@@ -116,7 +119,7 @@ cf4:
 		'    print(f"{red}FAIL{reset} {test_name} [UNEXECUTED: {reason}]")' \
 		'print(f"Summary: {green}{passed}{reset} passed, {red}{failed}{reset} failed")' \
 	| python3 -
-	
+
 # 	@$(MAKE) done
 
 cf4-dry:
